@@ -6,12 +6,14 @@ import xadrez.enums.PartName;
 public class Part {
 	
 	private PartName partName;
-	private String move;
+	
+	private String movement;
+	
 	private PartColor partColor;
 
-	public Part(PartName partName, String move, PartColor partColor) {
+	public Part(PartName partName, String movement, PartColor partColor) {
 		this.partName = partName;
-		this.move = move;
+		this.movement = movement;
 		this.partColor = partColor;
 	}
 
@@ -23,12 +25,12 @@ public class Part {
 		this.partName = partName;
 	}
 
-	public String getMove() {
-		return move;
+	public String getMovement() {
+		return movement;
 	}
 
-	public void setMove(String move) {
-		this.move = move;
+	public void setMovement(String movement) {
+		this.movement = movement;
 	}
 
 	public PartColor getPartColor() {
