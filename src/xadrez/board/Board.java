@@ -9,8 +9,9 @@ import xadrez.parts.Part;
 
 public class Board {
 
-	Map<String, Part> houses = new HashMap<>();
-	List<Part> parts = new ArrayList<>();
+	private Map<String, Part> houses = new HashMap<>();
+	
+	private List<Part> parts = new ArrayList<>();
 	
 	public Map<String, Part> getHouses() {
 		return houses;

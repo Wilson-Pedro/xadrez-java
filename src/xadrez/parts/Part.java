@@ -10,6 +10,10 @@ public class Part {
 	private String movement;
 	
 	private PartColor partColor;
+	
+
+	public Part() {
+	}
 
 	public Part(PartName partName, String movement, PartColor partColor) {
 		this.partName = partName;
