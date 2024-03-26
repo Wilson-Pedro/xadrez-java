@@ -7,7 +7,8 @@ public enum PartName {
 	HORSE(2),
 	BISHOP(3),
 	QUEEN(4),
-	KING(5);
+	KING(5),
+	UNNAMED(6);
 	
 	private Integer code;
 	

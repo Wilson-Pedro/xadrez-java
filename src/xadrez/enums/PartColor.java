@@ -18,4 +18,6 @@ public enum PartColor {
 	public void setCode(Integer code) {
 		this.code = code;
 	}
+
+
 }
