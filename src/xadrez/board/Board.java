@@ -1,5 +1,7 @@
 package xadrez.board;
 
+import static xadrez.parts.GenerateParts.Unnamed;
+
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -25,38 +27,28 @@ public class Board {
 		return parts;
 	}
 	
-	public void generateBoard() {
-		this.houses = GenerateBoard.generateBoard();
-	}
-	
 	public void generateParts() {
-		this.parts = GenerateParts.generateBoard();
+		this.parts = GenerateParts.generateParts();
 	}
-	
-
-//	public void showBoard() {
-//		int i = 1;
-//		for(Map.Entry<String, Part> house : houses.entrySet()) {
-//			//System.out.print(" " + house.getValue().getAcronym() + "(" + house.getKey() + ")"  + " ");
-//			System.out.print(" " + house.getKey() + " ");
-//			if(i == 8) {
-//				System.out.println("\n");
-//				i = 0;
-//			}
-//			i += 1;
-//		}
-//	}
 	
 	public void showParts() {
 		int i = 1;
+		int index = 0;
 		for(Part part : parts) {
 			System.out.print(" " + part.getAcronym() + " ");
+			//System.out.print(" " + part.getAcronym() + "(" + index + ")" + " ");
 			if(i == 8) {
 				System.out.println("\n");
 				i = 0;
 			}
 			i += 1;
+			index += 1;
 		}
+	}
+	
+	public void move (List<Part> parts, byte idx1, byte idx2) {
+		parts.set(idx2, parts.get(idx1));
+		parts.set(idx1, Unnamed);
 	}
 
 	@Override

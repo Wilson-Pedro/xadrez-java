@@ -52,31 +52,31 @@ public class GenerateParts {
 	// BLACK PARTS
 
 	// Black Pawns
-	public static Part BlackPawn01 = new Part(PartName.PAWN, null, PartColor.WHITE, "BP");
+	public static Part BlackPawn01 = new Part(PartName.PAWN, null, PartColor.BLACK, "BP");
 	
-	public static Part BlackPawn02 = new Part(PartName.PAWN, null, PartColor.WHITE, "BP");
+	public static Part BlackPawn02 = new Part(PartName.PAWN, null, PartColor.BLACK, "BP");
 	
-	public static Part BlackPawn03 = new Part(PartName.PAWN, null, PartColor.WHITE, "BP");
+	public static Part BlackPawn03 = new Part(PartName.PAWN, null, PartColor.BLACK, "BP");
 	
-	public static Part BlackPawn04 = new Part(PartName.PAWN, null, PartColor.WHITE, "BP");
+	public static Part BlackPawn04 = new Part(PartName.PAWN, null, PartColor.BLACK, "BP");
 	
-	public static Part BlackPawn05 = new Part(PartName.PAWN, null, PartColor.WHITE, "BP");
+	public static Part BlackPawn05 = new Part(PartName.PAWN, null, PartColor.BLACK, "BP");
 	
-	public static Part BlackPawn06 = new Part(PartName.PAWN, null, PartColor.WHITE, "BP");
+	public static Part BlackPawn06 = new Part(PartName.PAWN, null, PartColor.BLACK, "BP");
 	
-	public static Part BlackPawn07 = new Part(PartName.PAWN, null, PartColor.WHITE, "BP");
+	public static Part BlackPawn07 = new Part(PartName.PAWN, null, PartColor.BLACK, "BP");
 	
-	public static Part BlackPawn08 = new Part(PartName.PAWN, null, PartColor.WHITE, "BP");
+	public static Part BlackPawn08 = new Part(PartName.PAWN, null, PartColor.BLACK, "BP");
 	
 	// Black Towers
-	public static Part BlackTower01 = new Part(PartName.TOWER, null, PartColor.WHITE, "BT");
+	public static Part BlackTower01 = new Part(PartName.TOWER, null, PartColor.BLACK, "BT");
 	
-	public static Part BlackTower02 = new Part(PartName.TOWER, null, PartColor.WHITE, "BT");
+	public static Part BlackTower02 = new Part(PartName.TOWER, null, PartColor.BLACK, "BT");
 	
 	// Black Horses
-	public static Part BlackHorse01 = new Part(PartName.HORSE, null, PartColor.WHITE, "BH");
+	public static Part BlackHorse01 = new Part(PartName.HORSE, null, PartColor.BLACK, "BH");
 	
-	public static Part BlackHorse02 = new Part(PartName.HORSE, null, PartColor.WHITE, "BH");
+	public static Part BlackHorse02 = new Part(PartName.HORSE, null, PartColor.BLACK, "BH");
 	
 	// Black Bishops
 	public static Part BlackBisp01 = new Part(PartName.BISHOP, null, PartColor.WHITE, "BB");
@@ -89,11 +89,65 @@ public class GenerateParts {
 	// Black King
 	public static Part BlackKing01 = new Part(PartName.KING, null, PartColor.WHITE, "BK");
 	
-	public static Part Unnamed = new Part(PartName.UNNAMED, null, PartColor.WHITE, "- ");
+	public static Part Unnamed = new Part(PartName.UNNAMED, null, PartColor.NO_COLOR, "- ");
 	
-	public static List<Part> generateBoard() {
+	public static List<Part> generateParts() {
 		
 		List<Part> parts = new ArrayList<>();
+		
+		parts.add(BlackTower01);
+		parts.add(BlackTower02);
+		parts.add(BlackHorse01);
+		parts.add(BlackHorse02);
+		parts.add(BlackBisp01);
+		parts.add(BlackBisp02);
+		parts.add(BlackQueen01);
+		parts.add(BlackKing01);
+		
+		parts.add(BlackPawn01);
+		parts.add(BlackPawn02);
+		parts.add(BlackPawn03);
+		parts.add(BlackPawn04);
+		parts.add(BlackPawn05);
+		parts.add(BlackPawn06);
+		parts.add(BlackPawn07);
+		parts.add(BlackPawn08);
+		
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
+		parts.add(Unnamed);
 		
 		parts.add(whitePawn01);
 		parts.add(whitePawn02);
@@ -112,60 +166,6 @@ public class GenerateParts {
 		parts.add(whiteBisp02);
 		parts.add(whiteQueen01);
 		parts.add(whiteKing01);
-		
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		
-		parts.add(BlackPawn01);
-		parts.add(BlackPawn02);
-		parts.add(BlackPawn03);
-		parts.add(BlackPawn04);
-		parts.add(BlackPawn05);
-		parts.add(BlackPawn06);
-		parts.add(BlackPawn07);
-		parts.add(BlackPawn08);
-		
-		parts.add(BlackTower01);
-		parts.add(BlackTower02);
-		parts.add(BlackHorse01);
-		parts.add(BlackHorse02);
-		parts.add(BlackBisp01);
-		parts.add(BlackBisp02);
-		parts.add(BlackQueen01);
-		parts.add(BlackKing01);
 		
 		return parts;
 		

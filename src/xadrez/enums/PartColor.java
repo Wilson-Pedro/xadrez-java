@@ -3,7 +3,8 @@ package xadrez.enums;
 public enum PartColor {
 
 	BLACK(0),
-	WHITE(1);
+	WHITE(1),
+	NO_COLOR(3);
 	
 	private Integer code;
 
