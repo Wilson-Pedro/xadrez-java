@@ -1,9 +1,9 @@
-package xadrez.parts;
+package xadrez.piece;
 
 import xadrez.enums.PartColor;
 import xadrez.enums.PartName;
 
-public class Part {
+public class Piece {
 	
 	private PartName partName;
 	
@@ -13,15 +13,19 @@ public class Part {
 	
 	private String acronym;
 	
+	private Integer moveQuantity;
+	
 
-	public Part() {
+	public Piece() {
 	}
 
-	public Part(PartName partName, String movement, PartColor partColor, String acronym) {
+	public Piece(PartName partName, String movement, PartColor partColor, String acronym, Integer moveQuantity) {
+		super();
 		this.partName = partName;
 		this.movement = movement;
 		this.partColor = partColor;
 		this.acronym = acronym;
+		this.moveQuantity = moveQuantity;
 	}
 
 	public PartName getPartName() {
@@ -54,6 +58,14 @@ public class Part {
 
 	public void setAcronym(String acronym) {
 		this.acronym = acronym;
+	}
+
+	public Integer getMoveQuantity() {
+		return moveQuantity;
+	}
+
+	public void setMoveQuantity(Integer moveQuantity) {
+		this.moveQuantity = moveQuantity;
 	}
 
 	@Override

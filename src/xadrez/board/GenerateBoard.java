@@ -1,47 +1,47 @@
 package xadrez.board;
 
-import static xadrez.parts.GenerateParts.BlackBisp01;
-import static xadrez.parts.GenerateParts.BlackBisp02;
-import static xadrez.parts.GenerateParts.BlackHorse01;
-import static xadrez.parts.GenerateParts.BlackHorse02;
-import static xadrez.parts.GenerateParts.BlackKing01;
-import static xadrez.parts.GenerateParts.BlackPawn01;
-import static xadrez.parts.GenerateParts.BlackPawn02;
-import static xadrez.parts.GenerateParts.BlackPawn03;
-import static xadrez.parts.GenerateParts.BlackPawn04;
-import static xadrez.parts.GenerateParts.BlackPawn05;
-import static xadrez.parts.GenerateParts.BlackPawn06;
-import static xadrez.parts.GenerateParts.BlackPawn07;
-import static xadrez.parts.GenerateParts.BlackPawn08;
-import static xadrez.parts.GenerateParts.BlackQueen01;
-import static xadrez.parts.GenerateParts.BlackTower01;
-import static xadrez.parts.GenerateParts.BlackTower02;
-import static xadrez.parts.GenerateParts.Unnamed;
-import static xadrez.parts.GenerateParts.whiteBisp01;
-import static xadrez.parts.GenerateParts.whiteBisp02;
-import static xadrez.parts.GenerateParts.whiteHorse01;
-import static xadrez.parts.GenerateParts.whiteKing01;
-import static xadrez.parts.GenerateParts.whitePawn01;
-import static xadrez.parts.GenerateParts.whitePawn02;
-import static xadrez.parts.GenerateParts.whitePawn03;
-import static xadrez.parts.GenerateParts.whitePawn04;
-import static xadrez.parts.GenerateParts.whitePawn05;
-import static xadrez.parts.GenerateParts.whitePawn06;
-import static xadrez.parts.GenerateParts.whitePawn07;
-import static xadrez.parts.GenerateParts.whitePawn08;
-import static xadrez.parts.GenerateParts.whiteQueen01;
-import static xadrez.parts.GenerateParts.whiteTower01;
+import static xadrez.piece.GenerateParts.BlackBisp01;
+import static xadrez.piece.GenerateParts.BlackBisp02;
+import static xadrez.piece.GenerateParts.BlackHorse01;
+import static xadrez.piece.GenerateParts.BlackHorse02;
+import static xadrez.piece.GenerateParts.BlackKing01;
+import static xadrez.piece.GenerateParts.BlackPawn01;
+import static xadrez.piece.GenerateParts.BlackPawn02;
+import static xadrez.piece.GenerateParts.BlackPawn03;
+import static xadrez.piece.GenerateParts.BlackPawn04;
+import static xadrez.piece.GenerateParts.BlackPawn05;
+import static xadrez.piece.GenerateParts.BlackPawn06;
+import static xadrez.piece.GenerateParts.BlackPawn07;
+import static xadrez.piece.GenerateParts.BlackPawn08;
+import static xadrez.piece.GenerateParts.BlackQueen01;
+import static xadrez.piece.GenerateParts.BlackTower01;
+import static xadrez.piece.GenerateParts.BlackTower02;
+import static xadrez.piece.GenerateParts.Unnamed;
+import static xadrez.piece.GenerateParts.whiteBisp01;
+import static xadrez.piece.GenerateParts.whiteBisp02;
+import static xadrez.piece.GenerateParts.whiteHorse01;
+import static xadrez.piece.GenerateParts.whiteKing01;
+import static xadrez.piece.GenerateParts.whitePawn01;
+import static xadrez.piece.GenerateParts.whitePawn02;
+import static xadrez.piece.GenerateParts.whitePawn03;
+import static xadrez.piece.GenerateParts.whitePawn04;
+import static xadrez.piece.GenerateParts.whitePawn05;
+import static xadrez.piece.GenerateParts.whitePawn06;
+import static xadrez.piece.GenerateParts.whitePawn07;
+import static xadrez.piece.GenerateParts.whitePawn08;
+import static xadrez.piece.GenerateParts.whiteQueen01;
+import static xadrez.piece.GenerateParts.whiteTower01;
 
 import java.util.Map;
 import java.util.TreeMap;
 
-import xadrez.parts.Part;
+import xadrez.piece.Piece;
 
 public class GenerateBoard {
 
-	private static Map<String, Part> housesGenerated = new TreeMap<String, Part>();
+	private static Map<String, Piece> housesGenerated = new TreeMap<String, Piece>();
 
-	public static Map<String, Part> generateBoard() {
+	public static Map<String, Piece> generateBoard() {
 		
 			housesGenerated.put("A1", whiteTower01);
 			housesGenerated.put("A2", whitePawn01);

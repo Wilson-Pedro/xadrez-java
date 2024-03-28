@@ -1,42 +1,51 @@
 package xadrez.board;
 
-import static xadrez.parts.GenerateParts.Unnamed;
+import static xadrez.piece.GenerateParts.Unnamed;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 
-import xadrez.parts.GenerateParts;
-import xadrez.parts.Part;
+import xadrez.piece.GenerateParts;
+import xadrez.piece.Piece;
 
 public class Board {
 
-	private Map<String, Part> houses = new Hashtable<>();
+	//private Map<String, Piece> houses = new Hashtable<>();
 	
-	private List<Part> parts = new ArrayList<>();
+	private List<Piece> parts = new ArrayList<>();
 
 	public Board() {
 	}
 
-	public Map<String, Part> getHouses() {
-		return houses;
-	}
+//	public Map<String, Piece> getHouses() {
+//		return houses;
+//	}
 	
-	public List<Part> getParts() {
+	public List<Piece> getParts() {
 		return parts;
 	}
 	
-	public void generateParts() {
-		this.parts = GenerateParts.generateParts();
+	public void generatePieces() {
+		this.parts = GenerateParts.generatePieces();
 	}
 	
-	public void showParts() {
-		int i = 1;
-		int index = 0;
-		for(Part part : parts) {
+	public void showPieces() {
+		byte i = 1;
+		for(Piece part : parts) {
 			System.out.print(" " + part.getAcronym() + " ");
-			//System.out.print(" " + part.getAcronym() + "(" + index + ")" + " ");
+			if(i == 8) {
+				System.out.println("\n");
+				i = 0;
+			}
+			i += 1;
+		}
+	}
+	
+	public void showPiecesWithIndex() {
+		byte i = 1;
+		byte index = 0;
+		for(Piece part : parts) {
+			System.out.print(" " + part.getAcronym() + "(" + index + ")" + " ");
 			if(i == 8) {
 				System.out.println("\n");
 				i = 0;
@@ -46,13 +55,13 @@ public class Board {
 		}
 	}
 	
-	public void move (List<Part> parts, byte idx1, byte idx2) {
-		parts.set(idx2, parts.get(idx1));
-		parts.set(idx1, Unnamed);
+	public void movePiece (List<Piece> parts, byte source, byte target) {
+		parts.set(target, parts.get(source));
+		parts.set(source, Unnamed);
 	}
 
 	@Override
 	public String toString() {
-		return "Board [houses=" + houses + ", parts=" + parts + "]";
+		return "Board [parts=" + parts + "]";
 	}
 }
