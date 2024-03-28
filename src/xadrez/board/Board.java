@@ -9,17 +9,11 @@ import xadrez.piece.GenerateParts;
 import xadrez.piece.Piece;
 
 public class Board {
-
-	//private Map<String, Piece> houses = new Hashtable<>();
 	
 	private List<Piece> parts = new ArrayList<>();
 
 	public Board() {
 	}
-
-//	public Map<String, Piece> getHouses() {
-//		return houses;
-//	}
 	
 	public List<Piece> getParts() {
 		return parts;
@@ -55,7 +49,7 @@ public class Board {
 		}
 	}
 	
-	public void movePiece (List<Piece> parts, byte source, byte target) {
+	public void movePiece (List<Piece> parts, int source, int target) {
 		parts.set(target, parts.get(source));
 		parts.set(source, Unnamed);
 	}

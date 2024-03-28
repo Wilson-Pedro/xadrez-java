@@ -1,6 +1,6 @@
 package xadrez.enums;
 
-public enum PartName {
+public enum PieceName {
 	
 	PAWN(0),
 	TOWER(1),
@@ -12,7 +12,7 @@ public enum PartName {
 	
 	private Integer code;
 	
-	private PartName(Integer code) {
+	private PieceName(Integer code) {
 		this.code = code;
 	}
 

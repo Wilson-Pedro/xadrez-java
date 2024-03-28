@@ -1,13 +1,11 @@
 package xadrez.piece;
 
 import xadrez.enums.PartColor;
-import xadrez.enums.PartName;
+import xadrez.enums.PieceName;
 
 public class Piece {
 	
-	private PartName partName;
-	
-	private String movement;
+	private PieceName pieceName;
 	
 	private PartColor partColor;
 	
@@ -19,29 +17,19 @@ public class Piece {
 	public Piece() {
 	}
 
-	public Piece(PartName partName, String movement, PartColor partColor, String acronym, Integer moveQuantity) {
-		super();
-		this.partName = partName;
-		this.movement = movement;
+	public Piece(PieceName pieceName, PartColor partColor, String acronym, Integer moveQuantity) {
+		this.pieceName = pieceName;
 		this.partColor = partColor;
 		this.acronym = acronym;
 		this.moveQuantity = moveQuantity;
 	}
 
-	public PartName getPartName() {
-		return partName;
+	public PieceName getPieceName() {
+		return pieceName;
 	}
 
-	public void setPartName(PartName partName) {
-		this.partName = partName;
-	}
-
-	public String getMovement() {
-		return movement;
-	}
-
-	public void setMovement(String movement) {
-		this.movement = movement;
+	public void setPieceName(PieceName pieceName) {
+		this.pieceName = pieceName;
 	}
 
 	public PartColor getPartColor() {
@@ -67,10 +55,18 @@ public class Piece {
 	public void setMoveQuantity(Integer moveQuantity) {
 		this.moveQuantity = moveQuantity;
 	}
+	
+	public void incrementMoveQuantity() {
+		this.moveQuantity += 1;
+	}
+	
+	public boolean isPawn() {
+		return pieceName.equals(PieceName.PAWN);
+	}
 
 	@Override
 	public String toString() {
-		return "Part [partName=" + partName + ", movement=" + movement + ", partColor=" + partColor + ", acronym="
-				+ acronym + "]";
+		return "Piece [partName=" + pieceName + ", partColor=" + partColor + ", acronym=" + acronym + ", moveQuantity="
+				+ moveQuantity + "]";
 	}
 }
