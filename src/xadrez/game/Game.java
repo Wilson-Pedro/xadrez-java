@@ -1,13 +1,12 @@
 package xadrez.game;
 
-import static xadrez.piece.PieceMovementSettings.possibleMovements;
-
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
 import xadrez.board.Board;
 import xadrez.piece.Piece;
+import xadrez.piece.PieceMovementSettings;
 
 public class Game {
 
@@ -16,6 +15,7 @@ public class Game {
 		Scanner sc  = new Scanner(System.in);
 		
 		Board board = new Board();
+		PieceMovementSettings movementSetting = new PieceMovementSettings();
 		Piece pieceSource = new Piece();
 		Piece pieceDestination = new Piece();
 		
@@ -38,9 +38,11 @@ public class Game {
 			
 			pieceSource = board.getParts().get(source);
 			pieceDestination= board.getParts().get(target);
-			possibleMovements = possibleMovements(pieceSource, source);
+			possibleMovements = movementSetting.possibleMovements(pieceSource, source);
 			samePiece = pieceSource.getPartColor().equals(pieceDestination.getPartColor());
 			invalidMoviment = !possibleMovements.contains(target);
+			
+			System.out.println(possibleMovements);
 			
 			if(samePiece) {
 				System.out.println("\nVocê não pode pegar sua própria peça!\n");

@@ -2,34 +2,48 @@ package xadrez.piece;
 
 import java.util.HashSet;
 import java.util.Set;
+import static xadrez.board.HousesFromBoard.*;
 
 public class PieceMovementSettings {
+	
+	Set<Integer> housesAbove = generateHousesAbove();
+	Set<Integer> rightSideHouses = generateRightSideHouses();
+	Set<Integer> leftSideHouses = generateLeftSideHouses();
+	Set<Integer> downHouses = generateDownHouses();
 
-	public static Set<Integer> possibleMovements(Piece piece, int source) {
-		
+	public Set<Integer> possibleMovements(Piece piece, int source) {
 		Set<Integer> movements = new HashSet<>();
 		
-		int moviment = 0;
-		boolean thereAreMoves = true;
-		
 		if(piece.isPawn()) {
-			movements.add(source - 8);
-			if(piece.getMoveQuantity() == 0)
-				movements.add(source - (8*2));
-		
+			movements = pawnMoviments(source, piece.getMoveQuantity());
+			
 		} else if (piece.isTower()) {
-			moviment = source;
-			while(thereAreMoves) {
-				if(moviment > 0)
-					moviment -= 8;
-				else
-					thereAreMoves = false;
-				movements.add(moviment);
-				
-			}
+			movements = towerMoviments(source);
 		}
 		
 		piece.incrementMoveQuantity();
 		return movements;
+	}
+	
+	public Set<Integer> pawnMoviments(int source, int moveQuantity) {
+		Set<Integer> possiblePawnMoves = new HashSet<>();
+		possiblePawnMoves.add(source - 8);
+		if(moveQuantity == 0)
+			possiblePawnMoves.add(source - (8*2));
+		return possiblePawnMoves;
+	}
+	
+	public Set<Integer> towerMoviments(int source) {
+		Set<Integer> possibleTowerMoves = new HashSet<>();
+		int moviment = source;
+		boolean thereAreMoves = true;
+		while(thereAreMoves) {
+			if(moviment > 0)
+				moviment -= 8;
+			else
+				thereAreMoves = false;
+			possibleTowerMoves.add(moviment);
+		}
+		return possibleTowerMoves;
 	}
 }

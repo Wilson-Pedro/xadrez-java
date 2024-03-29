@@ -2,7 +2,6 @@ package xadrez.board;
 
 import java.util.HashSet;
 import java.util.Set;
-//right side houses
 public class HousesFromBoard {
 
 	private static final Set<Integer> housesAbove = new HashSet<>();
