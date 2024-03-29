@@ -63,6 +63,10 @@ public class Piece {
 	public boolean isPawn() {
 		return pieceName.equals(PieceName.PAWN);
 	}
+	
+	public boolean isTower() {
+		return pieceName.equals(PieceName.TOWER);
+	}
 
 	@Override
 	public String toString() {
