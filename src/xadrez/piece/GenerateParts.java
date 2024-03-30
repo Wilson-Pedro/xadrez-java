@@ -96,13 +96,13 @@ public class GenerateParts {
 		List<Piece> parts = new ArrayList<>();
 		
 		parts.add(BlackTower01);
-		parts.add(BlackTower02);
 		parts.add(BlackHorse01);
-		parts.add(BlackHorse02);
 		parts.add(BlackBisp01);
-		parts.add(BlackBisp02);
 		parts.add(BlackQueen01);
 		parts.add(BlackKing01);
+		parts.add(BlackBisp02);
+		parts.add(BlackHorse02);
+		parts.add(BlackTower02);
 		
 		parts.add(BlackPawn01);
 		parts.add(BlackPawn02);
@@ -159,13 +159,13 @@ public class GenerateParts {
 		parts.add(whitePawn08);
 		
 		parts.add(whiteTower01);
-		parts.add(whiteTower02);
 		parts.add(whiteHorse01);
-		parts.add(whiteHorse02);
 		parts.add(whiteBisp01);
-		parts.add(whiteBisp02);
 		parts.add(whiteQueen01);
 		parts.add(whiteKing01);
+		parts.add(whiteBisp02);
+		parts.add(whiteHorse02);
+		parts.add(whiteTower02);
 		
 		return parts;
 		
