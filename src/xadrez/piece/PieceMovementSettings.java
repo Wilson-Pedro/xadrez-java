@@ -1,23 +1,29 @@
 package xadrez.piece;
 
+import static xadrez.board.HousesFromBoard.generateDownHouses;
+import static xadrez.board.HousesFromBoard.generateHousesAbove;
+import static xadrez.board.HousesFromBoard.generateLeftSideHouses;
+import static xadrez.board.HousesFromBoard.generateRightSideHouses;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-import static xadrez.board.HousesFromBoard.*;
 
 public class PieceMovementSettings {
 
 	public Set<Integer> possibleMovements(Piece piece, int source) {
-		Set<Integer> movements = new HashSet<>();
+		Set<Integer> moves = new HashSet<>();
 		
 		if(piece.isPawn()) {
-			movements = pawnMoviments(source, piece.getMoveQuantity());
+			moves = pawnMoviments(source, piece.getMoveQuantity());
 			
 		} else if (piece.isTower()) {
-			movements = towerMoviments(source);
+			moves = towerMoviments(source);
 		}
 		
 		piece.incrementMoveQuantity();
-		return movements;
+		return moves;
 	}
 	
 	public Set<Integer> pawnMoviments(int source, int moveQuantity) {
@@ -62,5 +68,25 @@ public class PieceMovementSettings {
 		piceOnTheEdge[3] = downHouses.contains(source);
 
 		return piceOnTheEdge;
+	}
+	
+	public List<Move> movesPossibleToLeftAndRight() {
+		
+		List<Move> moves = new ArrayList<>();
+		int movimentsToUp = 0, movimentsToLeft = 0, movimentsToRight = 7, movimentsToDown = 7;
+		
+		for(int i = 0; i <= 63; i++) {
+			moves.add(new Move(i, movimentsToUp, movimentsToLeft, movimentsToRight, movimentsToDown));
+			movimentsToLeft++;
+			movimentsToRight--;
+			if(movimentsToLeft == 8 && movimentsToRight == -1) {
+				movimentsToLeft = 0;
+				movimentsToRight = 7;
+				movimentsToUp++;
+				movimentsToDown--;
+			}
+		}
+		
+		return moves;
 	}
 }

@@ -1,11 +1,11 @@
 package xadrez.board;
 
-import static xadrez.piece.GenerateParts.Unnamed;
+import static xadrez.piece.GeneratePiece.Unnamed;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import xadrez.piece.GenerateParts;
+import xadrez.piece.GeneratePiece;
 import xadrez.piece.Piece;
 
 public class Board {
@@ -20,7 +20,7 @@ public class Board {
 	}
 	
 	public void generatePieces() {
-		this.parts = GenerateParts.generatePieces();
+		this.parts = GeneratePiece.generatePieces();
 	}
 	
 	public void showPieces() {

@@ -6,7 +6,7 @@ import java.util.List;
 import xadrez.enums.PartColor;
 import xadrez.enums.PieceName;
 
-public class GenerateParts {
+public class GeneratePiece {
 	
 	// WHITE PARTS
 
@@ -93,81 +93,80 @@ public class GenerateParts {
 	
 	public static List<Piece> generatePieces() {
 		
-		List<Piece> parts = new ArrayList<>();
+		List<Piece> pieces = new ArrayList<>();
 		
-		parts.add(BlackTower01);
-		parts.add(BlackHorse01);
-		parts.add(BlackBisp01);
-		parts.add(BlackQueen01);
-		parts.add(BlackKing01);
-		parts.add(BlackBisp02);
-		parts.add(BlackHorse02);
-		parts.add(BlackTower02);
+		pieces.add(BlackTower01);
+		pieces.add(BlackHorse01);
+		pieces.add(BlackBisp01);
+		pieces.add(BlackQueen01);
+		pieces.add(BlackKing01);
+		pieces.add(BlackBisp02);
+		pieces.add(BlackHorse02);
+		pieces.add(BlackTower02);
 		
-		parts.add(BlackPawn01);
-		parts.add(BlackPawn02);
-		parts.add(BlackPawn03);
-		parts.add(BlackPawn04);
-		parts.add(BlackPawn05);
-		parts.add(BlackPawn06);
-		parts.add(BlackPawn07);
-		parts.add(BlackPawn08);
+		pieces.add(BlackPawn01);
+		pieces.add(BlackPawn02);
+		pieces.add(BlackPawn03);
+		pieces.add(BlackPawn04);
+		pieces.add(BlackPawn05);
+		pieces.add(BlackPawn06);
+		pieces.add(BlackPawn07);
+		pieces.add(BlackPawn08);
 		
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
 		
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
 		
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
 		
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
-		parts.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
 		
-		parts.add(whitePawn01);
-		parts.add(whitePawn02);
-		parts.add(whitePawn03);
-		parts.add(whitePawn04);
-		parts.add(whitePawn05);
-		parts.add(whitePawn06);
-		parts.add(whitePawn07);
-		parts.add(whitePawn08);
+		pieces.add(whitePawn01);
+		pieces.add(whitePawn02);
+		pieces.add(whitePawn03);
+		pieces.add(whitePawn04);
+		pieces.add(whitePawn05);
+		pieces.add(whitePawn06);
+		pieces.add(whitePawn07);
+		pieces.add(whitePawn08);
 		
-		parts.add(whiteTower01);
-		parts.add(whiteHorse01);
-		parts.add(whiteBisp01);
-		parts.add(whiteQueen01);
-		parts.add(whiteKing01);
-		parts.add(whiteBisp02);
-		parts.add(whiteHorse02);
-		parts.add(whiteTower02);
+		pieces.add(whiteTower01);
+		pieces.add(whiteHorse01);
+		pieces.add(whiteBisp01);
+		pieces.add(whiteQueen01);
+		pieces.add(whiteKing01);
+		pieces.add(whiteBisp02);
+		pieces.add(whiteHorse02);
+		pieces.add(whiteTower02);
 		
-		return parts;
-		
+		return pieces;
 	}
 }
