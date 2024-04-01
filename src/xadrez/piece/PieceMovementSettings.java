@@ -20,7 +20,7 @@ public class PieceMovementSettings {
 			
 		} else if (piece.isTower()) {
 			moves = towerMoviments(source);
-		}
+		} 
 		
 		piece.incrementMoveQuantity();
 		return moves;
@@ -36,18 +36,48 @@ public class PieceMovementSettings {
 	
 	public Set<Integer> towerMoviments(int source) {
 		Set<Integer> possibleTowerMoves = new HashSet<>();
+		List<Move> moves = movesPossibleToLeftAndRight();
+		Move move = moves.get(source);
 		
 		int moviment = source;
-		boolean[] NoPiceOnTheEdge = piceOnTheEdge(source);
+		boolean[] noPiceOnTheEdge = piceOnTheEdge(source);
 		
 		// MOVER TORRE PARA CIMA
-		while(!NoPiceOnTheEdge[0]) {
-			
-			if(moviment > 0)
-				moviment -= 8;
-			else
-				NoPiceOnTheEdge[0] = true;
-			possibleTowerMoves.add(moviment);
+		if(!noPiceOnTheEdge[0]) {
+			for(int i = 0; i < move.getMovimentsToUp(); i++) {
+				possibleTowerMoves.add(moviment-=8);
+			}
+			noPiceOnTheEdge[0] = true;
+		}
+		
+		moviment = source;
+		
+		// MOVER TORRE PARA DIREITA
+		if(!noPiceOnTheEdge[1]) {
+			for(int i = 0; i < move.getMovimentsToRight(); i++) {
+				possibleTowerMoves.add(moviment+=1);
+			}
+			noPiceOnTheEdge[1] = true;
+		}
+		
+		moviment = source;
+		
+		// MOVER TORRE PARA ESQUERDA
+		if(!noPiceOnTheEdge[2]) {
+			for(int i = 0; i < move.getMovimentsToLeft(); i++) {
+				possibleTowerMoves.add(moviment-=1);
+			}
+			noPiceOnTheEdge[2] = true;
+		}
+		
+		moviment = source;
+		
+		// MOVER TORRE PARA BAIXO
+		if(!noPiceOnTheEdge[3]) {
+			for(int i = 0; i < move.getMovimentsToDown(); i++) {
+				possibleTowerMoves.add(moviment+=8);
+			}
+			noPiceOnTheEdge[3] = true;
 		}
 		
 		return possibleTowerMoves;

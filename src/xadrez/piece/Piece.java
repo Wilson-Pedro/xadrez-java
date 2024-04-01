@@ -67,6 +67,22 @@ public class Piece {
 	public boolean isTower() {
 		return pieceName.equals(PieceName.TOWER);
 	}
+	
+	public boolean isHorse() {
+		return pieceName.equals(PieceName.HORSE);
+	}
+	
+	public boolean isBishop() {
+		return pieceName.equals(PieceName.BISHOP);
+	}
+	
+	public boolean isQueen() {
+		return pieceName.equals(PieceName.QUEEN);
+	}
+	
+	public boolean isKing() {
+		return pieceName.equals(PieceName.KING);
+	}
 
 	@Override
 	public String toString() {
