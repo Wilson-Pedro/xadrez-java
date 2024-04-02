@@ -33,16 +33,17 @@ public class Game {
 			System.out.print("\nSource: ");
 			int source = sc.nextByte();
 			
+			pieceSource = board.getParts().get(source);
+			possibleMovements = movementSetting.possibleMovements(pieceSource, source);
+			System.out.println("Possible Moviments: " + possibleMovements);
+			
 			System.out.print("Move To: ");
 			int target = sc.nextByte();
 			
-			pieceSource = board.getParts().get(source);
 			pieceDestination= board.getParts().get(target);
-			possibleMovements = movementSetting.possibleMovements(pieceSource, source);
 			samePiece = pieceSource.getPartColor().equals(pieceDestination.getPartColor());
 			invalidMoviment = !possibleMovements.contains(target);
 			
-			System.out.println(possibleMovements);
 			
 			if(samePiece) {
 				System.out.println("\nVocê não pode pegar sua própria peça!\n");

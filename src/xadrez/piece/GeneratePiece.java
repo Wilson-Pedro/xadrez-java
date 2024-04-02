@@ -79,15 +79,15 @@ public class GeneratePiece {
 	public static Piece BlackHorse02 = new Piece(PieceName.HORSE, PartColor.BLACK, "BH", 0);
 	
 	// Black Bishops
-	public static Piece BlackBisp01 = new Piece(PieceName.BISHOP, PartColor.WHITE, "BB", 0);
+	public static Piece BlackBisp01 = new Piece(PieceName.BISHOP, PartColor.BLACK, "BB", 0);
 	
-	public static Piece BlackBisp02 = new Piece(PieceName.BISHOP, PartColor.WHITE, "BB", 0);
+	public static Piece BlackBisp02 = new Piece(PieceName.BISHOP, PartColor.BLACK, "BB", 0);
 	
 	// Black Queen
-	public static Piece BlackQueen01 = new Piece(PieceName.QUEEN, PartColor.WHITE, "BQ", 0);
+	public static Piece BlackQueen01 = new Piece(PieceName.QUEEN, PartColor.BLACK, "BQ", 0);
 	
 	// Black King
-	public static Piece BlackKing01 = new Piece(PieceName.KING, PartColor.WHITE, "BK", 0);
+	public static Piece BlackKing01 = new Piece(PieceName.KING, PartColor.BLACK, "BK", 0);
 	
 	public static Piece Unnamed = new Piece(PieceName.UNNAMED, PartColor.NO_COLOR, "- ", 0);
 	
