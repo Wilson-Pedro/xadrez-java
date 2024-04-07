@@ -4,12 +4,14 @@ import static xadrez.board.HousesFromBoard.generateDownHouses;
 import static xadrez.board.HousesFromBoard.generateHousesAbove;
 import static xadrez.board.HousesFromBoard.generateLeftSideHouses;
 import static xadrez.board.HousesFromBoard.generateRightSideHouses;
+import static xadrez.piece.moves.GenerateMove.generateBishopsMovements;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import xadrez.piece.moves.MoveBishop;
 import xadrez.piece.moves.MoveTower;
 
 public class PieceMovementSettings {
@@ -147,7 +149,34 @@ public class PieceMovementSettings {
 	}
 
 	public Set<Integer> bishopMoviments(int source) {
-		return null;
+		Set<Integer> possibleBishopMoves = new HashSet<>();
+		List<MoveBishop> bishopsMovements = generateBishopsMovements();
+		MoveBishop moveBishop = bishopsMovements.get(source);
+		int moviment = source;
+		
+		for(int i = 0; i < moveBishop.getUpperLeftDiagonalMovements(); i++) {
+			possibleBishopMoves.add(moviment-=9);
+		}
+		
+		moviment = source;
+		
+		for(int i = 0; i < moveBishop.getUpperRightDiagonalMovements(); i++) {
+			possibleBishopMoves.add(moviment-=7);
+		}
+		
+		moviment = source;
+		
+		for(int i = 0; i < moveBishop.getLowerLeftMovements(); i++) {
+			possibleBishopMoves.add(moviment+=7);
+		}
+		
+		moviment = source;
+		
+		for(int i = 0; i < moveBishop.getLowerRightMovements(); i++) {
+			possibleBishopMoves.add(moviment+=9);
+		}
+		
+		return possibleBishopMoves;
 	}
 
 	public List<MoveTower> movimentsPossivleToLeftAndRightFromTower() {
