@@ -33,6 +33,8 @@ public class PieceMovementSettings {
 			moves = horseMoviments(source);
 		} else if (piece.isBishop()) {
 			moves = bishopMoviments(source);
+		} else if (piece.isKing()) {
+			moves = kingMoviments(source);
 		}
 
 		piece.incrementMoveQuantity();
@@ -177,6 +179,33 @@ public class PieceMovementSettings {
 		}
 		
 		return possibleBishopMoves;
+	}
+	
+	public Set<Integer> kingMoviments(int source) {
+		Set<Integer> possibleKingMoves = new HashSet<>();
+		
+		if(!housesAbove.contains(source)) {
+			possibleKingMoves.add(source - 8);
+			possibleKingMoves.add((source - 8) + 1);
+			possibleKingMoves.add((source - 8) - 1);
+		}
+		
+		if(!leftSideHouses.contains(source)) {
+			possibleKingMoves.add(source - 1);
+		}
+		
+		if (!rightSideHouses.contains(source)) {
+			possibleKingMoves.add(source + 1);
+		}
+		
+		if(!downHouses.contains(source)) {
+			possibleKingMoves.add(source + 8);
+			possibleKingMoves.add((source + 8) + 1);
+			possibleKingMoves.add((source + 8) - 1);
+		}
+		
+		return possibleKingMoves;
+		
 	}
 
 	public List<MoveTower> movimentsPossivleToLeftAndRightFromTower() {
