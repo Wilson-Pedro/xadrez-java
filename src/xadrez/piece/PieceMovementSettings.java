@@ -26,15 +26,16 @@ public class PieceMovementSettings {
 
 		if (piece.isPawn()) {
 			moves = pawnMoviments(source, piece.getMoveQuantity());
-
 		} else if (piece.isTower()) {
 			moves = towerMoviments(source);
 		} else if (piece.isHorse()) {
 			moves = horseMoviments(source);
 		} else if (piece.isBishop()) {
-			moves = bishopMoviments(source);
+			moves = bishopMoviments(source, moves);
 		} else if (piece.isKing()) {
 			moves = kingMoviments(source);
+		} else if (piece.isQueen()) {
+			moves = queenMoviments(source);
 		}
 
 		piece.incrementMoveQuantity();
@@ -52,11 +53,10 @@ public class PieceMovementSettings {
 
 	public Set<Integer> towerMoviments(int source) {
 		Set<Integer> possibleTowerMoves = new HashSet<>();
-		List<MoveTower> moves = movimentsPossivleToLeftAndRightFromTower();
+		List<MoveTower> moves = horizontalAndVerticalMovements();
 		MoveTower move = moves.get(source);
 
 		int moviment = source;
-		// boolean[] noPiceOnTheEdge = piceOnTheEdge(source);
 
 		// MOVER TORRE PARA CIMA
 		if (!housesAbove.contains(source)) {
@@ -150,35 +150,34 @@ public class PieceMovementSettings {
 		return possibleHorseMoves;
 	}
 
-	public Set<Integer> bishopMoviments(int source) {
-		Set<Integer> possibleBishopMoves = new HashSet<>();
+	public Set<Integer> bishopMoviments(int source, Set<Integer> possibleMoves) {
 		List<MoveBishop> bishopsMovements = generateBishopsMovements();
 		MoveBishop moveBishop = bishopsMovements.get(source);
 		int moviment = source;
 		
 		for(int i = 0; i < moveBishop.getUpperLeftDiagonalMovements(); i++) {
-			possibleBishopMoves.add(moviment-=9);
+			possibleMoves.add(moviment-=9);
 		}
 		
 		moviment = source;
 		
 		for(int i = 0; i < moveBishop.getUpperRightDiagonalMovements(); i++) {
-			possibleBishopMoves.add(moviment-=7);
+			possibleMoves.add(moviment-=7);
 		}
 		
 		moviment = source;
 		
 		for(int i = 0; i < moveBishop.getLowerLeftMovements(); i++) {
-			possibleBishopMoves.add(moviment+=7);
+			possibleMoves.add(moviment+=7);
 		}
 		
 		moviment = source;
 		
 		for(int i = 0; i < moveBishop.getLowerRightMovements(); i++) {
-			possibleBishopMoves.add(moviment+=9);
+			possibleMoves.add(moviment+=9);
 		}
 		
-		return possibleBishopMoves;
+		return possibleMoves;
 	}
 	
 	public Set<Integer> kingMoviments(int source) {
@@ -205,11 +204,17 @@ public class PieceMovementSettings {
 		}
 		
 		return possibleKingMoves;
+	}
+	
+	public Set<Integer> queenMoviments(int source) {
+		Set<Integer> possibleQueenMoves = new HashSet<>();
+		possibleQueenMoves = towerMoviments(source);
+		possibleQueenMoves = bishopMoviments(source, possibleQueenMoves);
 		
+		return possibleQueenMoves;
 	}
 
-	public List<MoveTower> movimentsPossivleToLeftAndRightFromTower() {
-
+	public List<MoveTower> horizontalAndVerticalMovements() {
 		List<MoveTower> moves = new ArrayList<>();
 		int movimentsToUp = 0, movimentsToLeft = 0, movimentsToRight = 7, movimentsToDown = 7;
 
