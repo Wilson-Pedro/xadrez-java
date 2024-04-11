@@ -10,22 +10,22 @@ import xadrez.piece.Piece;
 
 public class Board {
 	
-	private List<Piece> parts = new ArrayList<>();
+	private List<Piece> pieces = new ArrayList<>();
 
 	public Board() {
 	}
 	
-	public List<Piece> getParts() {
-		return parts;
+	public List<Piece> getPieces() {
+		return pieces;
 	}
 	
 	public void generatePieces() {
-		this.parts = GeneratePiece.generatePieces();
+		this.pieces = GeneratePiece.generatePieces();
 	}
 	
 	public void showPieces() {
 		byte i = 1;
-		for(Piece part : parts) {
+		for(Piece part : pieces) {
 			System.out.print(" " + part.getAcronym() + " ");
 			if(i == 8) {
 				System.out.println("\n");
@@ -38,7 +38,7 @@ public class Board {
 	public void showPiecesWithIndex() {
 		byte i = 1;
 		byte index = 0;
-		for(Piece part : parts) {
+		for(Piece part : pieces) {
 			System.out.print(" " + part.getAcronym() + "(" + index + ")" + " ");
 			if(i == 8) {
 				System.out.println("\n");
@@ -56,6 +56,6 @@ public class Board {
 
 	@Override
 	public String toString() {
-		return "Board [parts=" + parts + "]";
+		return "Board [parts=" + pieces + "]";
 	}
 }

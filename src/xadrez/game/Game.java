@@ -33,14 +33,14 @@ public class Game {
 			System.out.print("\nSource: ");
 			int source = sc.nextByte();
 			
-			pieceSource = board.getParts().get(source);
-			possibleMovements = movementSetting.possibleMovements(pieceSource, source);
+			pieceSource = board.getPieces().get(source);
+			possibleMovements = movementSetting.possibleMovements(pieceSource, source, board.getPieces());
 			System.out.println("Possible Moviments: " + possibleMovements);
 			
 			System.out.print("Move To: ");
 			int target = sc.nextByte();
 			
-			pieceDestination= board.getParts().get(target);
+			pieceDestination= board.getPieces().get(target);
 			samePiece = pieceSource.getPartColor().equals(pieceDestination.getPartColor());
 			invalidMoviment = !possibleMovements.contains(target);
 			
@@ -50,7 +50,7 @@ public class Game {
 			} else if(invalidMoviment) {
 				System.out.println("\nMovimeno inválido!\n");
 			} else {
-				board.movePiece(board.getParts(), source, target);
+				board.movePiece(board.getPieces(), source, target);
 			}
 		}
 	}
