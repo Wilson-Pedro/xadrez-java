@@ -28,9 +28,9 @@ public class Game {
 		while(5 > 0) {
 			System.out.println();
 			System.out.println("=============================================");
-			board.showBoardWithPieces();
+			board.showBlackPieces();
 			
-			System.out.print("\nSource: ");
+			System.out.print("\n\nSource: ");
 			int source = sc.nextByte();
 			
 			pieceSource = board.getPieces().get(source);

@@ -23,12 +23,29 @@ public class Board {
 		this.pieces = GeneratePiece.generatePieces();
 	}
 	
-	public void showBoardWithPieces() {
+	public void showWhitePieces() {
 		byte i = 1, houseNumber = 8;
 		List<String> houseWords = List.of("A     ", "B    ", "C    ", "D    ", "E    ", "F    ", "G    ", "H    ");
 		for(Piece part : pieces) {
 			if (i == 1) System.out.print(" " + houseNumber-- + "  ");
 			System.out.print("| " + part.getAcronym() + " ");
+			if(i == 8) {
+				System.out.print("|");
+				System.out.println("\n");
+				i = 0;
+			}
+			i += 1;
+		}
+		System.out.print("      ");
+		houseWords.forEach(System.out::print);
+	}
+	
+	public void showBlackPieces() {
+		byte i = 1, houseNumber = 8;
+		List<String> houseWords = List.of("A     ", "B    ", "C    ", "D    ", "E    ", "F    ", "G    ", "H    ");
+		for(int idx = 63; idx >= 0; idx-- ) {
+			if (i == 1) System.out.print(" " + houseNumber-- + "  ");
+			System.out.print("| " + pieces.get(idx).getAcronym() + " ");
 			if(i == 8) {
 				System.out.print("|");
 				System.out.println("\n");
