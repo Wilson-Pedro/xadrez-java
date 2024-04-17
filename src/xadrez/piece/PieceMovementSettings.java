@@ -5,12 +5,14 @@ import static xadrez.board.HousesFromBoard.generateHousesAbove;
 import static xadrez.board.HousesFromBoard.generateLeftSideHouses;
 import static xadrez.board.HousesFromBoard.generateRightSideHouses;
 import static xadrez.piece.moves.GenerateMove.generateBishopsMovements;
+import static xadrez.piece.GeneratePiece.Unnamed;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import xadrez.enums.PartColor;
 import xadrez.piece.moves.MoveBishop;
 import xadrez.piece.moves.MoveTower;
 
@@ -27,7 +29,7 @@ public class PieceMovementSettings {
 		this.piecesInTheBoard = pieces;
 
 		if (piece.isPawn()) {
-			moves = pawnMoviments(source, piece.getMoveQuantity());
+			moves = pawnMoviments(source, piece.getMoveQuantity(), piece.getPartColor());
 		} else if (piece.isTower()) {
 			moves = towerMoviments(source);
 		} else if (piece.isHorse()) {
@@ -45,11 +47,14 @@ public class PieceMovementSettings {
 		return moves;
 	}
 
-	public Set<Integer> pawnMoviments(int source, int moveQuantity) {
+	public Set<Integer> pawnMoviments(int source, int moveQuantity, PartColor color) {
 		Set<Integer> possiblePawnMoves = new HashSet<>();
-		
-		if (!isSamePiece(source, (source - 8))) possiblePawnMoves.add(source - 8);
-		if (moveQuantity == 0 && !isSamePiece(source, (source - 8))) possiblePawnMoves.add(source - (8 * 2));
+		int moviment = source - 8;
+		boolean isSameColor = color.equals(PartColor.BLACK);
+		if (isSameColor) moviment = source + 8;
+		if (!isSamePiece(source, (moviment)) && !containsPiece(moviment)) possiblePawnMoves.add(moviment);
+		if (moveQuantity == 0 && !isSamePiece(source, (moviment)) && !isSameColor) possiblePawnMoves.add(source - (8 * 2));
+		if (moveQuantity == 0 && !isSamePiece(source, (moviment)) && isSameColor) possiblePawnMoves.add(source + (8 * 2));
 		return possiblePawnMoves;
 	}
 
@@ -246,5 +251,10 @@ public class PieceMovementSettings {
 	
 	public boolean isSamePiece(int source, int destination) {
 		return piecesInTheBoard.get(source).getPartColor().equals(piecesInTheBoard.get(destination).getPartColor());
+	}
+	
+	public boolean containsPiece(int destination) {
+		var color = piecesInTheBoard.get(destination).getPartColor();
+		return color.equals(PartColor.WHITE) || color.equals(PartColor.BLACK);
 	}
 }

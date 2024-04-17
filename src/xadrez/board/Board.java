@@ -43,7 +43,7 @@ public class Board {
 	public void showBlackPieces() {
 		byte i = 1, houseNumber = 8;
 		List<String> houseWords = List.of("A     ", "B    ", "C    ", "D    ", "E    ", "F    ", "G    ", "H    ");
-		for(int idx = 63; idx >= 0; idx-- ) {
+		for(int idx = 63; idx >= 0; idx--) {
 			if (i == 1) System.out.print(" " + houseNumber-- + "  ");
 			System.out.print("| " + pieces.get(idx).getAcronym() + " ");
 			if(i == 8) {
@@ -57,7 +57,7 @@ public class Board {
 		houseWords.forEach(System.out::print);
 	}
 	
-	public void showPiecesWithIndex() {
+	public void showWhitePiecesWithIndex() {
 		byte i = 1;
 		byte index = 0;
 		for(Piece part : pieces) {
@@ -68,6 +68,20 @@ public class Board {
 			}
 			i += 1;
 			index += 1;
+		}
+	}
+	
+	public void showBlackPiecesWithIndex() {
+		byte i = 1;
+		//byte index = 0;
+		for(int idx = 63; idx >= 0; idx--) {
+			System.out.print(" " + pieces.get(idx).getAcronym() + "(" + idx + ")" + " ");
+			if(i == 8) {
+				System.out.println("\n");
+				i = 0;
+			}
+			i += 1;
+			//index += 1;
 		}
 	}
 	

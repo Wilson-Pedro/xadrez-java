@@ -18,6 +18,7 @@ public class Game {
 		PieceMovementSettings movementSetting = new PieceMovementSettings();
 		Piece pieceSource = new Piece();
 		Piece pieceDestination = new Piece();
+		int source=0, target=0;
 		
 		Set<Integer> possibleMovements = new HashSet<>();
 		
@@ -28,17 +29,44 @@ public class Game {
 		while(5 > 0) {
 			System.out.println();
 			System.out.println("=============================================");
-			board.showBlackPieces();
+			board.showWhitePiecesWithIndex();
 			
 			System.out.print("\n\nSource: ");
-			int source = sc.nextByte();
+			source = sc.nextByte();
 			
 			pieceSource = board.getPieces().get(source);
 			possibleMovements = movementSetting.possibleMovements(pieceSource, source, board.getPieces());
 			System.out.println("Possible Moviments: " + possibleMovements);
 			
 			System.out.print("Move To: ");
-			int target = sc.nextByte();
+			target = sc.nextByte();
+			
+			pieceDestination= board.getPieces().get(target);
+			samePiece = pieceSource.getPartColor().equals(pieceDestination.getPartColor());
+			invalidMoviment = !possibleMovements.contains(target);
+			
+			
+			if(samePiece) {
+				System.out.println("\nVocê não pode pegar sua própria peça!\n");
+			} else if(invalidMoviment) {
+				System.out.println("\nMovimeno inválido!\n");
+			} else {
+				board.movePiece(board.getPieces(), source, target);
+			}
+			
+			System.out.println();
+			System.out.println("=============================================");
+			board.showBlackPiecesWithIndex();
+			
+			System.out.print("\n\nSource: ");
+			source = sc.nextByte();
+			
+			pieceSource = board.getPieces().get(source);
+			possibleMovements = movementSetting.possibleMovements(pieceSource, source, board.getPieces());
+			System.out.println("Possible Moviments: " + possibleMovements);
+			
+			System.out.print("Move To: ");
+			target = sc.nextByte();
 			
 			pieceDestination= board.getPieces().get(target);
 			samePiece = pieceSource.getPartColor().equals(pieceDestination.getPartColor());
