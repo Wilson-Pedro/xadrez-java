@@ -42,7 +42,7 @@ public class Game {
 			target = sc.nextByte();
 			
 			pieceDestination= board.getPieces().get(target);
-			samePiece = pieceSource.getPartColor().equals(pieceDestination.getPartColor());
+			samePiece = pieceSource.getPieceColor().equals(pieceDestination.getPieceColor());
 			invalidMoviment = !possibleMovements.contains(target);
 			
 			
@@ -69,7 +69,7 @@ public class Game {
 			target = sc.nextByte();
 			
 			pieceDestination= board.getPieces().get(target);
-			samePiece = pieceSource.getPartColor().equals(pieceDestination.getPartColor());
+			samePiece = pieceSource.getPieceColor().equals(pieceDestination.getPieceColor());
 			invalidMoviment = !possibleMovements.contains(target);
 			
 			

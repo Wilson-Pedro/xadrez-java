@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import xadrez.enums.PartColor;
+import xadrez.enums.PieceColor;
 import xadrez.piece.moves.MoveBishop;
 import xadrez.piece.moves.MoveTower;
 
@@ -22,6 +22,7 @@ public class PieceMovementSettings {
 	Set<Integer> rightSideHouses = generateRightSideHouses();
 	Set<Integer> leftSideHouses = generateLeftSideHouses();
 	Set<Integer> downHouses = generateDownHouses();
+	
 	List<Piece> piecesInTheBoard = new ArrayList<>();
 
 	public Set<Integer> possibleMovements(Piece piece, int source, List<Piece> pieces) {
@@ -29,9 +30,9 @@ public class PieceMovementSettings {
 		this.piecesInTheBoard = pieces;
 
 		if (piece.isPawn()) {
-			moves = pawnMoviments(source, piece.getMoveQuantity(), piece.getPartColor());
+			moves = pawnMoviments(source, piece.getMoveQuantity(), piece.getPieceColor());
 		} else if (piece.isTower()) {
-			moves = towerMoviments(source);
+			moves = towerMoviments(source, piece.getPieceColor());
 		} else if (piece.isHorse()) {
 			moves = horseMoviments(source);
 		} else if (piece.isBishop()) {
@@ -47,21 +48,23 @@ public class PieceMovementSettings {
 		return moves;
 	}
 
-	public Set<Integer> pawnMoviments(int source, int moveQuantity, PartColor color) {
+	public Set<Integer> pawnMoviments(int source, int moveQuantity, PieceColor color) {
 		Set<Integer> possiblePawnMoves = new HashSet<>();
 		int moviment = source - 8;
-		boolean isSameColor = color.equals(PartColor.BLACK);
-		if (isSameColor) moviment = source + 8;
+		var piece = this.piecesInTheBoard.get(source);
+		//boolean isSameColor = color.equals(PieceColor.BLACK);
+		if (piece.isBlack()) moviment = source + 8;
 		if (!isSamePiece(source, (moviment)) && !containsPiece(moviment)) possiblePawnMoves.add(moviment);
-		if (moveQuantity == 0 && !isSamePiece(source, (moviment)) && !isSameColor) possiblePawnMoves.add(source - (8 * 2));
-		if (moveQuantity == 0 && !isSamePiece(source, (moviment)) && isSameColor) possiblePawnMoves.add(source + (8 * 2));
+		if (moveQuantity == 0 && !isSamePiece(source, (moviment)) && !piece.isBlack()) possiblePawnMoves.add(source - (8 * 2));
+		if (moveQuantity == 0 && !isSamePiece(source, (moviment)) && piece.isBlack()) possiblePawnMoves.add(source + (8 * 2));
 		return possiblePawnMoves;
 	}
 
-	public Set<Integer> towerMoviments(int source) {
+	public Set<Integer> towerMoviments(int source, PieceColor color) {
 		Set<Integer> possibleTowerMoves = new HashSet<>();
 		List<MoveTower> moves = horizontalAndVerticalMovements();
 		MoveTower move = moves.get(source);
+		boolean isSameColor = color.equals(PieceColor.BLACK);
 
 		int moviment = source;
 
@@ -224,7 +227,7 @@ public class PieceMovementSettings {
 	
 	public Set<Integer> queenMoviments(int source) {
 		Set<Integer> possibleQueenMoves = new HashSet<>();
-		possibleQueenMoves = towerMoviments(source);
+		possibleQueenMoves = towerMoviments(source, piecesInTheBoard.get(source).getPieceColor());
 		possibleQueenMoves = bishopMoviments(source, possibleQueenMoves);
 		
 		return possibleQueenMoves;
@@ -250,11 +253,11 @@ public class PieceMovementSettings {
 	}
 	
 	public boolean isSamePiece(int source, int destination) {
-		return piecesInTheBoard.get(source).getPartColor().equals(piecesInTheBoard.get(destination).getPartColor());
+		return piecesInTheBoard.get(source).getPieceColor().equals(piecesInTheBoard.get(destination).getPieceColor());
 	}
 	
 	public boolean containsPiece(int destination) {
-		var color = piecesInTheBoard.get(destination).getPartColor();
-		return color.equals(PartColor.WHITE) || color.equals(PartColor.BLACK);
+		var piece = piecesInTheBoard.get(destination);
+		return piece.isWhite() || piece.isBlack();
 	}
 }

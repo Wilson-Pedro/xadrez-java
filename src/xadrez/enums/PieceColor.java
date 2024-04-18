@@ -1,6 +1,6 @@
 package xadrez.enums;
 
-public enum PartColor {
+public enum PieceColor {
 
 	BLACK(0),
 	WHITE(1),
@@ -8,7 +8,7 @@ public enum PartColor {
 	
 	private Integer code;
 
-	private PartColor(Integer code) {
+	private PieceColor(Integer code) {
 		this.code = code;
 	}
 
