@@ -52,11 +52,12 @@ public class PieceMovementSettings {
 		Set<Integer> possiblePawnMoves = new HashSet<>();
 		int moviment = source - 8;
 		var piece = this.piecesInTheBoard.get(source);
-		//boolean isSameColor = color.equals(PieceColor.BLACK);
 		if (piece.isBlack()) moviment = source + 8;
 		if (!isSamePiece(source, (moviment)) && !containsPiece(moviment)) possiblePawnMoves.add(moviment);
-		if (moveQuantity == 0 && !isSamePiece(source, (moviment)) && !piece.isBlack()) possiblePawnMoves.add(source - (8 * 2));
-		if (moveQuantity == 0 && !isSamePiece(source, (moviment)) && piece.isBlack()) possiblePawnMoves.add(source + (8 * 2));
+		if (!isSamePiece(source, (moviment + 1)) && containsPiece(moviment + 1)) possiblePawnMoves.add(moviment + 1);
+		if (!isSamePiece(source, (moviment - 1)) && containsPiece(moviment - 1)) possiblePawnMoves.add(moviment - 1);
+		if (moveQuantity == 0 && !isSamePiece(source, (moviment)) && !piece.isBlack() && !containsPiece(moviment)) possiblePawnMoves.add(source - (8 * 2));
+		if (moveQuantity == 0 && !isSamePiece(source, (moviment)) && !piece.isWhite() && !containsPiece(moviment)) possiblePawnMoves.add(source + (8 * 2));
 		return possiblePawnMoves;
 	}
 
