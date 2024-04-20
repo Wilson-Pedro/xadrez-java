@@ -5,7 +5,6 @@ import static xadrez.board.HousesFromBoard.generateHousesAbove;
 import static xadrez.board.HousesFromBoard.generateLeftSideHouses;
 import static xadrez.board.HousesFromBoard.generateRightSideHouses;
 import static xadrez.piece.moves.GenerateMove.generateBishopsMovements;
-import static xadrez.piece.GeneratePiece.Unnamed;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,7 +31,7 @@ public class PieceMovementSettings {
 		if (piece.isPawn()) {
 			moves = pawnMoviments(source, piece.getMoveQuantity(), piece.getPieceColor());
 		} else if (piece.isTower()) {
-			moves = towerMoviments(source, piece.getPieceColor());
+			moves = towerMoviments(source);
 		} else if (piece.isHorse()) {
 			moves = horseMoviments(source);
 		} else if (piece.isBishop()) {
@@ -54,18 +53,17 @@ public class PieceMovementSettings {
 		var piece = this.piecesInTheBoard.get(source);
 		if (piece.isBlack()) moviment = source + 8;
 		if (!isSamePiece(source, (moviment)) && !containsPiece(moviment)) possiblePawnMoves.add(moviment);
-		if (!isSamePiece(source, (moviment + 1)) && containsPiece(moviment + 1)) possiblePawnMoves.add(moviment + 1);
-		if (!isSamePiece(source, (moviment - 1)) && containsPiece(moviment - 1)) possiblePawnMoves.add(moviment - 1);
+		if (!isSamePiece(source, (moviment + 1)) && containsPiece(moviment + 1) && !leftSideHouses.contains(moviment + 1)) possiblePawnMoves.add(moviment + 1);
+		if (!isSamePiece(source, (moviment - 1)) && containsPiece(moviment - 1) && !rightSideHouses.contains(moviment - 1)) possiblePawnMoves.add(moviment - 1);
 		if (moveQuantity == 0 && !isSamePiece(source, (moviment)) && !piece.isBlack() && !containsPiece(moviment)) possiblePawnMoves.add(source - (8 * 2));
 		if (moveQuantity == 0 && !isSamePiece(source, (moviment)) && !piece.isWhite() && !containsPiece(moviment)) possiblePawnMoves.add(source + (8 * 2));
 		return possiblePawnMoves;
 	}
 
-	public Set<Integer> towerMoviments(int source, PieceColor color) {
+	public Set<Integer> towerMoviments(int source) {
 		Set<Integer> possibleTowerMoves = new HashSet<>();
 		List<MoveTower> moves = horizontalAndVerticalMovements();
 		MoveTower move = moves.get(source);
-		boolean isSameColor = color.equals(PieceColor.BLACK);
 
 		int moviment = source;
 
@@ -82,7 +80,7 @@ public class PieceMovementSettings {
 		// MOVER TORRE PARA DIREITA
 		if (!rightSideHouses.contains(source)) {
 			for (int i = 0; i < move.getMovimentsToRight(); i++) {
-				if (isSamePiece(source, (moviment + 1))) i = move.getMovimentsToUp();
+				if (isSamePiece(source, (moviment + 1))) i = move.getMovimentsToRight();
 				else possibleTowerMoves.add(moviment += 1);
 			}
 		}
@@ -92,7 +90,7 @@ public class PieceMovementSettings {
 		// MOVER TORRE PARA ESQUERDA
 		if (!leftSideHouses.contains(source)) {
 			for (int i = 0; i < move.getMovimentsToLeft(); i++) {
-				if (isSamePiece(source, (moviment - 1))) i = move.getMovimentsToUp();
+				if (isSamePiece(source, (moviment - 1))) i = move.getMovimentsToLeft();
 				else possibleTowerMoves.add(moviment -= 1);
 			}
 		}
@@ -102,7 +100,7 @@ public class PieceMovementSettings {
 		// MOVER TORRE PARA BAIXO
 		if (!downHouses.contains(source)) {
 			for (int i = 0; i < move.getMovimentsToDown(); i++) {
-				if (isSamePiece(source, (moviment - 8))) i = move.getMovimentsToUp();
+				if (isSamePiece(source, (moviment + 8))) i = move.getMovimentsToDown();
 				else possibleTowerMoves.add(moviment += 8);
 			}
 		}
@@ -194,7 +192,7 @@ public class PieceMovementSettings {
 		
 		for(int i = 0; i < moveBishop.getLowerRightMovements(); i++) {
 			if (isSamePiece(source, (moviment + 9))) i = moveBishop.getLowerRightMovements();
-			possibleMoves.add(moviment+=9);
+			else possibleMoves.add(moviment+=9);
 		}
 		
 		return possibleMoves;
@@ -228,7 +226,7 @@ public class PieceMovementSettings {
 	
 	public Set<Integer> queenMoviments(int source) {
 		Set<Integer> possibleQueenMoves = new HashSet<>();
-		possibleQueenMoves = towerMoviments(source, piecesInTheBoard.get(source).getPieceColor());
+		possibleQueenMoves = towerMoviments(source);
 		possibleQueenMoves = bishopMoviments(source, possibleQueenMoves);
 		
 		return possibleQueenMoves;
