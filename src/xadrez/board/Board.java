@@ -41,10 +41,10 @@ public class Board {
 	}
 	
 	public void showBlackPieces() {
-		byte i = 1, houseNumber = 8;
-		List<String> houseWords = List.of("A     ", "B    ", "C    ", "D    ", "E    ", "F    ", "G    ", "H    ");
+		byte i = 1, houseNumber = 1;
+		List<String> houseWords = List.of("H     ", "G    ", "F    ", "E    ", "D    ", "C    ", "B    ", "A    ");
 		for(int idx = 63; idx >= 0; idx--) {
-			if (i == 1) System.out.print(" " + houseNumber-- + "  ");
+			if (i == 1) System.out.print(" " + houseNumber++ + "  ");
 			System.out.print("| " + pieces.get(idx).getAcronym() + " ");
 			if(i == 8) {
 				System.out.print("|");

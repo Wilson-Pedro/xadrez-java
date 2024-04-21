@@ -5,6 +5,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 import xadrez.board.Board;
+import xadrez.board.Houses;
 import xadrez.piece.PieceMovementSettings;
 
 public class Game {
@@ -16,10 +17,10 @@ public class Game {
 		Set<Integer> possibleMovements = new HashSet<>();
 		
 		PieceMovementSettings movementSetting = new PieceMovementSettings();
+		//Houses house = new Houses();
 		Board board = new Board();
 		
 		int source=0, target=0;
-		
 		boolean invalidMoviment = false;
 		
 		board.generatePieces();
@@ -27,7 +28,8 @@ public class Game {
 		while(5 > 0) {
 			System.out.println();
 			System.out.println("=============================================");
-			board.showWhitePiecesWithIndex();
+			board.showWhitePieces();
+			System.out.println("\n");
 			
 			do {
 				System.out.print("Source: ");
@@ -47,7 +49,8 @@ public class Game {
 			
 			System.out.println();
 			System.out.println("=============================================");
-			board.showBlackPiecesWithIndex();
+			board.showBlackPieces();
+			System.out.println("\n");
 			
 			do {
 				System.out.print("Source: ");
