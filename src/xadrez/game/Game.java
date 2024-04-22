@@ -17,9 +17,11 @@ public class Game {
 		Set<Integer> possibleMovements = new HashSet<>();
 		
 		PieceMovementSettings movementSetting = new PieceMovementSettings();
-		//Houses house = new Houses();
+		Houses house = new Houses();
+		house.generateHouses();
 		Board board = new Board();
 		
+		String houseSorce="", houseTarget="";
 		int source=0, target=0;
 		boolean invalidMoviment = false;
 		
@@ -33,15 +35,17 @@ public class Game {
 			
 			do {
 				System.out.print("Source: ");
-				source = sc.nextByte();
+				houseSorce = sc.next();
+				source = house.houseForNumber(houseSorce.toUpperCase());
 				possibleMovements = movementSetting.possibleMovements(board.getPieces().get(source), source, board.getPieces());
 			} while(possibleMovements.isEmpty());
 			
-			System.out.println("Possible Moviments: " + possibleMovements);
+			System.out.println("Possible Moviments: " + house.numbersToHouses(possibleMovements));
 			
 			do {
 				System.out.print("Move To: ");
-				target = sc.nextByte();
+				houseTarget = sc.next();
+				target = house.houseForNumber(houseTarget.toUpperCase());
 				invalidMoviment = !possibleMovements.contains(target);
 			} while(invalidMoviment);
 			
@@ -54,17 +58,19 @@ public class Game {
 			
 			do {
 				System.out.print("Source: ");
-				source = sc.nextByte();
+				houseSorce = sc.next();
+				source = house.houseForNumber(houseSorce.toUpperCase());
 				possibleMovements = movementSetting.possibleMovements(board.getPieces().get(source), source, board.getPieces());
 			} while(possibleMovements.isEmpty());
 			
-			System.out.println("Possible Moviments: " + possibleMovements);
+			System.out.println("Possible Moviments: " + house.numbersToHouses(possibleMovements));
 			
 			do {
 				System.out.print("Move To: ");
-				target = sc.nextByte();
+				houseTarget = sc.next();
+				target = house.houseForNumber(houseTarget.toUpperCase());
 				invalidMoviment = !possibleMovements.contains(target);
-			} while(invalidMoviment);		
+			} while(invalidMoviment);	
 			
 			board.movePiece(board.getPieces(), source, target);
 		}

@@ -1,7 +1,9 @@
 package xadrez.board;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class Houses {
 	
@@ -84,11 +86,21 @@ public class Houses {
 		return houses;
 	}
 	
-	public Integer houseForNumber(String house) {
-		Integer houseNumber = 0;
+	public int houseForNumber(String house) {
+		int houseNumber = 0;
 		for(Map.Entry<String, Integer> x : houses.entrySet()) {
 			if(x.getKey().equals(house)) houseNumber = x.getValue();
 		}
 		return houseNumber;
+	}
+	
+	public Set<String> numbersToHouses(Set<Integer> listNumber) {
+		Set<String> onlyHouses = new HashSet<>();
+		for(Map.Entry<String, Integer> x : houses.entrySet()) {
+			for(Integer number : listNumber) {
+				if(x.getValue().equals(number)) onlyHouses.add(x.getKey());
+			}
+		}
+		return onlyHouses;
 	}
 }
