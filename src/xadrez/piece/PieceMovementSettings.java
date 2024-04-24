@@ -70,7 +70,10 @@ public class PieceMovementSettings {
 		// MOVER TORRE PARA CIMA
 		if (!housesAbove.contains(source)) {
 			for (int i = 0; i < move.getMovimentsToUp(); i++) {
-				if (isSamePiece(source, (moviment - 8))) i = move.getMovimentsToUp();
+				if (containsPiece(moviment - 8)) {
+					if (!isSamePiece(source, (moviment - 8))) possibleTowerMoves.add(moviment -= 8);
+					i = move.getMovimentsToUp();
+				}
 				else possibleTowerMoves.add(moviment -= 8);
 			}
 		}
@@ -80,7 +83,10 @@ public class PieceMovementSettings {
 		// MOVER TORRE PARA DIREITA
 		if (!rightSideHouses.contains(source)) {
 			for (int i = 0; i < move.getMovimentsToRight(); i++) {
-				if (isSamePiece(source, (moviment + 1))) i = move.getMovimentsToRight();
+				if (containsPiece(moviment + 1)) {
+					if(!isSamePiece(source, (moviment + 1))) possibleTowerMoves.add(moviment += 1);
+					i = move.getMovimentsToRight();
+				}
 				else possibleTowerMoves.add(moviment += 1);
 			}
 		}
@@ -90,7 +96,10 @@ public class PieceMovementSettings {
 		// MOVER TORRE PARA ESQUERDA
 		if (!leftSideHouses.contains(source)) {
 			for (int i = 0; i < move.getMovimentsToLeft(); i++) {
-				if (isSamePiece(source, (moviment - 1))) i = move.getMovimentsToLeft();
+				if (containsPiece(moviment - 1)) {
+					if(!isSamePiece(source, (moviment - 1))) possibleTowerMoves.add(moviment -= 1);
+					i = move.getMovimentsToLeft();
+				}
 				else possibleTowerMoves.add(moviment -= 1);
 			}
 		}
@@ -100,7 +109,10 @@ public class PieceMovementSettings {
 		// MOVER TORRE PARA BAIXO
 		if (!downHouses.contains(source)) {
 			for (int i = 0; i < move.getMovimentsToDown(); i++) {
-				if (isSamePiece(source, (moviment + 8))) i = move.getMovimentsToDown();
+				if (containsPiece((moviment + 8))) {
+					if (!isSamePiece(source, (moviment + 8))) possibleTowerMoves.add(moviment += 8);
+					i = move.getMovimentsToDown();
+				}
 				else possibleTowerMoves.add(moviment += 8);
 			}
 		}
@@ -165,33 +177,46 @@ public class PieceMovementSettings {
 	}
 
 	public Set<Integer> bishopMoviments(int source, Set<Integer> possibleMoves) {
+		if(possibleMoves == null) possibleMoves = new HashSet<>();
 		List<MoveBishop> bishopsMovements = generateBishopsMovements();
 		MoveBishop moveBishop = bishopsMovements.get(source);
 		int moviment = source;
 		
 		for(int i = 0; i < moveBishop.getUpperLeftDiagonalMovements(); i++) {
-			if (isSamePiece(source, (moviment - 9))) i = moveBishop.getUpperLeftDiagonalMovements();
+			if (containsPiece((moviment - 9))) {
+				if(!isSamePiece(source, (moviment - 9))) possibleMoves.add(moviment-=9);
+				i = moveBishop.getUpperLeftDiagonalMovements();
+			}
 			else possibleMoves.add(moviment-=9);
 		}
 		
 		moviment = source;
 		
 		for(int i = 0; i < moveBishop.getUpperRightDiagonalMovements(); i++) {
-			if (isSamePiece(source, (moviment - 7))) i = moveBishop.getUpperRightDiagonalMovements();
+			if (containsPiece((moviment - 7))) {
+				if(!isSamePiece(source, (moviment - 7))) possibleMoves.add(moviment-=7);
+				i = moveBishop.getUpperRightDiagonalMovements();
+			}
 			else possibleMoves.add(moviment-=7);
 		}
 		
 		moviment = source;
 		
 		for(int i = 0; i < moveBishop.getLowerLeftMovements(); i++) {
-			if (isSamePiece(source, (moviment + 7))) i = moveBishop.getLowerLeftMovements();
+			if (containsPiece((moviment + 7))) {
+				if(!isSamePiece(source, (moviment + 7))) possibleMoves.add(moviment+=7);
+				i = moveBishop.getLowerLeftMovements();
+			}
 			else possibleMoves.add(moviment+=7);
 		}
 		
 		moviment = source;
 		
 		for(int i = 0; i < moveBishop.getLowerRightMovements(); i++) {
-			if (isSamePiece(source, (moviment + 9))) i = moveBishop.getLowerRightMovements();
+			if (containsPiece((moviment + 9))) {
+				if(!isSamePiece(source, (moviment + 9))) possibleMoves.add(moviment+=9);
+				i = moveBishop.getLowerRightMovements();
+			}
 			else possibleMoves.add(moviment+=9);
 		}
 		
@@ -203,8 +228,8 @@ public class PieceMovementSettings {
 		
 		if(!housesAbove.contains(source)) {
 			if (!isSamePiece(source, (source - 8))) possibleKingMoves.add(source - 8);
-			if (!isSamePiece(source, ((source - 8) + 1))) possibleKingMoves.add((source - 8) + 1);
-			if (!isSamePiece(source, ((source - 8) - 1))) possibleKingMoves.add((source - 8) - 1);
+			if (!isSamePiece(source, ((source - 8) + 1)) && !rightSideHouses.contains(source)) possibleKingMoves.add((source - 8) + 1);
+			if (!isSamePiece(source, ((source - 8) - 1)) && !leftSideHouses.contains(source)) possibleKingMoves.add((source - 8) - 1);
 		}
 		
 		if(!leftSideHouses.contains(source)) {
@@ -217,8 +242,8 @@ public class PieceMovementSettings {
 		
 		if(!downHouses.contains(source)) {
 			if (!isSamePiece(source, (source + 8))) possibleKingMoves.add(source + 8);
-			if (!isSamePiece(source, ((source + 8) + 1))) possibleKingMoves.add((source + 8) + 1);
-			if (!isSamePiece(source, ((source + 8) - 1))) possibleKingMoves.add((source + 8) - 1);
+			if (!isSamePiece(source, ((source + 8) + 1)) && !rightSideHouses.contains(source)) possibleKingMoves.add((source + 8) + 1);
+			if (!isSamePiece(source, ((source + 8) - 1)) && !leftSideHouses.contains(source)) possibleKingMoves.add((source + 8) - 1);
 		}
 		
 		return possibleKingMoves;
@@ -231,6 +256,30 @@ public class PieceMovementSettings {
 		
 		return possibleQueenMoves;
 	}
+	
+//	public boolean check(int source, List<Piece> pieces) {
+//		
+//		boolean check = false;
+//		
+//		//boolean horseCheck = isCheck(horseMoviments(source), source, PieceName.HORSE);
+//		boolean towerCheck = isCheck(towerMoviments(source), source, PieceName.TOWER, pieces);
+//		//boolean bishopCheck = isCheck(bishopMoviments(source, null), source, PieceName.BISHOP);
+//		
+//		check = towerCheck;
+//		
+//		return check;
+//	}
+//	
+//	public boolean isCheck(Set<Integer> moviments, int source, PieceName pieceName, List<Piece> pieces) {
+//		boolean check = false;
+//		var piece = new Piece();
+//		for(Integer x : moviments) {
+//			piece = pieces.get(x);
+//			if(containsPiece(x) && !isSamePiece(source, x) && piece.getPieceName().equals(pieceName)) 
+//				check = true;
+//		}
+//		return check;
+//	}
 
 	public List<MoveTower> horizontalAndVerticalMovements() {
 		List<MoveTower> moves = new ArrayList<>();

@@ -51,6 +51,8 @@ public class Game {
 			
 			board.movePiece(board.getPieces(), source, target);
 			
+			//System.out.println("Check: " + movementSetting.check(16, board.getPieces()));
+			
 			System.out.println();
 			System.out.println("=============================================");
 			board.showBlackPieces();
@@ -73,6 +75,8 @@ public class Game {
 			} while(invalidMoviment);	
 			
 			board.movePiece(board.getPieces(), source, target);
+			
+			//System.out.println("Check: " + movementSetting.check(16, board.getPieces()));
 		}
 	}
 }
