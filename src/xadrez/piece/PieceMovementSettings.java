@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 import xadrez.enums.PieceColor;
+import xadrez.enums.PieceName;
 import xadrez.piece.moves.MoveBishop;
 import xadrez.piece.moves.MoveTower;
 
@@ -257,29 +258,26 @@ public class PieceMovementSettings {
 		return possibleQueenMoves;
 	}
 	
-//	public boolean check(int source, List<Piece> pieces) {
-//		
-//		boolean check = false;
-//		
-//		//boolean horseCheck = isCheck(horseMoviments(source), source, PieceName.HORSE);
-//		boolean towerCheck = isCheck(towerMoviments(source), source, PieceName.TOWER, pieces);
-//		//boolean bishopCheck = isCheck(bishopMoviments(source, null), source, PieceName.BISHOP);
-//		
-//		check = towerCheck;
-//		
-//		return check;
-//	}
-//	
-//	public boolean isCheck(Set<Integer> moviments, int source, PieceName pieceName, List<Piece> pieces) {
-//		boolean check = false;
-//		var piece = new Piece();
-//		for(Integer x : moviments) {
-//			piece = pieces.get(x);
-//			if(containsPiece(x) && !isSamePiece(source, x) && piece.getPieceName().equals(pieceName)) 
-//				check = true;
-//		}
-//		return check;
-//	}
+	public boolean check(int source, List<Piece> pieces) {
+		
+		boolean horseCheck = isCheck(horseMoviments(source), source, PieceName.HORSE, pieces);
+		boolean towerCheck = isCheck(towerMoviments(source), source, PieceName.TOWER, pieces);
+		boolean bishopCheck = isCheck(bishopMoviments(source, null), source, PieceName.BISHOP, pieces);
+		boolean queenCheck = isCheck(queenMoviments(source), source, PieceName.QUEEN, pieces);
+		
+		return horseCheck || towerCheck || bishopCheck || queenCheck;
+	}
+	
+	public boolean isCheck(Set<Integer> moviments, int source, PieceName pieceName, List<Piece> pieces) {
+		boolean check = false;
+		var piece = new Piece();
+		for(Integer x : moviments) {
+			piece = pieces.get(x);
+			if(containsPiece(x) && !isSamePiece(source, x) && piece.getPieceName().equals(pieceName)) 
+				check = true;
+		}
+		return check;
+	}
 
 	public List<MoveTower> horizontalAndVerticalMovements() {
 		List<MoveTower> moves = new ArrayList<>();
