@@ -22,12 +22,12 @@ public class Game {
 		Board board = new Board();
 		
 		String houseSorce="", houseTarget="";
-		int source=0, target=0;
-		boolean invalidMoviment = false;
+		int source=0, target=0, whiteKingPosition=60, blackKingPosition=4;
+		boolean invalidMoviment = false, checkmate = false;
 		
 		board.generatePieces();
 		
-		while(5 > 0) {
+		while(!checkmate) {
 			System.out.println();
 			System.out.println("=============================================");
 			board.showWhitePieces();
@@ -51,7 +51,9 @@ public class Game {
 			
 			board.movePiece(board.getPieces(), source, target);
 			
-			//System.out.println("Check: " + movementSetting.check(16, board.getPieces()));
+			if (board.getPieces().get(source).isKing()) whiteKingPosition = target;
+			
+			//System.out.println("WK-Check: " + movementSetting.check(whiteKing, board.getPieces()));
 			
 			System.out.println();
 			System.out.println("=============================================");
@@ -76,7 +78,9 @@ public class Game {
 			
 			board.movePiece(board.getPieces(), source, target);
 			
-			//System.out.println("Check: " + movementSetting.check(16, board.getPieces()));
+			if (board.getPieces().get(source).isKing()) blackKingPosition = target;
+			
+			//System.out.println("BK-Check: " + movementSetting.check(blackKing, board.getPieces()));
 		}
 	}
 }
