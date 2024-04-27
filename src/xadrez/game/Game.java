@@ -53,7 +53,7 @@ public class Game {
 			
 			if (board.getPieces().get(source).isKing()) whiteKingPosition = target;
 			
-			//System.out.println("WK-Check: " + movementSetting.check(whiteKing, board.getPieces()));
+			//System.out.println("WK-Check: " + movementSetting.check(whiteKingPosition, board.getPieces()));
 			
 			System.out.println();
 			System.out.println("=============================================");
@@ -80,7 +80,7 @@ public class Game {
 			
 			if (board.getPieces().get(source).isKing()) blackKingPosition = target;
 			
-			//System.out.println("BK-Check: " + movementSetting.check(blackKing, board.getPieces()));
+			//System.out.println("BK-Check: " + movementSetting.check(blackKingPosition, board.getPieces()));
 		}
 	}
 }
