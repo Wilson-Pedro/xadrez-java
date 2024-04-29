@@ -49,9 +49,9 @@ public class Game {
 				invalidMoviment = !possibleMovements.contains(target);
 			} while(invalidMoviment);
 			
-			board.movePiece(board.getPieces(), source, target);
-			
 			if (board.getPieces().get(source).isKing()) whiteKingPosition = target;
+			
+			board.movePiece(board.getPieces(), source, target);
 			
 			//System.out.println("WK-Check: " + movementSetting.check(whiteKingPosition, board.getPieces()));
 			
@@ -74,11 +74,11 @@ public class Game {
 				houseTarget = sc.next();
 				target = house.houseForNumber(houseTarget.toUpperCase());
 				invalidMoviment = !possibleMovements.contains(target);
-			} while(invalidMoviment);	
-			
-			board.movePiece(board.getPieces(), source, target);
+			} while(invalidMoviment);
 			
 			if (board.getPieces().get(source).isKing()) blackKingPosition = target;
+			
+			board.movePiece(board.getPieces(), source, target);
 			
 			//System.out.println("BK-Check: " + movementSetting.check(blackKingPosition, board.getPieces()));
 		}
