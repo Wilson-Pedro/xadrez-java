@@ -24,8 +24,11 @@ Os jogadores poderão selecionar uma peça e movê-la para uma casa válida do t
 Garantirá que apenas movimentos válidos sejam aceitos. Se um movimento for ilegal, o sistema informará o jogador e solicitará uma nova jogada.
 
 
-## 5 - Interface Gráfica de Usuário (TERMINAL): 
+## 5 - Interface Gráfica de Usuário (CONSOLSE): 
 Oferecerá uma interface gráfica de usuário para tornar a experiência de jogo mais amigável e intuitiva. Isso incluirá a representação visual do tabuleiro, das peças e dos movimentos possíveis.
+
+# Interface do Jogo (CONSOLSE):
+![interface](https://github.com/Wilson-Pedro/images/blob/main/xadrez/6_CONSOLE.PNG)
 
 # Tecnologias Utilizadas:
 
