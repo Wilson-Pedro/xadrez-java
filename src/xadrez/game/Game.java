@@ -6,6 +6,7 @@ import java.util.Set;
 
 import xadrez.board.Board;
 import xadrez.board.Houses;
+import xadrez.enums.PieceColor;
 import xadrez.piece.PieceMovementSettings;
 
 public class Game {
@@ -53,7 +54,7 @@ public class Game {
 			
 			board.movePiece(board.getPieces(), source, target);
 			
-			//System.out.println("WK-Check: " + movementSetting.check(whiteKingPosition, board.getPieces()));
+//			System.out.println("WK-Check: " + movementSetting.check(whiteKingPosition, PieceColor.WHITE, board.getPieces()));
 			
 			System.out.println();
 			System.out.println("=============================================");
@@ -80,7 +81,7 @@ public class Game {
 			
 			board.movePiece(board.getPieces(), source, target);
 			
-			//System.out.println("BK-Check: " + movementSetting.check(blackKingPosition, board.getPieces()));
+//			System.out.println("BK-Check: " + movementSetting.check(blackKingPosition, PieceColor.BLACK, board.getPieces()));
 		}
 	}
 }
