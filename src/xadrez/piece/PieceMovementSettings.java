@@ -5,12 +5,24 @@ import static xadrez.board.HousesFromBoard.generateHousesAbove;
 import static xadrez.board.HousesFromBoard.generateLeftSideHouses;
 import static xadrez.board.HousesFromBoard.generateRightSideHouses;
 import static xadrez.piece.moves.GenerateMove.generateBishopsMovements;
-import static xadrez.piece.GeneratePiece.Unnamed;
+import static xadrez.utlis.Validations.containsPiece;
+import static xadrez.utlis.Validations.containsPieceAndisDifferentColor;
+import static xadrez.utlis.Validations.isSameColor;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static xadrez.check.CheckRules.isCheckInPosition;
+import static xadrez.check.CheckRules.isPawnTopCheck;
+import static xadrez.check.CheckRules.isPawnTopRightCheck;
+import static xadrez.check.CheckRules.isPawnTopLeftCheck;
+import static xadrez.check.CheckRules.isPawnDawnCheck;
+import static xadrez.check.CheckRules.isPawnDawnRightCheck;
+import static xadrez.check.CheckRules.isPawnDawnLeftCheck;
+import static xadrez.check.CheckRules.isPawnRightCheck;
+import static xadrez.check.CheckRules.isPawnLeftCheck;
 
 import xadrez.enums.PieceColor;
 import xadrez.enums.PieceName;
@@ -24,11 +36,11 @@ public class PieceMovementSettings {
 	private Set<Integer> leftSideHouses = generateLeftSideHouses();
 	private Set<Integer> downHouses = generateDownHouses();
 	
-	private List<Piece> piecesInTheBoard = new ArrayList<>();
+	private List<Piece> pieces = new ArrayList<>();
 
 	public Set<Integer> possibleMovements(Piece piece, int source, List<Piece> pieces) {
 		Set<Integer> moves = new HashSet<>();
-		this.piecesInTheBoard = pieces;
+		this.pieces = pieces;
 
 		if (piece.isPawn()) {
 			moves = pawnMoviments(source, piece.getMoveQuantity());
@@ -52,13 +64,13 @@ public class PieceMovementSettings {
 	private Set<Integer> pawnMoviments(int source, int moveQuantity) {
 		Set<Integer> possiblePawnMoves = new HashSet<>();
 		int moviment = source - 8;
-		var piece = this.piecesInTheBoard.get(source);
+		var piece = this.pieces.get(source);
 		if (piece.isBlack()) moviment = source + 8;
-		if (!isSameColor(source, (moviment)) && !containsPiece(moviment)) possiblePawnMoves.add(moviment);
-		if (!isSameColor(source, (moviment + 1)) && containsPiece(moviment + 1) && !leftSideHouses.contains(moviment + 1)) possiblePawnMoves.add(moviment + 1);
-		if (!isSameColor(source, (moviment - 1)) && containsPiece(moviment - 1) && !rightSideHouses.contains(moviment - 1)) possiblePawnMoves.add(moviment - 1);
-		if (moveQuantity == 0 && !piece.isWhite() && !containsPiece(moviment) && !containsPiece(source + (8 * 2)) && !isSameColor(source, (source + (8 * 2)))) possiblePawnMoves.add(source + (8 * 2));
-		if (moveQuantity == 0 && !piece.isBlack() && !containsPiece(moviment) && !containsPiece(source - (8 * 2)) && !isSameColor(source, (source - (8 * 2)))) possiblePawnMoves.add(source - (8 * 2));
+		if (!isSameColor(source, (moviment), pieces) && !containsPiece(moviment, pieces)) possiblePawnMoves.add(moviment);
+		if (!isSameColor(source, (moviment + 1), pieces) && containsPiece(moviment + 1, pieces) && !leftSideHouses.contains(moviment + 1)) possiblePawnMoves.add(moviment + 1);
+		if (!isSameColor(source, (moviment - 1), pieces) && containsPiece(moviment - 1, pieces) && !rightSideHouses.contains(moviment - 1)) possiblePawnMoves.add(moviment - 1);
+		if (moveQuantity == 0 && !piece.isWhite() && !containsPiece(moviment, pieces) && !containsPiece(source + (8 * 2), pieces) && !isSameColor(source, (source + (8 * 2)), pieces)) possiblePawnMoves.add(source + (8 * 2));
+		if (moveQuantity == 0 && !piece.isBlack() && !containsPiece(moviment, pieces) && !containsPiece(source - (8 * 2), pieces) && !isSameColor(source, (source - (8 * 2)), pieces)) possiblePawnMoves.add(source - (8 * 2));
 		return possiblePawnMoves;
 	}
 
@@ -72,8 +84,8 @@ public class PieceMovementSettings {
 		// MOVER TORRE PARA CIMA
 		if (!housesAbove.contains(source)) {
 			for (int i = 0; i < move.getMovimentsToUp(); i++) {
-				if (containsPiece(moviment - 8)) {
-					if (!isSameColor(color, piecesInTheBoard.get(moviment - 8).getPieceColor())) possibleTowerMoves.add(moviment -= 8);
+				if (containsPiece(moviment - 8, pieces)) {
+					if (!isSameColor(color, pieces.get(moviment - 8).getPieceColor())) possibleTowerMoves.add(moviment -= 8);
 					i = move.getMovimentsToUp();
 				}
 				else possibleTowerMoves.add(moviment -= 8);
@@ -85,8 +97,8 @@ public class PieceMovementSettings {
 		// MOVER TORRE PARA DIREITA
 		if (!rightSideHouses.contains(source)) {
 			for (int i = 0; i < move.getMovimentsToRight(); i++) {
-				if (containsPiece(moviment + 1)) {
-					if(!isSameColor(color, piecesInTheBoard.get(moviment + 1).getPieceColor())) possibleTowerMoves.add(moviment += 1);
+				if (containsPiece(moviment + 1, pieces)) {
+					if(!isSameColor(color, pieces.get(moviment + 1).getPieceColor())) possibleTowerMoves.add(moviment += 1);
 					i = move.getMovimentsToRight();
 				}
 				else possibleTowerMoves.add(moviment += 1);
@@ -98,8 +110,8 @@ public class PieceMovementSettings {
 		// MOVER TORRE PARA ESQUERDA
 		if (!leftSideHouses.contains(source)) {
 			for (int i = 0; i < move.getMovimentsToLeft(); i++) {
-				if (containsPiece(moviment - 1)) {
-					if(!isSameColor(color, piecesInTheBoard.get(moviment - 1).getPieceColor())) possibleTowerMoves.add(moviment -= 1);
+				if (containsPiece(moviment - 1, pieces)) {
+					if(!isSameColor(color, pieces.get(moviment - 1).getPieceColor())) possibleTowerMoves.add(moviment -= 1);
 					i = move.getMovimentsToLeft();
 				}
 				else possibleTowerMoves.add(moviment -= 1);
@@ -111,8 +123,8 @@ public class PieceMovementSettings {
 		// MOVER TORRE PARA BAIXO
 		if (!downHouses.contains(source)) {
 			for (int i = 0; i < move.getMovimentsToDown(); i++) {
-				if (containsPiece((moviment + 8))) {
-					if (!isSameColor(color, piecesInTheBoard.get(moviment + 8).getPieceColor())) possibleTowerMoves.add(moviment += 8);
+				if (containsPiece(moviment + 8, pieces)) {
+					if (!isSameColor(color, pieces.get(moviment + 8).getPieceColor())) possibleTowerMoves.add(moviment += 8);
 					i = move.getMovimentsToDown();
 				}
 				else possibleTowerMoves.add(moviment += 8);
@@ -134,9 +146,9 @@ public class PieceMovementSettings {
 			movimentValid03 = rightSideHouses.contains(movimentValid02);
 			movimentValid04 = leftSideHouses.contains(movimentValid01);
 			// && isSameColor(source, movimentValid01)
-			if (movimentValid01 < 64 && movimentValid01 >= 0 && !movimentValid04 && !isSameColor(source, movimentValid01))
+			if (movimentValid01 < 64 && movimentValid01 >= 0 && !movimentValid04 && !isSameColor(source, movimentValid01, pieces))
 				possibleHorseMoves.add(movimentValid01);
-			if (movimentValid02 < 64 && movimentValid02 >= 0 && !movimentValid03 && !isSameColor(source, movimentValid02))
+			if (movimentValid02 < 64 && movimentValid02 >= 0 && !movimentValid03 && !isSameColor(source, movimentValid02, pieces))
 				possibleHorseMoves.add(movimentValid02);
 		}
 
@@ -146,9 +158,9 @@ public class PieceMovementSettings {
 			movimentValid02 = (source + 2) + 8;
 			movimentValid03 = source + 1 == 63 || source + 1 == 7;
 			movimentValid04 = leftSideHouses.contains(movimentValid01);
-			if (movimentValid01 < 64 && movimentValid01 >= 0 && !movimentValid03 && !movimentValid04  && !isSameColor(source, movimentValid01))
+			if (movimentValid01 < 64 && movimentValid01 >= 0 && !movimentValid03 && !movimentValid04  && !isSameColor(source, movimentValid01, pieces))
 				possibleHorseMoves.add(movimentValid01);
-			if (movimentValid02 < 64 && movimentValid02 >= 0 && !movimentValid03 && !movimentValid04 && !isSameColor(source, movimentValid02))
+			if (movimentValid02 < 64 && movimentValid02 >= 0 && !movimentValid03 && !movimentValid04 && !isSameColor(source, movimentValid02, pieces))
 				possibleHorseMoves.add(movimentValid02);
 		}
 
@@ -158,9 +170,9 @@ public class PieceMovementSettings {
 			movimentValid02 = (source - 2) + 8;
 			movimentValid03 = source - 1 == 56 || source - 1 == 0;
 			movimentValid04 = rightSideHouses.contains(movimentValid01);
-			if (movimentValid01 < 64 && movimentValid01 >= 0 && !movimentValid03 && !movimentValid04 && !isSameColor(source, movimentValid01))
+			if (movimentValid01 < 64 && movimentValid01 >= 0 && !movimentValid03 && !movimentValid04 && !isSameColor(source, movimentValid01, pieces))
 				possibleHorseMoves.add(movimentValid01);
-			if (movimentValid02 < 64 && movimentValid02 >= 0 && !movimentValid03 && !movimentValid04 && !isSameColor(source, movimentValid02))
+			if (movimentValid02 < 64 && movimentValid02 >= 0 && !movimentValid03 && !movimentValid04 && !isSameColor(source, movimentValid02, pieces))
 				possibleHorseMoves.add(movimentValid02);
 		}
 
@@ -169,9 +181,9 @@ public class PieceMovementSettings {
 			movimentValid01 = (source + 16) + 1;
 			movimentValid02 = (source + 16) - 1;
 			movimentValid03 = rightSideHouses.contains(movimentValid02);
-			if (movimentValid01 < 64 && movimentValid01 >= 0 && !isSameColor(source, movimentValid01))
+			if (movimentValid01 < 64 && movimentValid01 >= 0 && !isSameColor(source, movimentValid01, pieces))
 				possibleHorseMoves.add(movimentValid01);
-			if (movimentValid02 < 64 && movimentValid02 >= 0 && !movimentValid03 && !isSameColor(source, movimentValid02))
+			if (movimentValid02 < 64 && movimentValid02 >= 0 && !movimentValid03 && !isSameColor(source, movimentValid02, pieces))
 				possibleHorseMoves.add(movimentValid02);
 		}
 
@@ -185,8 +197,8 @@ public class PieceMovementSettings {
 		int moviment = source;
 		
 		for(int i = 0; i < moveBishop.getUpperLeftDiagonalMovements(); i++) {
-			if (containsPiece((moviment - 9)) && validation) {
-				if(!isSameColor(color, piecesInTheBoard.get(moviment - 9).getPieceColor())) possibleMoves.add(moviment-=9);
+			if (containsPiece(moviment - 9, pieces) && validation) {
+				if(!isSameColor(color, pieces.get(moviment - 9).getPieceColor())) possibleMoves.add(moviment-=9);
 				i = moveBishop.getUpperLeftDiagonalMovements();
 			}
 			else possibleMoves.add(moviment-=9);
@@ -195,8 +207,8 @@ public class PieceMovementSettings {
 		moviment = source;
 		
 		for(int i = 0; i < moveBishop.getUpperRightDiagonalMovements(); i++) {
-			if (containsPiece((moviment - 7)) && validation) {
-				if(!isSameColor(color, piecesInTheBoard.get(moviment - 7).getPieceColor())) possibleMoves.add(moviment-=7);
+			if (containsPiece(moviment - 7, pieces) && validation) {
+				if(!isSameColor(color, pieces.get(moviment - 7).getPieceColor())) possibleMoves.add(moviment-=7);
 				i = moveBishop.getUpperRightDiagonalMovements();
 			}
 			else possibleMoves.add(moviment-=7);
@@ -205,8 +217,8 @@ public class PieceMovementSettings {
 		moviment = source;
 		
 		for(int i = 0; i < moveBishop.getLowerLeftMovements(); i++) {
-			if (containsPiece((moviment + 7)) && validation) {
-				if(!isSameColor(color, piecesInTheBoard.get(moviment + 7).getPieceColor())) possibleMoves.add(moviment+=7);
+			if (containsPiece(moviment + 7, pieces) && validation) {
+				if(!isSameColor(color, pieces.get(moviment + 7).getPieceColor())) possibleMoves.add(moviment+=7);
 				i = moveBishop.getLowerLeftMovements();
 			}
 			else possibleMoves.add(moviment+=7);
@@ -215,8 +227,8 @@ public class PieceMovementSettings {
 		moviment = source;
 		
 		for(int i = 0; i < moveBishop.getLowerRightMovements(); i++) {
-			if (containsPiece((moviment + 9)) && validation) {
-				if(!isSameColor(color, piecesInTheBoard.get(moviment + 9).getPieceColor())) possibleMoves.add(moviment+=9);
+			if (containsPiece(moviment + 9, pieces) && validation) {
+				if(!isSameColor(color, pieces.get(moviment + 9).getPieceColor())) possibleMoves.add(moviment+=9);
 				i = moveBishop.getLowerRightMovements();
 			}
 			else possibleMoves.add(moviment+=9);
@@ -227,36 +239,25 @@ public class PieceMovementSettings {
 	
 	private Set<Integer> kingMoviments(int source, PieceColor color) {
 		Set<Integer> possibleKingMoves = new HashSet<>();
-		boolean pawnTopCheck = isPawnTopCheck(source, piecesInTheBoard, color);
-		boolean pawnTopRightCheck = isPawnTopRightCheck(source, piecesInTheBoard, color);
-		boolean pawnTopLeftCheck = isPawnTopLeftCheck(source, piecesInTheBoard, color);
-		boolean pawnDownCheck = isPawnDawnCheck(source, piecesInTheBoard, color);
-		boolean pawnDownRightCheck = isPawnDawnRightCheck(source, piecesInTheBoard, color);
-		boolean pawnDownLeftCheck = isPawnDawnLeftCheck(source, piecesInTheBoard, color);
-		
-		//if(isSameColor(color, PieceColor.WHITE)) pawnCheck = isPawnTopCheck(source, piecesInTheBoard, color);
 		
 		if(!housesAbove.contains(source)) {
-			if (!check(source, color, piecesInTheBoard) && !pawnTopCheck && containsPieceAndisDifferentColor(source, (source - 8))) possibleKingMoves.add(source - 8);
-			if (!check(source, color, piecesInTheBoard) && !pawnTopRightCheck && containsPieceAndisDifferentColor(source, (source - 7)) && !rightSideHouses.contains(source)) possibleKingMoves.add(source - 7);
-			if (!check(source, color, piecesInTheBoard) && !pawnTopLeftCheck && containsPieceAndisDifferentColor(source, (source - 9)) && !leftSideHouses.contains(source)) possibleKingMoves.add(source - 9);
+			if (!check(source, color, pieces) && !isPawnTopCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source - 8), pieces)) possibleKingMoves.add(source - 8);
+			if (!check(source, color, pieces) && !isPawnTopRightCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source - 7), pieces) && !rightSideHouses.contains(source)) possibleKingMoves.add(source - 7);
+			if (!check(source, color, pieces) && !isPawnTopLeftCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source - 9), pieces) && !leftSideHouses.contains(source)) possibleKingMoves.add(source - 9);
 		}
 		
 		if(!leftSideHouses.contains(source)) {
-			if (!check(source - 1, color, piecesInTheBoard) && !isPawnLeftCheck(source, piecesInTheBoard, color) && containsPieceAndisDifferentColor(source, (source - 1))) possibleKingMoves.add(source - 1);
+			if (!check(source - 1, color, pieces) && !isPawnLeftCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source - 1), pieces)) possibleKingMoves.add(source - 1);
 		}
 		
 		if (!rightSideHouses.contains(source)) {
-			if (!check(source + 1, color, piecesInTheBoard) && !isPawnRightCheck(source, piecesInTheBoard, color) && containsPieceAndisDifferentColor(source, (source + 1))) possibleKingMoves.add(source + 1);
+			if (!check(source + 1, color, pieces) && !isPawnRightCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 1), pieces)) possibleKingMoves.add(source + 1);
 		}
 		
-//		if(isSameColor(color, PieceColor.BLACK)) pawnCheck = isPawnTopCheck(source, piecesInTheBoard, color);
-//		else pawnCheck = false;
-		
 		if(!downHouses.contains(source)) {
-			if (!check(source, color, piecesInTheBoard) && !pawnDownCheck && containsPieceAndisDifferentColor(source, (source + 8))) possibleKingMoves.add(source + 8);
-			if (!check(source, color, piecesInTheBoard) && !pawnDownRightCheck && containsPieceAndisDifferentColor(source, (source + 9)) && !rightSideHouses.contains(source)) possibleKingMoves.add(source + 9);
-			if (!check(source , color, piecesInTheBoard) && !pawnDownLeftCheck && containsPieceAndisDifferentColor(source, (source + 7)) && !leftSideHouses.contains(source)) possibleKingMoves.add(source + 7);
+			if (!check(source, color, pieces) && !isPawnDawnCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 8), pieces)) possibleKingMoves.add(source + 8);
+			if (!check(source, color, pieces) && !isPawnDawnRightCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 9), pieces) && !rightSideHouses.contains(source)) possibleKingMoves.add(source + 9);
+			if (!check(source , color, pieces) && !isPawnDawnLeftCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 7), pieces) && !leftSideHouses.contains(source)) possibleKingMoves.add(source + 7);
 		}
 		
 		return possibleKingMoves;
@@ -272,123 +273,12 @@ public class PieceMovementSettings {
 	
 	public boolean check(int source, PieceColor color, List<Piece> pieces) {
 		
-		boolean horseCheck = isCheck(horseMoviments(source), source, PieceName.HORSE, color, pieces);
-		boolean towerCheck = isCheck(towerMoviments(source, color), source, PieceName.TOWER, color, pieces);
-		boolean bishopCheck = isCheck(bishopMoviments(source, color, null, true), source, PieceName.BISHOP, color, pieces);
-		boolean queenCheck = isCheck(queenMoviments(source, color), source, PieceName.QUEEN, color, pieces);
+		boolean horseCheck = isCheckInPosition(horseMoviments(source), source, PieceName.HORSE, color, pieces);
+		boolean towerCheck = isCheckInPosition(towerMoviments(source, color), source, PieceName.TOWER, color, pieces);
+		boolean bishopCheck = isCheckInPosition(bishopMoviments(source, color, null, true), source, PieceName.BISHOP, color, pieces);
+		boolean queenCheck = isCheckInPosition(queenMoviments(source, color), source, PieceName.QUEEN, color, pieces);
 		
 		return horseCheck || towerCheck || bishopCheck || queenCheck;
-	}
-
-	private boolean isCheck(Set<Integer> moviments, int source, PieceName pieceName, PieceColor color, List<Piece> pieces) {
-		boolean check = false;
-		var piece = new Piece();
-		int count = 0;
-		for(Integer x : moviments) {
-			piece = pieces.get(x);
-			if(count == 0) {
-				if(containsPieceInPosition(source, pieces) && !isSameColor(color, piece.getPieceColor())) check = false;
-				count++;
-			}
-			if(containsPiece(x) && !isSameColor(color, piece.getPieceColor()) && piece.getPieceName().equals(pieceName)) check = true;
-		}
-		return check;
-	}
-	
-	private boolean isPawnTopCheck(int source, List<Piece> pieces, PieceColor color) {
-		boolean pawnCheck = false;
-		int moviment2 = source - 16;
-		if (isSameColor(color, PieceColor.BLACK)) moviment2 = source;
-		if (containsPiece(moviment2 + 1) && !isSameColor(source, (moviment2 + 1)) && !leftSideHouses.contains(moviment2 + 1) && pieceIs(pieces, moviment2 + 1, PieceName.PAWN)) pawnCheck = true;
-		if (containsPiece(moviment2 - 1) && !isSameColor(source, (moviment2 - 1)) && !rightSideHouses.contains(moviment2 - 1) && pieceIs(pieces, moviment2 - 1, PieceName.PAWN)) pawnCheck = true;
-		
-		return pawnCheck;
-	}
-	
-	private boolean isPawnTopRightCheck(int source, List<Piece> pieces, PieceColor color) {
-		boolean pawnCheck = false;
-		int moviment2 = source - 16;
-		if (isSameColor(color, PieceColor.BLACK)) moviment2 = source + 2;
-		if (containsPiece(moviment2) && !isSameColor(source, (moviment2)) && !rightSideHouses.contains(moviment2) && pieceIs(pieces, moviment2, PieceName.PAWN)) pawnCheck = true;
-		if (containsPiece(moviment2 + 2) && !isSameColor(source, (moviment2 + 2)) && !leftSideHouses.contains(moviment2 + 2) && pieceIs(pieces, moviment2 + 2, PieceName.PAWN)) pawnCheck = true;
-		
-		return pawnCheck;
-	}
-	
-	private boolean isPawnTopLeftCheck(int source, List<Piece> pieces, PieceColor color) {
-		boolean pawnCheck = false;
-		int moviment2 = source - 16;
-		if (isSameColor(color, PieceColor.BLACK)) moviment2 = source - 2;
-		if (containsPiece(moviment2) && !isSameColor(source, (moviment2)) && !rightSideHouses.contains(moviment2) && pieceIs(pieces, moviment2, PieceName.PAWN)) pawnCheck = true;
-		if (containsPiece(moviment2 - 2) && !isSameColor(source, (moviment2 - 2)) && !leftSideHouses.contains(moviment2 - 2) && pieceIs(pieces, moviment2 - 2, PieceName.PAWN)) pawnCheck = true;
-		
-		return pawnCheck;
-	}
-	
-	private boolean isPawnDawnCheck(int source, List<Piece> pieces, PieceColor color) {
-		boolean pawnCheck = false;
-		int moviment1 = source;
-		if (isSameColor(color, PieceColor.BLACK)) moviment1 = source + 16;
-		if (containsPiece(moviment1 + 1) && !isSameColor(source, (moviment1 + 1)) && !leftSideHouses.contains(moviment1 + 1) && pieceIs(pieces, moviment1 + 1, PieceName.PAWN)) pawnCheck = true;
-		if (containsPiece(moviment1 - 1) && !isSameColor(source, (moviment1 - 1)) && !rightSideHouses.contains(moviment1 - 1) && pieceIs(pieces, moviment1 - 1, PieceName.PAWN)) pawnCheck = true;
-		
-		return pawnCheck;
-	}
-	
-	private boolean isPawnDawnRightCheck(int source, List<Piece> pieces, PieceColor color) {
-		boolean pawnCheck = false;
-		int moviment1 = source + 2;
-		if (isSameColor(color, PieceColor.BLACK)) moviment1 = source + 18;
-		if (containsPiece(moviment1) && !isSameColor(source, (moviment1)) && !leftSideHouses.contains(moviment1) && pieceIs(pieces, moviment1, PieceName.PAWN)) pawnCheck = true;
-		
-		return pawnCheck;
-	}
-	
-	private boolean isPawnDawnLeftCheck(int source, List<Piece> pieces, PieceColor color) {
-		boolean pawnCheck = false;
-		int moviment1 = source - 2;
-		if (isSameColor(color, PieceColor.BLACK)) moviment1 = source + 14;
-		if (containsPiece(moviment1) && !isSameColor(source, (moviment1)) && !leftSideHouses.contains(moviment1) && pieceIs(pieces, moviment1, PieceName.PAWN)) pawnCheck = true;
-		
-		return pawnCheck;
-	}
-	
-//	private boolean isPawnTopOrDownCheck(int source, List<Piece> pieces, PieceColor color) {
-//		boolean pawnTopCheck = false;
-//		int moviment = source - 8, moviment2 = source - 16;
-//		if (isSameColor(color, PieceColor.BLACK)) {
-//			moviment = source + 8; 
-//			moviment2 = source + 16;
-//		}
-//
-//		if (containsPiece(moviment + 1) && !isSameColor(source, (moviment + 1)) && !leftSideHouses.contains(moviment + 1) && pieceIs(pieces, moviment + 1, PieceName.PAWN)) pawnTopCheck = false;
-//		if (containsPiece(moviment - 1) && !isSameColor(source, (moviment - 1)) && !rightSideHouses.contains(moviment - 1) && pieceIs(pieces, moviment - 1, PieceName.PAWN)) pawnTopCheck = false;
-//		
-//		if (containsPiece(moviment2 + 1) && !isSameColor(source, (moviment2 + 1)) && !leftSideHouses.contains(moviment2 + 1) && pieceIs(pieces, moviment2 + 1, PieceName.PAWN)) pawnTopCheck = true;
-//		if (containsPiece(moviment2 - 1) && !isSameColor(source, (moviment2 - 1)) && !rightSideHouses.contains(moviment2 - 1) && pieceIs(pieces, moviment2 - 1, PieceName.PAWN)) pawnTopCheck = true;
-//		
-//		if (containsPiece(moviment2 + 2) && !isSameColor(source, (moviment2 + 2)) && !leftSideHouses.contains(moviment2 + 2) && pieceIs(pieces, moviment2 + 2, PieceName.PAWN)) pawnTopCheck = true;
-//		if (containsPiece(moviment2 - 2) && !isSameColor(source, (moviment2 - 2)) && !rightSideHouses.contains(moviment2 - 2) && pieceIs(pieces, moviment2 - 2, PieceName.PAWN)) pawnTopCheck = true;
-//		
-//		return pawnTopCheck;
-//	}
-	
-	private boolean isPawnRightCheck(int source, List<Piece> pieces, PieceColor color) {
-		boolean pawnRightCheck = false;
-		int moviment = source - 6;
-		if (isSameColor(color, PieceColor.BLACK)) moviment = source + 6; 
-		if (containsPiece(moviment) && !isSameColor(source, (moviment)) && !leftSideHouses.contains(moviment) && pieceIs(pieces, moviment, PieceName.PAWN)) pawnRightCheck = true;
-		
-		return pawnRightCheck;
-	}
-	
-	private boolean isPawnLeftCheck(int source, List<Piece> pieces, PieceColor color) {
-		boolean pawnLeftCheck = false;
-		int moviment = source - 10;
-		if (isSameColor(color, PieceColor.BLACK)) moviment = source + 10; 
-		if (containsPiece(moviment) && !isSameColor(source, (moviment)) && !rightSideHouses.contains(moviment) && pieceIs(pieces, moviment, PieceName.PAWN)) pawnLeftCheck = true;
-		
-		return pawnLeftCheck;
 	}
 
 	private List<MoveTower> horizontalAndVerticalMovements() {
@@ -408,30 +298,5 @@ public class PieceMovementSettings {
 		}
 
 		return moves;
-	}
-	
-	private boolean containsPieceAndisDifferentColor(int source, int destination) {
-		return (containsPiece(destination) || !containsPiece(destination)) && !isSameColor(source, destination);
-	}
-	
-	private boolean isSameColor(int source, int destination) {
-		return piecesInTheBoard.get(source).getPieceColor().equals(piecesInTheBoard.get(destination).getPieceColor());
-	}
-	
-	private boolean isSameColor(PieceColor color1, PieceColor color2) {
-		return color1.equals(color2);
-	}
-	
-	private boolean containsPiece(int destination) {
-		var piece = piecesInTheBoard.get(destination);
-		return piece.isWhite() || piece.isBlack();
-	}
-	
-	private boolean containsPieceInPosition(int position, List<Piece> pieces) {
-		return pieces.contains(pieces.get(position)) && !pieces.get(position).equals(Unnamed);
-	}
-	
-	private boolean pieceIs(List<Piece> pieces, int source, PieceName pieceName) {
-		return pieces.get(source).getPieceName().equals(pieceName);
 	}
 }
