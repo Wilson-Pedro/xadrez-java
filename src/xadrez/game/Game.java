@@ -39,7 +39,7 @@ public class Game {
 				houseSorce = sc.next();
 				source = house.houseForNumber(houseSorce.toUpperCase());
 				possibleMovements = movementSetting.possibleMovements(board.getPieces().get(source), source, board.getPieces());
-			} while(possibleMovements.isEmpty());
+			} while(possibleMovements.isEmpty() || movementSetting.check(source, board.getPieces().get(whiteKingPosition).getPieceColor(), board.getPieces()));
 			
 			System.out.println("Possible Moviments: " + house.numbersToHouses(possibleMovements));
 			
