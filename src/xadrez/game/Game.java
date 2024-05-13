@@ -7,9 +7,12 @@ import java.util.Set;
 import xadrez.board.Board;
 import xadrez.board.Houses;
 import xadrez.enums.PieceColor;
-import xadrez.piece.PieceMovementSettings;
+import xadrez.rules.PieceMovementRules;
 
 public class Game {
+	
+	public static PieceColor BLACK = PieceColor.BLACK;
+	public static PieceColor WHITE = PieceColor.WHITE;
 
 	public static void main(String[] args) {
 		
@@ -17,15 +20,15 @@ public class Game {
 		
 		Set<Integer> possibleMovements = new HashSet<>();
 		
-		PieceMovementSettings movementSetting = new PieceMovementSettings();
+		PieceMovementRules movementRules = new PieceMovementRules();
 		Houses house = new Houses();
-		house.generateHouses();
 		Board board = new Board();
-		
 		String houseSorce="", houseTarget="";
+		
 		int source=0, target=0, whiteKingPosition=60, blackKingPosition=4;
 		boolean invalidMoviment = false, checkmate = false;
 		
+		house.generateHouses();
 		board.generatePieces();
 		
 		while(!checkmate) {
@@ -38,8 +41,8 @@ public class Game {
 				System.out.print("Source: ");
 				houseSorce = sc.next();
 				source = house.houseForNumber(houseSorce.toUpperCase());
-				possibleMovements = movementSetting.possibleMovements(board.getPieces().get(source), source, board.getPieces());
-			} while(possibleMovements.isEmpty() || movementSetting.check(source, board.getPieces().get(whiteKingPosition).getPieceColor(), board.getPieces()));
+				possibleMovements = movementRules.possibleMovements(board.getPieces().get(source), source, board.getPieces());
+			} while(possibleMovements.isEmpty());
 			
 			System.out.println("Possible Moviments: " + house.numbersToHouses(possibleMovements));
 			
@@ -65,7 +68,7 @@ public class Game {
 				System.out.print("Source: ");
 				houseSorce = sc.next();
 				source = house.houseForNumber(houseSorce.toUpperCase());
-				possibleMovements = movementSetting.possibleMovements(board.getPieces().get(source), source, board.getPieces());
+				possibleMovements = movementRules.possibleMovements(board.getPieces().get(source), source, board.getPieces());
 			} while(possibleMovements.isEmpty());
 			
 			System.out.println("Possible Moviments: " + house.numbersToHouses(possibleMovements));

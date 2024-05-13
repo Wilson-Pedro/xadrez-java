@@ -1,4 +1,4 @@
-package xadrez.check;
+package xadrez.rules;
 
 import static xadrez.board.HousesFromBoard.generateLeftSideHouses;
 import static xadrez.board.HousesFromBoard.generateRightSideHouses;
