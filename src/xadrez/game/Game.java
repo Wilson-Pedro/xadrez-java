@@ -38,10 +38,14 @@ public class Game {
 			System.out.println("\n");
 			
 			do {
-				System.out.print("Source: ");
-				houseSorce = sc.next();
-				source = house.houseForNumber(houseSorce.toUpperCase());
-				possibleMovements = movementRules.possibleMovements(board.getPieces().get(source), source, board.getPieces());
+				
+				do {
+					System.out.print("Source: ");
+					houseSorce = sc.next();
+					source = house.houseForNumber(houseSorce.toUpperCase());
+					possibleMovements = movementRules.possibleMovements(board.getPieces().get(source), source, board.getPieces());
+				} while(movementRules.check(whiteKingPosition, WHITE, board.getPieces()) && movementRules.canGetTheKingOutOfCheck(possibleMovements, board.getPieces(), source, whiteKingPosition, board, WHITE));
+			
 			} while(possibleMovements.isEmpty());
 			
 			System.out.println("Possible Moviments: " + house.numbersToHouses(possibleMovements));
@@ -65,10 +69,14 @@ public class Game {
 			System.out.println("\n");
 			
 			do {
-				System.out.print("Source: ");
-				houseSorce = sc.next();
-				source = house.houseForNumber(houseSorce.toUpperCase());
-				possibleMovements = movementRules.possibleMovements(board.getPieces().get(source), source, board.getPieces());
+				
+				do {
+					System.out.print("Source: ");
+					houseSorce = sc.next();
+					source = house.houseForNumber(houseSorce.toUpperCase());
+					possibleMovements = movementRules.possibleMovements(board.getPieces().get(source), source, board.getPieces());
+				} while(movementRules.check(blackKingPosition, BLACK, board.getPieces()) && movementRules.canGetTheKingOutOfCheck(possibleMovements, board.getPieces(), source, blackKingPosition, board, BLACK));
+			
 			} while(possibleMovements.isEmpty());
 			
 			System.out.println("Possible Moviments: " + house.numbersToHouses(possibleMovements));
