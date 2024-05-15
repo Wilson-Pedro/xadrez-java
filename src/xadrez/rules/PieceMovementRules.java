@@ -39,7 +39,7 @@ public class PieceMovementRules {
 		this.pieces = pieces;
 
 		if (piece.isPawn()) {
-			moves = pawnMoviments(source, piece.getMoveQuantity());
+			moves = pawnMoviments(source);
 		} else if (piece.isTower()) {
 			moves = towerMoviments(source, piece.getPieceColor());
 		} else if (piece.isHorse()) {
@@ -57,7 +57,7 @@ public class PieceMovementRules {
 		return moves;
 	}
 
-	private Set<Integer> pawnMoviments(int source, int moveQuantity) {
+	private Set<Integer> pawnMoviments(int source) {
 		Set<Integer> possiblePawnMoves = new HashSet<>();
 		int moviment = source - 8;
 		var piece = this.pieces.get(source);
@@ -65,8 +65,8 @@ public class PieceMovementRules {
 		if (!isSameColor(source, (moviment), pieces) && !containsPiece(moviment, pieces)) possiblePawnMoves.add(moviment);
 		if (!isSameColor(source, (moviment + 1), pieces) && containsPiece(moviment + 1, pieces) && !generateLeftSideHouses().contains(moviment + 1)) possiblePawnMoves.add(moviment + 1);
 		if (!isSameColor(source, (moviment - 1), pieces) && containsPiece(moviment - 1, pieces) && !generateRightSideHouses().contains(moviment - 1)) possiblePawnMoves.add(moviment - 1);
-		if (moveQuantity == 0 && !piece.isWhite() && !containsPiece(moviment, pieces) && !containsPiece(source + (8 * 2), pieces) && !isSameColor(source, (source + (8 * 2)), pieces)) possiblePawnMoves.add(source + (8 * 2));
-		if (moveQuantity == 0 && !piece.isBlack() && !containsPiece(moviment, pieces) && !containsPiece(source - (8 * 2), pieces) && !isSameColor(source, (source - (8 * 2)), pieces)) possiblePawnMoves.add(source - (8 * 2));
+		if (piece.getMoveQuantity() == 0 && !piece.isWhite() && !containsPiece(moviment, pieces) && !containsPiece(source + (8 * 2), pieces) && !isSameColor(source, (source + (8 * 2)), pieces)) possiblePawnMoves.add(source + (8 * 2));
+		if (piece.getMoveQuantity() == 0 && !piece.isBlack() && !containsPiece(moviment, pieces) && !containsPiece(source - (8 * 2), pieces) && !isSameColor(source, (source - (8 * 2)), pieces)) possiblePawnMoves.add(source - (8 * 2));
 		return possiblePawnMoves;
 	}
 
@@ -284,6 +284,44 @@ public class PieceMovementRules {
 		}
 
 		return moves;
+	}
+	
+	public void rook(List<Piece> pieces, Board board, PieceColor color) {
+		int kingPosition = kingToRookPosition(pieces, color);
+		List<Integer> towersPosition = towerToRookPosition(pieces, color);
+		List<Integer> rockMoviments = rookMoviments(color);
+		
+		if(!containsPiece(rockMoviments.get(0), pieces) && !containsPiece(rockMoviments.get(1), pieces) && !containsPiece(rockMoviments.get(2), pieces)) {
+			board.movePiece(pieces, kingPosition, rockMoviments.get(1));
+			board.movePiece(pieces, towersPosition.get(0), rockMoviments.get(2));
+			
+		} else if (!containsPiece(rockMoviments.get(3), pieces) && !containsPiece(rockMoviments.get(4), pieces)) {
+			board.movePiece(pieces, kingPosition, rockMoviments.get(4));
+			board.movePiece(pieces, towersPosition.get(1), rockMoviments.get(3));
+		}
+	}
+	
+	public int kingToRookPosition(List<Piece> pieces, PieceColor color) {
+		int kingPosition = 0;
+		if (isSameColor(color, PieceColor.WHITE) && pieces.get(60).isKing()) {
+			kingPosition = 60;
+		} else if(isSameColor(color, PieceColor.BLACK) && pieces.get(4).isKing()) {
+			kingPosition = 4;
+		}
+		
+		return kingPosition;
+	}
+	
+	public List<Integer> towerToRookPosition(List<Piece> pieces, PieceColor color) {
+		List<Integer> towersPosition = List.of(56, 63);
+		if(isSameColor(color, PieceColor.BLACK)) towersPosition = List.of(0, 7);
+		return towersPosition;
+	}
+	
+	public List<Integer> rookMoviments(PieceColor color) {
+		List<Integer> rockMoviments = List.of(57, 58, 59, 61, 62);
+		if(isSameColor(color, PieceColor.BLACK)) rockMoviments = List.of(1, 2, 3, 5, 6);
+		return rockMoviments;
 	}
 	
 	public boolean check(int source, PieceColor color, List<Piece> pieces) {

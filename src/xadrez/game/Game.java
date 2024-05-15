@@ -49,6 +49,7 @@ public class Game {
 			} while(possibleMovements.isEmpty());
 			
 			System.out.println("Possible Moviments: " + house.numbersToHouses(possibleMovements));
+//			movementRules.rook(board.getPieces(), board, BLACK);
 			
 			do {
 				System.out.print("Move To: ");
