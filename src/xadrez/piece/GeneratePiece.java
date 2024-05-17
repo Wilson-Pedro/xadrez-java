@@ -96,9 +96,12 @@ public class GeneratePiece {
 		List<Piece> pieces = new ArrayList<>();
 		
 		pieces.add(BlackTower01);
-		pieces.add(BlackHorse01);
-		pieces.add(BlackBisp01);
-		pieces.add(BlackQueen01);
+//		pieces.add(BlackHorse01);
+//		pieces.add(BlackBisp01);
+//		pieces.add(BlackQueen01);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
 		pieces.add(BlackKing01);
 		pieces.add(BlackBisp02);
 		pieces.add(BlackHorse02);
@@ -159,9 +162,12 @@ public class GeneratePiece {
 		pieces.add(whitePawn08);
 		
 		pieces.add(whiteTower01);
-		pieces.add(whiteHorse01);
-		pieces.add(whiteBisp01);
-		pieces.add(whiteQueen01);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+//		pieces.add(whiteHorse01);
+//		pieces.add(whiteBisp01);
+//		pieces.add(whiteQueen01);
 		pieces.add(whiteKing01);
 		pieces.add(whiteBisp02);
 		pieces.add(whiteHorse02);

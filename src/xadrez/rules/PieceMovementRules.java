@@ -286,10 +286,10 @@ public class PieceMovementRules {
 		return moves;
 	}
 	
-	public void rook(List<Piece> pieces, Board board, PieceColor color) {
-		int kingPosition = kingToRookPosition(pieces, color);
-		List<Integer> towersPosition = towerToRookPosition(pieces, color);
-		List<Integer> rockMoviments = rookMoviments(color);
+	public void roque(List<Piece> pieces, Board board, PieceColor color) {
+		int kingPosition = kingToRoquePosition(pieces, color);
+		List<Integer> towersPosition = towerToRoquePosition(pieces, color);
+		List<Integer> rockMoviments = roqueMoviments(color);
 		
 		if(!containsPiece(rockMoviments.get(0), pieces) && !containsPiece(rockMoviments.get(1), pieces) && !containsPiece(rockMoviments.get(2), pieces)) {
 			board.movePiece(pieces, kingPosition, rockMoviments.get(1));
@@ -301,7 +301,7 @@ public class PieceMovementRules {
 		}
 	}
 	
-	public int kingToRookPosition(List<Piece> pieces, PieceColor color) {
+	public int kingToRoquePosition(List<Piece> pieces, PieceColor color) {
 		int kingPosition = 0;
 		if (isSameColor(color, PieceColor.WHITE) && pieces.get(60).isKing()) {
 			kingPosition = 60;
@@ -312,13 +312,13 @@ public class PieceMovementRules {
 		return kingPosition;
 	}
 	
-	public List<Integer> towerToRookPosition(List<Piece> pieces, PieceColor color) {
+	public List<Integer> towerToRoquePosition(List<Piece> pieces, PieceColor color) {
 		List<Integer> towersPosition = List.of(56, 63);
 		if(isSameColor(color, PieceColor.BLACK)) towersPosition = List.of(0, 7);
 		return towersPosition;
 	}
 	
-	public List<Integer> rookMoviments(PieceColor color) {
+	public List<Integer> roqueMoviments(PieceColor color) {
 		List<Integer> rockMoviments = List.of(57, 58, 59, 61, 62);
 		if(isSameColor(color, PieceColor.BLACK)) rockMoviments = List.of(1, 2, 3, 5, 6);
 		return rockMoviments;
