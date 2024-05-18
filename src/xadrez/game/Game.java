@@ -1,16 +1,12 @@
 package xadrez.game;
 
-import static xadrez.utlis.Validations.containsPiece;
-
 import java.util.HashSet;
-import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
 import xadrez.board.Board;
 import xadrez.board.Houses;
 import xadrez.enums.PieceColor;
-import xadrez.piece.Piece;
 import xadrez.rules.PieceMovementRules;
 
 public class Game {
@@ -42,14 +38,14 @@ public class Game {
 			System.out.println("\n");
 			validation = true;
 			
-			if(isPossibleRoque(board.getPieces(), board, WHITE)) {
+			if(movementRules.isPossibleRoque(board, WHITE)) {
 				
 				System.out.println("Roque is possible! Press 1 to confirm moviment or 0 to cancel");
 				do {
 					System.out.print("Press 1 or 0: ");
 					press = sc.nextInt();
 					if(press == 1) {
-						movementRules.roque(board.getPieces(), board, WHITE);
+						movementRules.roque(board, WHITE);
 						validation = false;
 					}
 				}while(press != 1 && press != 0);
@@ -88,14 +84,14 @@ public class Game {
 			System.out.println("\n");
 			validation = true;
 			
-			if(isPossibleRoque(board.getPieces(), board, BLACK)) {
+			if(movementRules.isPossibleRoque(board, BLACK)) {
 				
 				System.out.println("Roque is possible! Press 1 to confirm moviment or 0 to cancel");
 				do {
 					System.out.print("Press 1 or 0: ");
 					press = sc.nextInt();
 					if(press == 1) {
-						movementRules.roque(board.getPieces(), board, BLACK);
+						movementRules.roque(board, BLACK);
 						validation = false;
 					}
 				}while(press != 1 && press != 0);
@@ -128,18 +124,5 @@ public class Game {
 //				System.out.println("BK-Check: " + movementSetting.check(blackKingPosition, PieceColor.BLACK, board.getPieces()));
 			}
 		}
-	}
-	
-	public static boolean isPossibleRoque(List<Piece> pieces, Board board, PieceColor color) {
-		List<Integer> rockMoviments = movementRules.roqueMoviments(color);
-		boolean isPossibleRook = false;
-		
-		if(!containsPiece(rockMoviments.get(0), pieces) && !containsPiece(rockMoviments.get(1), pieces) && !containsPiece(rockMoviments.get(2), pieces)) {
-			isPossibleRook = true;
-			
-		} else if (!containsPiece(rockMoviments.get(3), pieces) && !containsPiece(rockMoviments.get(4), pieces)) {
-			isPossibleRook = true;
-		}
-		return isPossibleRook;
 	}
 }

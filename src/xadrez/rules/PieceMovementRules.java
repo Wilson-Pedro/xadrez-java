@@ -57,6 +57,7 @@ public class PieceMovementRules {
 		return moves;
 	}
 
+	//PAWN MOVIMENT
 	private Set<Integer> pawnMoviments(int source) {
 		Set<Integer> possiblePawnMoves = new HashSet<>();
 		int moviment = source - 8;
@@ -70,6 +71,7 @@ public class PieceMovementRules {
 		return possiblePawnMoves;
 	}
 
+	//TOWER MOVIMENT
 	private Set<Integer> towerMoviments(int source, PieceColor color) {
 		Set<Integer> possibleTowerMoves = new HashSet<>();
 		List<MoveTower> moves = horizontalAndVerticalMovements();
@@ -130,6 +132,7 @@ public class PieceMovementRules {
 		return possibleTowerMoves;
 	}
 
+	//HORSE MOVIMENT
 	private Set<Integer> horseMoviments(int source) {
 		Set<Integer> possibleHorseMoves = new HashSet<>();
 		int movimentValid01 = 0, movimentValid02 = 0;
@@ -186,6 +189,7 @@ public class PieceMovementRules {
 		return possibleHorseMoves;
 	}
 
+	//BISHOP MOVIMENT
 	private Set<Integer> bishopMoviments(int source, PieceColor color, Set<Integer> possibleMoves, boolean validation) {
 		if(possibleMoves == null) possibleMoves = new HashSet<>();
 		List<MoveBishop> bishopsMovements = generateBishopsMovements();
@@ -233,6 +237,7 @@ public class PieceMovementRules {
 		return possibleMoves;
 	}
 	
+	//KING MOVIMENT
 	private Set<Integer> kingMoviments(int source, PieceColor color) {
 		Set<Integer> possibleKingMoves = new HashSet<>();
 		
@@ -259,6 +264,7 @@ public class PieceMovementRules {
 		return possibleKingMoves;
 	}
 	
+	//QUEEN MOVIMENT
 	private Set<Integer> queenMoviments(int source, PieceColor color) {
 		Set<Integer> possibleQueenMoves = new HashSet<>();
 		possibleQueenMoves = towerMoviments(source, color);
@@ -286,7 +292,9 @@ public class PieceMovementRules {
 		return moves;
 	}
 	
-	public void roque(List<Piece> pieces, Board board, PieceColor color) {
+	//ROQUE MOVIMENT
+	public void roque(Board board, PieceColor color) {
+		var pieces = board.getPieces();
 		int kingPosition = kingToRoquePosition(pieces, color);
 		List<Integer> towersPosition = towerToRoquePosition(pieces, color);
 		List<Integer> rockMoviments = roqueMoviments(color);
@@ -299,6 +307,25 @@ public class PieceMovementRules {
 			board.movePiece(pieces, kingPosition, rockMoviments.get(4));
 			board.movePiece(pieces, towersPosition.get(1), rockMoviments.get(3));
 		}
+	}
+	
+	public boolean isPossibleRoque(Board board, PieceColor color) {
+		var rockMoviments = roqueMoviments(color);
+		int kingPosition = kingToRoquePosition(board.getPieces(), color);
+		var towerPositions = towerToRoquePosition(board.getPieces(), color);
+		var pieces = board.getPieces();
+		boolean isPossibleRook = false, 
+				noMovimentFromKing = pieces.get(kingPosition).noMoviment(),
+				noMovimentFromTower01 = pieces.get(towerPositions.get(0)).noMoviment(),
+				noMovimentFromTower02 = pieces.get(towerPositions.get(1)).noMoviment();
+		
+		if(noMovimentFromKing && noMovimentFromTower01 && pieces.get(towerPositions.get(0)).isTower() && !containsPiece(rockMoviments.get(0), pieces) && !containsPiece(rockMoviments.get(1), pieces) && !containsPiece(rockMoviments.get(2), pieces) && pieces.get(kingPosition).isKing() ) {
+			isPossibleRook = true;
+			
+		} else if (noMovimentFromKing && noMovimentFromTower02 && pieces.get(towerPositions.get(1)).isTower() && !containsPiece(rockMoviments.get(3), pieces) && !containsPiece(rockMoviments.get(4), pieces) && pieces.get(kingPosition).isKing()) {
+			isPossibleRook = true;
+		}
+		return isPossibleRook;
 	}
 	
 	public int kingToRoquePosition(List<Piece> pieces, PieceColor color) {
