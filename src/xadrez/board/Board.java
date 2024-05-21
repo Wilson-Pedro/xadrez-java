@@ -15,6 +15,10 @@ public class Board {
 	public Board() {
 	}
 	
+	public Board(Board board) {
+		this.pieces = board.getPieces();
+	}
+	
 	public List<Piece> getPieces() {
 		return pieces;
 	}

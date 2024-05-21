@@ -6,11 +6,6 @@ import static xadrez.board.HousesFromBoard.generateLeftSideHouses;
 import static xadrez.board.HousesFromBoard.generateRightSideHouses;
 import static xadrez.piece.moves.GenerateMove.generateBishopsMovements;
 import static xadrez.rules.CheckRules.isCheckInPosition;
-import static xadrez.rules.CheckRules.isPawnDawnCheck;
-import static xadrez.rules.CheckRules.isPawnDawnLeftCheck;
-import static xadrez.rules.CheckRules.isPawnDawnRightCheck;
-import static xadrez.rules.CheckRules.isPawnLeftCheck;
-import static xadrez.rules.CheckRules.isPawnRightCheck;
 import static xadrez.rules.CheckRules.isPawnTopCheck;
 import static xadrez.rules.CheckRules.isPawnTopLeftCheck;
 import static xadrez.rules.CheckRules.isPawnTopRightCheck;
@@ -34,7 +29,7 @@ public class PieceMovementRules {
 	
 	private List<Piece> pieces = new ArrayList<>();
 
-	public Set<Integer> possibleMovements(Piece piece, int source, List<Piece> pieces) {
+	public Set<Integer> possibleMovements(Piece piece, int source, boolean autoincrement, List<Piece> pieces) {
 		Set<Integer> moves = new HashSet<>();
 		this.pieces = pieces;
 
@@ -52,11 +47,12 @@ public class PieceMovementRules {
 			moves = queenMoviments(source, piece.getPieceColor());
 		}
 
-		piece.incrementMoveQuantity();
+		if(autoincrement && !moves.isEmpty()) piece.incrementMoveQuantity();
 
 		return moves;
 	}
 
+	//PAWN MOVIMENT
 	private Set<Integer> pawnMoviments(int source) {
 		Set<Integer> possiblePawnMoves = new HashSet<>();
 		int moviment = source - 8;
@@ -70,6 +66,7 @@ public class PieceMovementRules {
 		return possiblePawnMoves;
 	}
 
+	//TOWER MOVIMENT
 	private Set<Integer> towerMoviments(int source, PieceColor color) {
 		Set<Integer> possibleTowerMoves = new HashSet<>();
 		List<MoveTower> moves = horizontalAndVerticalMovements();
@@ -130,6 +127,7 @@ public class PieceMovementRules {
 		return possibleTowerMoves;
 	}
 
+	//HORSE MOVIMENT
 	private Set<Integer> horseMoviments(int source) {
 		Set<Integer> possibleHorseMoves = new HashSet<>();
 		int movimentValid01 = 0, movimentValid02 = 0;
@@ -186,6 +184,7 @@ public class PieceMovementRules {
 		return possibleHorseMoves;
 	}
 
+	//BISHOP MOVIMENT
 	private Set<Integer> bishopMoviments(int source, PieceColor color, Set<Integer> possibleMoves, boolean validation) {
 		if(possibleMoves == null) possibleMoves = new HashSet<>();
 		List<MoveBishop> bishopsMovements = generateBishopsMovements();
@@ -233,8 +232,14 @@ public class PieceMovementRules {
 		return possibleMoves;
 	}
 	
+	//KING MOVIMENT
 	private Set<Integer> kingMoviments(int source, PieceColor color) {
 		Set<Integer> possibleKingMoves = new HashSet<>();
+		
+//		boolean v1 = !check(source - 7, color, pieces);
+//		boolean v2 = !isPawnTopRightCheck(source, pieces, color);
+//		boolean v3 = containsPieceAndisDifferentColor(source, (source - 7), pieces);
+//		boolean v4 = !generateRightSideHouses().contains(source);
 		
 		if(!generateHousesAbove().contains(source)) {
 			if (!check(source - 8, color, pieces) && !isPawnTopCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source - 8), pieces)) possibleKingMoves.add(source - 8);
@@ -242,23 +247,24 @@ public class PieceMovementRules {
 			if (!check(source - 9, color, pieces) && !isPawnTopLeftCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source - 9), pieces) && !generateLeftSideHouses().contains(source)) possibleKingMoves.add(source - 9);
 		}
 		
-		if(!generateLeftSideHouses().contains(source)) {
-			if (!check(source - 1, color, pieces) && !isPawnLeftCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source - 1), pieces)) possibleKingMoves.add(source - 1);
-		}
-		
-		if (!generateRightSideHouses().contains(source)) {
-			if (!check(source + 1, color, pieces) && !isPawnRightCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 1), pieces)) possibleKingMoves.add(source + 1);
-		}
-		
-		if(!generateDownHouses().contains(source)) {
-			if (!check(source + 8, color, pieces) && !isPawnDawnCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 8), pieces)) possibleKingMoves.add(source + 8);
-			if (!check(source + 9, color, pieces) && !isPawnDawnRightCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 9), pieces) && !generateRightSideHouses().contains(source)) possibleKingMoves.add(source + 9);
-			if (!check(source + 7, color, pieces) && !isPawnDawnLeftCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 7), pieces) && !generateLeftSideHouses().contains(source)) possibleKingMoves.add(source + 7);
-		}
+//		if(!generateLeftSideHouses().contains(source)) {
+//			if (!check(source - 1, color, pieces) && !isPawnLeftCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source - 1), pieces)) possibleKingMoves.add(source - 1);
+//		}
+//		
+//		if (!generateRightSideHouses().contains(source)) {
+//			if (!check(source + 1, color, pieces) && !isPawnRightCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 1), pieces)) possibleKingMoves.add(source + 1);
+//		}
+//		
+//		if(!generateDownHouses().contains(source)) {
+//			if (!check(source + 8, color, pieces) && !isPawnDawnCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 8), pieces)) possibleKingMoves.add(source + 8);
+//			if (!check(source + 9, color, pieces) && !isPawnDawnRightCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 9), pieces) && !generateRightSideHouses().contains(source)) possibleKingMoves.add(source + 9);
+//			if (!check(source + 7, color, pieces) && !isPawnDawnLeftCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 7), pieces) && !generateLeftSideHouses().contains(source)) possibleKingMoves.add(source + 7);
+//		}
 		
 		return possibleKingMoves;
 	}
 	
+	//QUEEN MOVIMENT
 	private Set<Integer> queenMoviments(int source, PieceColor color) {
 		Set<Integer> possibleQueenMoves = new HashSet<>();
 		possibleQueenMoves = towerMoviments(source, color);
@@ -286,10 +292,12 @@ public class PieceMovementRules {
 		return moves;
 	}
 	
-	public void rook(List<Piece> pieces, Board board, PieceColor color) {
-		int kingPosition = kingToRookPosition(pieces, color);
-		List<Integer> towersPosition = towerToRookPosition(pieces, color);
-		List<Integer> rockMoviments = rookMoviments(color);
+	//ROQUE MOVIMENT
+	public void roque(Board board, PieceColor color) {
+		var pieces = board.getPieces();
+		int kingPosition = kingToRoquePosition(pieces, color);
+		List<Integer> towersPosition = towerToRoquePosition(pieces, color);
+		List<Integer> rockMoviments = roqueMoviments(color);
 		
 		if(!containsPiece(rockMoviments.get(0), pieces) && !containsPiece(rockMoviments.get(1), pieces) && !containsPiece(rockMoviments.get(2), pieces)) {
 			board.movePiece(pieces, kingPosition, rockMoviments.get(1));
@@ -301,7 +309,29 @@ public class PieceMovementRules {
 		}
 	}
 	
-	public int kingToRookPosition(List<Piece> pieces, PieceColor color) {
+	public boolean isPossibleRoque(Board board, PieceColor color) {
+		var rockMoviments = roqueMoviments(color);
+		int kingPosition = kingToRoquePosition(board.getPieces(), color);
+		var towerPositions = towerToRoquePosition(board.getPieces(), color);
+		var pieces = board.getPieces();
+		boolean isPossibleRook = false, 
+				noMovimentFromKing = pieces.get(kingPosition).getMoveQuantity() == 0,
+				noMovimentFromTower01 = pieces.get(towerPositions.get(0)).noMoviment(),
+				noMovimentFromTower02 = pieces.get(towerPositions.get(1)).noMoviment(),
+				isTower01 = pieces.get(towerPositions.get(0)).isTower(),
+				isTower02 = pieces.get(towerPositions.get(1)).isTower();
+				//isKingCheck = check(kingPosition, color, pieces);
+		
+		if(noMovimentFromKing && noMovimentFromTower01 && isTower01 && !containsPiece(rockMoviments.get(0), pieces) && !containsPiece(rockMoviments.get(1), pieces) && !containsPiece(rockMoviments.get(2), pieces) && pieces.get(kingPosition).isKing() ) {
+			isPossibleRook = true;
+			
+		} else if (noMovimentFromKing && noMovimentFromTower02 && isTower02 && !containsPiece(rockMoviments.get(3), pieces) && !containsPiece(rockMoviments.get(4), pieces) && pieces.get(kingPosition).isKing()) {
+			isPossibleRook = true;
+		}
+		return isPossibleRook;
+	}
+	
+	public int kingToRoquePosition(List<Piece> pieces, PieceColor color) {
 		int kingPosition = 0;
 		if (isSameColor(color, PieceColor.WHITE) && pieces.get(60).isKing()) {
 			kingPosition = 60;
@@ -312,13 +342,13 @@ public class PieceMovementRules {
 		return kingPosition;
 	}
 	
-	public List<Integer> towerToRookPosition(List<Piece> pieces, PieceColor color) {
+	public List<Integer> towerToRoquePosition(List<Piece> pieces, PieceColor color) {
 		List<Integer> towersPosition = List.of(56, 63);
 		if(isSameColor(color, PieceColor.BLACK)) towersPosition = List.of(0, 7);
 		return towersPosition;
 	}
 	
-	public List<Integer> rookMoviments(PieceColor color) {
+	public List<Integer> roqueMoviments(PieceColor color) {
 		List<Integer> rockMoviments = List.of(57, 58, 59, 61, 62);
 		if(isSameColor(color, PieceColor.BLACK)) rockMoviments = List.of(1, 2, 3, 5, 6);
 		return rockMoviments;
@@ -334,16 +364,19 @@ public class PieceMovementRules {
 		return horseCheck || towerCheck || bishopCheck || queenCheck;
 	}
 	
-	public boolean canGetTheKingOutOfCheck(Set<Integer> possibleMovements, List<Piece> pieces, int source, int kingPosition, Board board, PieceColor color) {
+	public boolean canGetTheKingOutOfCheck(Set<Integer> possibleMovements, int source, int kingPosition, Board board, PieceColor color) {
 		boolean stilInCheck = true;
+		var pieces = board.getPieces();
 		var picesAux = pieces;
 		int sourceAux = source;
 		for(Integer moviment : possibleMovements) {
 			board.movePiece(picesAux, source, moviment);
+			//System.out.println("\n\n");
+			//board.showWhitePieces();
 			if(!check(kingPosition, color, picesAux)) stilInCheck = false;
 			source = moviment;
 		}
-		board.movePiece(picesAux, source, sourceAux);
+		if(!possibleMovements.isEmpty()) board.movePiece(picesAux, source, sourceAux);
 		return stilInCheck;
 	}
 }

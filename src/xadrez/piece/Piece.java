@@ -91,6 +91,10 @@ public class Piece {
 	public boolean isWhite() {
 		return pieceColor.equals(PieceColor.WHITE);
 	}
+	
+	public boolean noMoviment() {
+		return this.moveQuantity == 0;
+	}
 
 	@Override
 	public String toString() {
