@@ -84,6 +84,10 @@ public class Piece {
 		return pieceName.equals(PieceName.KING);
 	}
 	
+	public boolean isUnnamed() {
+		return pieceName.equals(PieceName.UNNAMED);
+	}
+	
 	public boolean isBlack() {
 		return pieceColor.equals(PieceColor.BLACK);
 	}

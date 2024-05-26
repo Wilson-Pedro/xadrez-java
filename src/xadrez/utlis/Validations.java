@@ -22,6 +22,10 @@ public class Validations {
 		return color1.equals(color2);
 	}
 	
+	public static boolean isSamePiece(PieceName pieceName1, PieceName pieceName2) {
+		return pieceName1.equals(pieceName2);
+	}
+	
 	public static boolean containsPiece(int destination, List<Piece> pieces) {
 		var piece = pieces.get(destination);
 		return piece.isWhite() || piece.isBlack();

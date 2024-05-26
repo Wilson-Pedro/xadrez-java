@@ -17,6 +17,7 @@ import static xadrez.rules.CheckRules.isPawnTopRightCheck;
 import static xadrez.utlis.Validations.containsPiece;
 import static xadrez.utlis.Validations.containsPieceAndisDifferentColor;
 import static xadrez.utlis.Validations.isSameColor;
+import static xadrez.utlis.Validations.isSamePiece;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -313,7 +314,7 @@ public class PieceMovementRules {
 		var towerPositions = towerToRoquePosition(board.getPieces(), color);
 		var pieces = board.getPieces();
 		boolean isPossibleRook = false, 
-				noMovimentFromKing = pieces.get(kingPosition).getMoveQuantity() == 0,
+				noMovimentFromKing = pieces.get(kingPosition).noMoviment(),
 				noMovimentFromTower01 = pieces.get(towerPositions.get(0)).noMoviment(),
 				noMovimentFromTower02 = pieces.get(towerPositions.get(1)).noMoviment(),
 				isTower01 = pieces.get(towerPositions.get(0)).isTower(),
@@ -355,6 +356,17 @@ public class PieceMovementRules {
 		return kingPosition;
 	}
 	
+	public int findPiecePosition(List<Piece> pieces, PieceName pieceName, PieceColor color) {
+		int kingPosition = 0;
+		var piece = new Piece();
+		for(int i = 0; i <= 63; i++) {
+			piece = pieces.get(i);
+			if(isSamePiece(piece.getPieceName(), pieceName) && isSameColor(piece.getPieceColor(), color)) kingPosition = i;
+		}
+		
+		return kingPosition;
+	}
+	
 	public List<Integer> towerToRoquePosition(List<Piece> pieces, PieceColor color) {
 		List<Integer> towersPosition = List.of(56, 63);
 		if(isSameColor(color, PieceColor.BLACK)) towersPosition = List.of(0, 7);
@@ -384,12 +396,35 @@ public class PieceMovementRules {
 		int sourceAux = source;
 		for(Integer moviment : possibleMovements) {
 			board.movePiece(picesAux, source, moviment);
-			//System.out.println("\n\n");
-			//board.showWhitePieces();
+//			System.out.println("\n\n");
+//			board.showWhitePieces();
 			if(!check(kingPosition, color, picesAux)) stilInCheck = false;
 			source = moviment;
+			if(stilInCheck == false) break;
 		}
 		if(!possibleMovements.isEmpty()) board.movePiece(picesAux, source, sourceAux);
 		return stilInCheck;
+	}
+	
+	public boolean isCheckmate(int source, int kingPosition, Board board, PieceColor color) {
+		boolean isCheckmate = false, stilInCheck=true, v1, v2;
+		var pieces = board.getPieces();
+		var piece = new Piece();
+		Set<Integer> possibleMovements = new HashSet<>();
+		Set<Integer> possibleKingMovements = new HashSet<>();
+		possibleKingMovements = possibleMovements(board.getPieces().get(kingPosition), kingPosition, false, board.getPieces());
+		v1 = check(kingPosition, color, board.getPieces());
+		v2 = possibleKingMovements.isEmpty();
+		for(int i = 0; i <= 63; i++) {
+			piece = pieces.get(i);
+			if(!piece.isKing() && !piece.isUnnamed()) {
+				possibleMovements = possibleMovements(piece, i, false, board.getPieces());
+				stilInCheck = canGetTheKingOutOfCheck(possibleMovements, i, kingPosition, board, color);
+				if(!stilInCheck) break;
+			}
+		}
+		if(check(kingPosition, color, board.getPieces()) && possibleKingMovements.isEmpty() && stilInCheck) isCheckmate = true;
+		
+		return isCheckmate;
 	}
 }

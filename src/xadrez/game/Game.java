@@ -7,6 +7,7 @@ import java.util.Set;
 import xadrez.board.Board;
 import xadrez.board.Houses;
 import xadrez.enums.PieceColor;
+import xadrez.enums.PieceName;
 import xadrez.rules.PieceMovementRules;
 
 public class Game {
@@ -27,7 +28,7 @@ public class Game {
 		String houseSorce="", houseTarget="";
 		
 		int source=0, target=0, whiteKingPosition=60, blackKingPosition=4, press=0;
-		boolean invalidMoviment = false, checkmate = false, validation;
+		boolean invalidMoviment = false, checkmate = false, validation, once01 = true, once02= true;
 		
 		house.generateHouses();
 		board.generatePieces();
@@ -39,7 +40,11 @@ public class Game {
 			System.out.println("\n");
 			validation = true;
 			
-			if(movementRules.isPossibleRoque(board, WHITE)) {
+//			if(movementRules.check(source, WHITE, board.getPieces())) {
+//				System.out.println("Checkmate: " + movementRules.isCheckmate(possibleMovements, source, blackKingPosition, board, WHITE));
+//			}
+			
+			if(movementRules.isPossibleRoque(board, WHITE) && once01) {
 				
 				System.out.println("Roque is possible! Press 1 to confirm moviment or 0 to cancel");
 				do {
@@ -48,6 +53,9 @@ public class Game {
 					if(press == 1) {
 						movementRules.roque(board, WHITE);
 						validation = false;
+						once01 = false;
+						whiteKingPosition = movementRules.findPiecePosition(board.getPieces(), PieceName.KING, WHITE);
+						board.getPieces().get(whiteKingPosition).incrementMoveQuantity();
 					}
 				}while(press != 1 && press != 0);
 				
@@ -58,6 +66,13 @@ public class Game {
 						houseSorce = sc.next();
 						source = house.houseForNumber(houseSorce.toUpperCase());
 						possibleMovements = movementRules.possibleMovements(board.getPieces().get(source), source, true, board.getPieces());
+						
+//						if(movementRules.check(source, WHITE, board.getPieces()) && possibleMovements.isEmpty()) {
+//							System.out.println("Checkmate: " + movementRules.isCheckmate(source, whiteKingPosition, board, WHITE));
+//						}
+//						
+//						System.out.println("Checkmate: " + movementRules.isCheckmate(source, whiteKingPosition, board, WHITE));
+						
 						possibleKingMovements = movementRules.possibleMovements(board.getPieces().get(whiteKingPosition), whiteKingPosition, false, board.getPieces());
 					} while(movementRules.check(whiteKingPosition, WHITE, board.getPieces()) && possibleKingMovements.isEmpty() && movementRules.canGetTheKingOutOfCheck(possibleMovements, source, whiteKingPosition, new Board(board), WHITE));
 				
@@ -72,9 +87,9 @@ public class Game {
 					invalidMoviment = !possibleMovements.contains(target);
 				} while(invalidMoviment);
 				
-				if (board.getPieces().get(source).isKing()) whiteKingPosition = target;
-				
 				board.movePiece(board.getPieces(), source, target);
+				
+				whiteKingPosition = movementRules.findPiecePosition(board.getPieces(), PieceName.KING, WHITE);
 			}
 			
 //			System.out.println("WK-Check: " + movementSetting.check(whiteKingPosition, PieceColor.WHITE, board.getPieces()));
@@ -85,7 +100,7 @@ public class Game {
 			System.out.println("\n");
 			validation = true;
 			
-			if(movementRules.isPossibleRoque(board, BLACK)) {
+			if(movementRules.isPossibleRoque(board, BLACK) && once02) {
 				
 				System.out.println("Roque is possible! Press 1 to confirm moviment or 0 to cancel");
 				do {
@@ -94,9 +109,11 @@ public class Game {
 					if(press == 1) {
 						movementRules.roque(board, BLACK);
 						validation = false;
+						once02 = false;
+						blackKingPosition = movementRules.findPiecePosition(board.getPieces(), PieceName.KING, WHITE);
+						board.getPieces().get(blackKingPosition).incrementMoveQuantity();
 					}
 				}while(press != 1 && press != 0);
-				
 			} if(validation){
 				do {
 					
@@ -119,9 +136,9 @@ public class Game {
 					invalidMoviment = !possibleMovements.contains(target);
 				} while(invalidMoviment);
 				
-				if (board.getPieces().get(source).isKing()) blackKingPosition = target;
-				
 				board.movePiece(board.getPieces(), source, target);
+				
+				blackKingPosition = movementRules.findPiecePosition(board.getPieces(), PieceName.KING, BLACK);
 				
 //				System.out.println("BK-Check: " + movementSetting.check(blackKingPosition, PieceColor.BLACK, board.getPieces()));
 			}
