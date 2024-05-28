@@ -241,6 +241,7 @@ public class PieceMovementRules {
 
 		
 		if(!generateHousesAbove().contains(source)) {
+			boolean v1 = !check(source - 8, color, pieces);
 			if (!check(source - 8, color, pieces) && !isPawnTopCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source - 8), pieces)) possibleKingMoves.add(source - 8);
 			if (!check(source - 7, color, pieces) && !isPawnTopRightCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source - 7), pieces) && !generateRightSideHouses().contains(source)) possibleKingMoves.add(source - 7);
 			if (!check(source - 9, color, pieces) && !isPawnTopLeftCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source - 9), pieces) && !generateLeftSideHouses().contains(source)) possibleKingMoves.add(source - 9);
@@ -254,11 +255,12 @@ public class PieceMovementRules {
 			if (!check(source + 1, color, pieces) && !isPawnRightCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 1), pieces)) possibleKingMoves.add(source + 1);
 		}
 		
-		if(!generateDownHouses().contains(source)) {
-			if (!check(source + 8, color, pieces) && !isPawnDawnCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 8), pieces)) possibleKingMoves.add(source + 8);
-			if (!check(source + 9, color, pieces) && !isPawnDawnRightCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 9), pieces) && !generateRightSideHouses().contains(source)) possibleKingMoves.add(source + 9);
-			if (!check(source + 7, color, pieces) && !isPawnDawnLeftCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 7), pieces) && !generateLeftSideHouses().contains(source)) possibleKingMoves.add(source + 7);
-		}
+//		if(!generateDownHouses().contains(source)) {
+//			boolean v4 = !check(source + 8, color, pieces);
+//			if (!check(source + 8, color, pieces) && !isPawnDawnCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 8), pieces)) possibleKingMoves.add(source + 8);
+//			if (!check(source + 9, color, pieces) && !isPawnDawnRightCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 9), pieces) && !generateRightSideHouses().contains(source)) possibleKingMoves.add(source + 9);
+//			if (!check(source + 7, color, pieces) && !isPawnDawnLeftCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 7), pieces) && !generateLeftSideHouses().contains(source)) possibleKingMoves.add(source + 7);
+//		}
 		
 		return possibleKingMoves;
 	}
@@ -396,8 +398,6 @@ public class PieceMovementRules {
 		int sourceAux = source;
 		for(Integer moviment : possibleMovements) {
 			board.movePiece(picesAux, source, moviment);
-//			System.out.println("\n\n");
-//			board.showWhitePieces();
 			if(!check(kingPosition, color, picesAux)) stilInCheck = false;
 			source = moviment;
 			if(stilInCheck == false) break;
@@ -406,25 +406,22 @@ public class PieceMovementRules {
 		return stilInCheck;
 	}
 	
-	public boolean isCheckmate(int source, int kingPosition, Board board, PieceColor color) {
-		boolean isCheckmate = false, stilInCheck=true, v1, v2;
+	public boolean isCheckmate(int kingPosition, Board board, PieceColor color) {
+		boolean isCheckmate = false, stilInCheck=true;
 		var pieces = board.getPieces();
 		var piece = new Piece();
 		Set<Integer> possibleMovements = new HashSet<>();
 		Set<Integer> possibleKingMovements = new HashSet<>();
 		possibleKingMovements = possibleMovements(board.getPieces().get(kingPosition), kingPosition, false, board.getPieces());
-		v1 = check(kingPosition, color, board.getPieces());
-		v2 = possibleKingMovements.isEmpty();
-		for(int i = 0; i <= 63; i++) {
+		for(int i = 56; i <= 63; i++) {
 			piece = pieces.get(i);
-			if(!piece.isKing() && !piece.isUnnamed()) {
+			if(!piece.isKing() && !piece.isUnnamed() && isSameColor(piece.getPieceColor(), color)) {
 				possibleMovements = possibleMovements(piece, i, false, board.getPieces());
 				stilInCheck = canGetTheKingOutOfCheck(possibleMovements, i, kingPosition, board, color);
 				if(!stilInCheck) break;
 			}
 		}
 		if(check(kingPosition, color, board.getPieces()) && possibleKingMovements.isEmpty() && stilInCheck) isCheckmate = true;
-		
 		return isCheckmate;
 	}
 }

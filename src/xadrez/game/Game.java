@@ -40,9 +40,8 @@ public class Game {
 			System.out.println("\n");
 			validation = true;
 			
-//			if(movementRules.check(source, WHITE, board.getPieces())) {
-//				System.out.println("Checkmate: " + movementRules.isCheckmate(possibleMovements, source, blackKingPosition, board, WHITE));
-//			}
+			checkmate = movementRules.isCheckmate(whiteKingPosition, board, WHITE);
+			if(checkmate) break;
 			
 			if(movementRules.isPossibleRoque(board, WHITE) && once01) {
 				
@@ -67,12 +66,6 @@ public class Game {
 						source = house.houseForNumber(houseSorce.toUpperCase());
 						possibleMovements = movementRules.possibleMovements(board.getPieces().get(source), source, true, board.getPieces());
 						
-//						if(movementRules.check(source, WHITE, board.getPieces()) && possibleMovements.isEmpty()) {
-//							System.out.println("Checkmate: " + movementRules.isCheckmate(source, whiteKingPosition, board, WHITE));
-//						}
-//						
-//						System.out.println("Checkmate: " + movementRules.isCheckmate(source, whiteKingPosition, board, WHITE));
-						
 						possibleKingMovements = movementRules.possibleMovements(board.getPieces().get(whiteKingPosition), whiteKingPosition, false, board.getPieces());
 					} while(movementRules.check(whiteKingPosition, WHITE, board.getPieces()) && possibleKingMovements.isEmpty() && movementRules.canGetTheKingOutOfCheck(possibleMovements, source, whiteKingPosition, new Board(board), WHITE));
 				
@@ -92,13 +85,14 @@ public class Game {
 				whiteKingPosition = movementRules.findPiecePosition(board.getPieces(), PieceName.KING, WHITE);
 			}
 			
-//			System.out.println("WK-Check: " + movementSetting.check(whiteKingPosition, PieceColor.WHITE, board.getPieces()));
-			
 			System.out.println();
 			System.out.println("=============================================");
 			board.showBlackPieces();
 			System.out.println("\n");
 			validation = true;
+			
+			checkmate = movementRules.isCheckmate(blackKingPosition, board, BLACK);
+			if(checkmate) break;
 			
 			if(movementRules.isPossibleRoque(board, BLACK) && once02) {
 				
@@ -140,9 +134,10 @@ public class Game {
 				
 				blackKingPosition = movementRules.findPiecePosition(board.getPieces(), PieceName.KING, BLACK);
 				
-//				System.out.println("BK-Check: " + movementSetting.check(blackKingPosition, PieceColor.BLACK, board.getPieces()));
 			}
 		}
+		
+		System.out.println("\n\nEND OF THE GAME");
 	}
 }
 
