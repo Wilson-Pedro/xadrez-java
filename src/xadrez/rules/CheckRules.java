@@ -8,9 +8,11 @@ import static xadrez.utlis.Validations.containsPieceInPosition;
 import static xadrez.utlis.Validations.isSameColor;
 import static xadrez.utlis.Validations.pieceIs;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import xadrez.board.Board;
 import xadrez.enums.PieceColor;
 import xadrez.enums.PieceName;
 import xadrez.piece.Piece;

@@ -27,7 +27,8 @@ public class Game {
 		Board board = new Board();
 		String houseSorce="", houseTarget="";
 		
-		int source=0, target=0, whiteKingPosition=60, blackKingPosition=4, press=0;
+		int source=0, target=0, whiteKingPosition=60, blackKingPosition=4;
+		String press= "a";
 		boolean invalidMoviment = false, checkmate = false, validation, once01 = true, once02= true;
 		
 		house.generateHouses();
@@ -39,7 +40,7 @@ public class Game {
 			board.showWhitePieces();
 			System.out.println("\n");
 			validation = true;
-			
+
 			checkmate = movementRules.isCheckmate(whiteKingPosition, board, WHITE);
 			if(checkmate) break;
 			
@@ -48,15 +49,15 @@ public class Game {
 				System.out.println("Roque is possible! Press 1 to confirm moviment or 0 to cancel");
 				do {
 					System.out.print("Press 1 or 0: ");
-					press = sc.nextInt();
-					if(press == 1) {
+					press = sc.next();
+					if(press.equals("1")) {
 						movementRules.roque(board, WHITE);
 						validation = false;
 						once01 = false;
 						whiteKingPosition = movementRules.findPiecePosition(board.getPieces(), PieceName.KING, WHITE);
 						board.getPieces().get(whiteKingPosition).incrementMoveQuantity();
 					}
-				}while(press != 1 && press != 0);
+				}while(!press.equals("1") && !press.equals("0"));
 				
 			} if(validation){
 				do {
@@ -64,12 +65,12 @@ public class Game {
 						System.out.print("Source: ");
 						houseSorce = sc.next();
 						source = house.houseForNumber(houseSorce.toUpperCase());
-						possibleMovements = movementRules.possibleMovements(board.getPieces().get(source), source, true, board.getPieces());
+						possibleMovements = movementRules.possibleMovements(source, true, board.getPieces());
 						
-						possibleKingMovements = movementRules.possibleMovements(board.getPieces().get(whiteKingPosition), whiteKingPosition, false, board.getPieces());
+						possibleKingMovements = movementRules.possibleMovements(whiteKingPosition, false, board.getPieces());
 					} while(movementRules.check(whiteKingPosition, WHITE, board.getPieces()) && possibleKingMovements.isEmpty() && movementRules.canGetTheKingOutOfCheck(possibleMovements, source, whiteKingPosition, new Board(board), WHITE));
 				
-				} while(possibleMovements.isEmpty());
+				} while(possibleMovements.isEmpty() || board.getPieces().get(source).isBlack());
 				
 				System.out.println("Possible Moviments: " + house.numbersToHouses(possibleMovements));
 				
@@ -99,15 +100,15 @@ public class Game {
 				System.out.println("Roque is possible! Press 1 to confirm moviment or 0 to cancel");
 				do {
 					System.out.print("Press 1 or 0: ");
-					press = sc.nextInt();
-					if(press == 1) {
+					press = sc.next();
+					if(press.equals("1")) {
 						movementRules.roque(board, BLACK);
 						validation = false;
 						once02 = false;
 						blackKingPosition = movementRules.findPiecePosition(board.getPieces(), PieceName.KING, WHITE);
 						board.getPieces().get(blackKingPosition).incrementMoveQuantity();
 					}
-				}while(press != 1 && press != 0);
+				}while(!press.equals("1") && !press.equals("0"));
 			} if(validation){
 				do {
 					
@@ -115,11 +116,11 @@ public class Game {
 						System.out.print("Source: ");
 						houseSorce = sc.next();
 						source = house.houseForNumber(houseSorce.toUpperCase());
-						possibleMovements = movementRules.possibleMovements(board.getPieces().get(source), source, true, board.getPieces());
-						possibleKingMovements = movementRules.possibleMovements(board.getPieces().get(blackKingPosition), blackKingPosition, false, board.getPieces());
+						possibleMovements = movementRules.possibleMovements(source, true, board.getPieces());
+						possibleKingMovements = movementRules.possibleMovements(blackKingPosition, false, board.getPieces());
 					} while(movementRules.check(blackKingPosition, BLACK, board.getPieces()) && movementRules.check(blackKingPosition, BLACK, board.getPieces()) && movementRules.canGetTheKingOutOfCheck(possibleMovements, source, blackKingPosition, board, BLACK));
 				
-				} while(possibleMovements.isEmpty());
+				} while(possibleMovements.isEmpty() || board.getPieces().get(source).isWhite());
 				
 				System.out.println("Possible Moviments: " + house.numbersToHouses(possibleMovements));
 				

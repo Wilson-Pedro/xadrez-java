@@ -33,8 +33,9 @@ import xadrez.piece.moves.MoveTower;
 
 public class PieceMovementRules {
 
-	public Set<Integer> possibleMovements(Piece piece, int source, boolean autoincrement, List<Piece> pieces) {
+	public Set<Integer> possibleMovements(int source, boolean autoincrement, List<Piece> pieces) {
 		Set<Integer> moves = new HashSet<>();
+		Piece piece = pieces.get(source);
 
 		if (piece.isPawn()) {
 			moves = pawnMoviments(source, pieces);
@@ -241,7 +242,6 @@ public class PieceMovementRules {
 
 		
 		if(!generateHousesAbove().contains(source)) {
-			boolean v1 = !check(source - 8, color, pieces);
 			if (!check(source - 8, color, pieces) && !isPawnTopCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source - 8), pieces)) possibleKingMoves.add(source - 8);
 			if (!check(source - 7, color, pieces) && !isPawnTopRightCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source - 7), pieces) && !generateRightSideHouses().contains(source)) possibleKingMoves.add(source - 7);
 			if (!check(source - 9, color, pieces) && !isPawnTopLeftCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source - 9), pieces) && !generateLeftSideHouses().contains(source)) possibleKingMoves.add(source - 9);
@@ -255,12 +255,11 @@ public class PieceMovementRules {
 			if (!check(source + 1, color, pieces) && !isPawnRightCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 1), pieces)) possibleKingMoves.add(source + 1);
 		}
 		
-//		if(!generateDownHouses().contains(source)) {
-//			boolean v4 = !check(source + 8, color, pieces);
-//			if (!check(source + 8, color, pieces) && !isPawnDawnCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 8), pieces)) possibleKingMoves.add(source + 8);
-//			if (!check(source + 9, color, pieces) && !isPawnDawnRightCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 9), pieces) && !generateRightSideHouses().contains(source)) possibleKingMoves.add(source + 9);
-//			if (!check(source + 7, color, pieces) && !isPawnDawnLeftCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 7), pieces) && !generateLeftSideHouses().contains(source)) possibleKingMoves.add(source + 7);
-//		}
+		if(!generateDownHouses().contains(source)) {
+			if ((!check(source, color, pieces) && !check(source + 8, color, pieces)) && !isPawnDawnCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 8), pieces)) possibleKingMoves.add(source + 8);
+			if (!check(source + 9, color, pieces) && !isPawnDawnRightCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 9), pieces) && !generateRightSideHouses().contains(source)) possibleKingMoves.add(source + 9);
+			if (!check(source + 7, color, pieces) && !isPawnDawnLeftCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source + 7), pieces) && !generateLeftSideHouses().contains(source)) possibleKingMoves.add(source + 7);
+		}
 		
 		return possibleKingMoves;
 	}
@@ -299,14 +298,18 @@ public class PieceMovementRules {
 		int kingPosition = kingToRoquePosition(pieces, color);
 		List<Integer> towersPosition = towerToRoquePosition(pieces, color);
 		List<Integer> rockMoviments = roqueMoviments(color);
+		var tower01 = pieces.get(towersPosition.get(0));
+		var tower02 = pieces.get(towersPosition.get(1));
 		
 		if(!containsPiece(rockMoviments.get(0), pieces) && !containsPiece(rockMoviments.get(1), pieces) && !containsPiece(rockMoviments.get(2), pieces)) {
 			board.movePiece(pieces, kingPosition, rockMoviments.get(1));
 			board.movePiece(pieces, towersPosition.get(0), rockMoviments.get(2));
+			tower01.incrementMoveQuantity();
 			
 		} else if (!containsPiece(rockMoviments.get(3), pieces) && !containsPiece(rockMoviments.get(4), pieces)) {
 			board.movePiece(pieces, kingPosition, rockMoviments.get(4));
 			board.movePiece(pieces, towersPosition.get(1), rockMoviments.get(3));
+			tower02.incrementMoveQuantity();
 		}
 	}
 	
@@ -412,11 +415,11 @@ public class PieceMovementRules {
 		var piece = new Piece();
 		Set<Integer> possibleMovements = new HashSet<>();
 		Set<Integer> possibleKingMovements = new HashSet<>();
-		possibleKingMovements = possibleMovements(board.getPieces().get(kingPosition), kingPosition, false, board.getPieces());
+		possibleKingMovements = possibleMovements(kingPosition, false, board.getPieces());
 		for(int i = 56; i <= 63; i++) {
 			piece = pieces.get(i);
 			if(!piece.isKing() && !piece.isUnnamed() && isSameColor(piece.getPieceColor(), color)) {
-				possibleMovements = possibleMovements(piece, i, false, board.getPieces());
+				possibleMovements = possibleMovements(i, false, board.getPieces());
 				stilInCheck = canGetTheKingOutOfCheck(possibleMovements, i, kingPosition, board, color);
 				if(!stilInCheck) break;
 			}
