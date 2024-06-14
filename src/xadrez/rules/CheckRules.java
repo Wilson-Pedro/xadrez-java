@@ -2,17 +2,14 @@ package xadrez.rules;
 
 import static xadrez.board.HousesFromBoard.generateLeftSideHouses;
 import static xadrez.board.HousesFromBoard.generateRightSideHouses;
-
 import static xadrez.utlis.Validations.containsPiece;
 import static xadrez.utlis.Validations.containsPieceInPosition;
 import static xadrez.utlis.Validations.isSameColor;
 import static xadrez.utlis.Validations.pieceIs;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import xadrez.board.Board;
 import xadrez.enums.PieceColor;
 import xadrez.enums.PieceName;
 import xadrez.piece.Piece;
