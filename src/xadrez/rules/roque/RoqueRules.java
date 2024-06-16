@@ -12,7 +12,11 @@ import xadrez.rules.check.CheckRules;
 
 public class RoqueRules {
 	
-	CheckRules checkRules = new CheckRules();
+	private CheckRules checkRules;
+
+	public RoqueRules(CheckRules checkRules) {
+		this.checkRules = checkRules;
+	}
 
 	public void roque(Board board, PieceColor color) {
 		var pieces = board.getPieces();

@@ -1,26 +1,35 @@
 package xadrez.rules.moviments;
 
-import static xadrez.utils.Util.isSameColor;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import xadrez.board.Board;
-import xadrez.enums.PieceColor;
 import xadrez.interfaces.PossibleMoviments;
 import xadrez.piece.Piece;
-import xadrez.rules.check.CheckRules;
 
 public class PieceMovement implements PossibleMoviments{
 	
-	CheckRules checkRules = new CheckRules();
-	PawnMovimentsRules pawnRules = new PawnMovimentsRules();
-	TowerMovimentsRules towerRules = new TowerMovimentsRules();
-	HorseMovimentsRules horseRules = new HorseMovimentsRules();
-	BishopMovimentsRules bishopRules = new BishopMovimentsRules();
-	KingMovimentsRules kingRules = new KingMovimentsRules(checkRules);
-	QueenMovimentsRules queenRules = new QueenMovimentsRules(towerRules, bishopRules);
+	private PawnMovimentsRules pawnRules;
+	
+	private TowerMovimentsRules towerRules;
+	
+	private HorseMovimentsRules horseRules;
+	
+	private BishopMovimentsRules bishopRules;
+	
+	private KingMovimentsRules kingRules;
+	
+	private QueenMovimentsRules queenRules;
+	
+	public PieceMovement(PawnMovimentsRules pawnRules, TowerMovimentsRules towerRules,
+			HorseMovimentsRules horseRules, BishopMovimentsRules bishopRules, KingMovimentsRules kingRules, QueenMovimentsRules queenRules) {
+		this.pawnRules = pawnRules;
+		this.towerRules = towerRules;
+		this.horseRules = horseRules;
+		this.bishopRules = bishopRules;
+		this.kingRules = kingRules;
+		this.queenRules = queenRules;
+	}
 
 	@Override
 	public Set<Integer> possibleMovements(int source, boolean autoincrement, List<Piece> pieces) {

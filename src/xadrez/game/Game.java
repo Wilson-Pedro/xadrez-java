@@ -11,7 +11,13 @@ import xadrez.board.Houses;
 import xadrez.enums.PieceColor;
 import xadrez.enums.PieceName;
 import xadrez.rules.check.CheckRules;
+import xadrez.rules.moviments.BishopMovimentsRules;
+import xadrez.rules.moviments.HorseMovimentsRules;
+import xadrez.rules.moviments.KingMovimentsRules;
+import xadrez.rules.moviments.PawnMovimentsRules;
 import xadrez.rules.moviments.PieceMovement;
+import xadrez.rules.moviments.QueenMovimentsRules;
+import xadrez.rules.moviments.TowerMovimentsRules;
 import xadrez.rules.roque.RoqueRules;
 
 public class Game {
@@ -21,9 +27,15 @@ public class Game {
 
 	public static void main(String[] args) {
 		
-		PieceMovement pieceMoviment = new PieceMovement();
-		CheckRules checkRules = new CheckRules();
-		RoqueRules roqueRules = new RoqueRules();
+		PawnMovimentsRules pawnRules = new PawnMovimentsRules();
+		TowerMovimentsRules towerRules = new TowerMovimentsRules();
+		HorseMovimentsRules horseRules = new HorseMovimentsRules();
+		BishopMovimentsRules bishopRules = new BishopMovimentsRules();
+		QueenMovimentsRules queenRules = new QueenMovimentsRules(towerRules, bishopRules);
+		CheckRules checkRules = new CheckRules(pawnRules, towerRules, horseRules, bishopRules, queenRules);
+		RoqueRules roqueRules = new RoqueRules(checkRules);
+		KingMovimentsRules kingRules = new KingMovimentsRules(checkRules);
+		PieceMovement pieceMoviment = new PieceMovement(pawnRules, towerRules, horseRules, bishopRules, kingRules, queenRules);
 		
 		Scanner sc  = new Scanner(System.in);
 		

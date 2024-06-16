@@ -24,12 +24,25 @@ import xadrez.rules.moviments.TowerMovimentsRules;
 
 public class CheckRules implements PossibleMoviments{
 	
-	PawnMovimentsRules pawnRules = new PawnMovimentsRules();
-	TowerMovimentsRules towerRules = new TowerMovimentsRules();
-	HorseMovimentsRules horseRules = new HorseMovimentsRules();
-	BishopMovimentsRules bishopRules = new BishopMovimentsRules();
-	QueenMovimentsRules queenRules = new QueenMovimentsRules(towerRules, bishopRules);
+	private PawnMovimentsRules pawnRules;
 	
+	private TowerMovimentsRules towerRules;
+	
+	private HorseMovimentsRules horseRules;
+	
+	private BishopMovimentsRules bishopRules;
+	
+	private QueenMovimentsRules queenRules;
+	
+	public CheckRules(PawnMovimentsRules pawnRules, TowerMovimentsRules towerRules, HorseMovimentsRules horseRules,
+			BishopMovimentsRules bishopRules, QueenMovimentsRules queenRules) {
+		this.pawnRules = pawnRules;
+		this.towerRules = towerRules;
+		this.horseRules = horseRules;
+		this.bishopRules = bishopRules;
+		this.queenRules = queenRules;
+	}
+
 	@Override
 	public Set<Integer> possibleMovements(int source, boolean autoincrement, List<Piece> pieces) {
 		Set<Integer> moves = new HashSet<>();
@@ -57,7 +70,6 @@ public class CheckRules implements PossibleMoviments{
 		var pieces = board.getPieces();
 		var piece = new Piece();
 		Set<Integer> possibleMovements = new HashSet<>();
-		//Set<Integer> possibleKingMovements = new HashSet<>();
 		for(int i = 0; i <= 63; i++) {
 			piece = pieces.get(i);
 			if(!piece.isKing() && !piece.isUnnamed() && isSameColor(piece.getPieceColor(), color)) {
