@@ -1,8 +1,8 @@
-package xadrez.rules;
+package xadrez.rules.moviments;
 
 import static xadrez.piece.moves.GenerateMove.generateBishopsMovements;
-import static xadrez.utlis.Validations.containsPiece;
-import static xadrez.utlis.Validations.isSameColor;
+import static xadrez.utils.Util.containsPiece;
+import static xadrez.utils.Util.isSameColor;
 
 import java.util.HashSet;
 import java.util.List;

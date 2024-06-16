@@ -1,5 +1,7 @@
 package xadrez.game;
 
+import static xadrez.utils.Util.findPiecePosition;
+
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
@@ -8,15 +10,20 @@ import xadrez.board.Board;
 import xadrez.board.Houses;
 import xadrez.enums.PieceColor;
 import xadrez.enums.PieceName;
-import xadrez.rules.PieceMovementRules;
+import xadrez.rules.check.CheckRules;
+import xadrez.rules.moviments.PieceMovement;
+import xadrez.rules.roque.RoqueRules;
 
 public class Game {
 	
 	public static PieceColor BLACK = PieceColor.BLACK;
 	public static PieceColor WHITE = PieceColor.WHITE;
-	public static PieceMovementRules movementRules = new PieceMovementRules();
 
 	public static void main(String[] args) {
+		
+		PieceMovement pieceMoviment = new PieceMovement();
+		CheckRules checkRules = new CheckRules();
+		RoqueRules roqueRules = new RoqueRules();
 		
 		Scanner sc  = new Scanner(System.in);
 		
@@ -41,20 +48,20 @@ public class Game {
 			System.out.println("\n");
 			validation = true;
 
-			checkmate = movementRules.isCheckmate(whiteKingPosition, board, WHITE);
+			checkmate = checkRules.isCheckmate(whiteKingPosition, board, WHITE, pieceMoviment.possibleMovements(whiteKingPosition, false, board.getPieces()));
 			if(checkmate) break;
 			
-			if(movementRules.isPossibleRoque(board, WHITE) && once01) {
+			if(roqueRules.isPossibleRoque(board, WHITE) && once01) {
 				
 				System.out.println("Roque is possible! Press 1 to confirm moviment or 0 to cancel");
 				do {
 					System.out.print("Press 1 or 0: ");
 					press = sc.next();
 					if(press.equals("1")) {
-						movementRules.roque(board, WHITE);
+						roqueRules.roque(board, WHITE);
 						validation = false;
 						once01 = false;
-						whiteKingPosition = movementRules.findPiecePosition(board.getPieces(), PieceName.KING, WHITE);
+						whiteKingPosition = findPiecePosition(board.getPieces(), PieceName.KING, WHITE);
 						board.getPieces().get(whiteKingPosition).incrementMoveQuantity();
 					}
 				}while(!press.equals("1") && !press.equals("0"));
@@ -65,10 +72,10 @@ public class Game {
 						System.out.print("Source: ");
 						houseSorce = sc.next();
 						source = house.houseForNumber(houseSorce.toUpperCase());
-						possibleMovements = movementRules.possibleMovements(source, true, board.getPieces());
+						possibleMovements = pieceMoviment.possibleMovements(source, true, board.getPieces());
 						
-						possibleKingMovements = movementRules.possibleMovements(whiteKingPosition, false, board.getPieces());
-					} while(movementRules.check(whiteKingPosition, WHITE, board.getPieces()) && possibleKingMovements.isEmpty() && movementRules.canGetTheKingOutOfCheck(possibleMovements, source, whiteKingPosition, new Board(board), WHITE));
+						possibleKingMovements = pieceMoviment.possibleMovements(whiteKingPosition, false, board.getPieces());
+					} while(checkRules.check(whiteKingPosition, WHITE, board.getPieces()) && possibleKingMovements.isEmpty() && checkRules.canGetTheKingOutOfCheck(possibleMovements, source, whiteKingPosition, new Board(board), WHITE));
 				
 				} while(possibleMovements.isEmpty() || board.getPieces().get(source).isBlack());
 				
@@ -83,7 +90,7 @@ public class Game {
 				
 				board.movePiece(board.getPieces(), source, target);
 				
-				whiteKingPosition = movementRules.findPiecePosition(board.getPieces(), PieceName.KING, WHITE);
+				whiteKingPosition = findPiecePosition(board.getPieces(), PieceName.KING, WHITE);
 			}
 			
 			System.out.println();
@@ -92,20 +99,20 @@ public class Game {
 			System.out.println("\n");
 			validation = true;
 			
-			checkmate = movementRules.isCheckmate(blackKingPosition, board, BLACK);
+			checkmate = checkRules.isCheckmate(blackKingPosition, board, BLACK, pieceMoviment.possibleMovements(whiteKingPosition, false, board.getPieces()));
 			if(checkmate) break;
 			
-			if(movementRules.isPossibleRoque(board, BLACK) && once02) {
+			if(roqueRules.isPossibleRoque(board, BLACK) && once02) {
 				
 				System.out.println("Roque is possible! Press 1 to confirm moviment or 0 to cancel");
 				do {
 					System.out.print("Press 1 or 0: ");
 					press = sc.next();
 					if(press.equals("1")) {
-						movementRules.roque(board, BLACK);
+						roqueRules.roque(board, BLACK);
 						validation = false;
 						once02 = false;
-						blackKingPosition = movementRules.findPiecePosition(board.getPieces(), PieceName.KING, WHITE);
+						blackKingPosition = findPiecePosition(board.getPieces(), PieceName.KING, WHITE);
 						board.getPieces().get(blackKingPosition).incrementMoveQuantity();
 					}
 				}while(!press.equals("1") && !press.equals("0"));
@@ -116,9 +123,9 @@ public class Game {
 						System.out.print("Source: ");
 						houseSorce = sc.next();
 						source = house.houseForNumber(houseSorce.toUpperCase());
-						possibleMovements = movementRules.possibleMovements(source, true, board.getPieces());
-						possibleKingMovements = movementRules.possibleMovements(blackKingPosition, false, board.getPieces());
-					} while(movementRules.check(blackKingPosition, BLACK, board.getPieces()) && movementRules.check(blackKingPosition, BLACK, board.getPieces()) && movementRules.canGetTheKingOutOfCheck(possibleMovements, source, blackKingPosition, board, BLACK));
+						possibleMovements = pieceMoviment.possibleMovements(source, true, board.getPieces());
+						possibleKingMovements = pieceMoviment.possibleMovements(blackKingPosition, false, board.getPieces());
+					} while(checkRules.check(blackKingPosition, BLACK, board.getPieces()) && checkRules.check(blackKingPosition, BLACK, board.getPieces()) && checkRules.canGetTheKingOutOfCheck(possibleMovements, source, blackKingPosition, board, BLACK));
 				
 				} while(possibleMovements.isEmpty() || board.getPieces().get(source).isWhite());
 				
@@ -133,12 +140,13 @@ public class Game {
 				
 				board.movePiece(board.getPieces(), source, target);
 				
-				blackKingPosition = movementRules.findPiecePosition(board.getPieces(), PieceName.KING, BLACK);
+				blackKingPosition = findPiecePosition(board.getPieces(), PieceName.KING, BLACK);
 				
 			}
 		}
 		
 		System.out.println("\n\nEND OF THE GAME");
+		sc.close();
 	}
 }
 

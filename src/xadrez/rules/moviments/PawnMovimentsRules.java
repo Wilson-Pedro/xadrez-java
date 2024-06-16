@@ -1,9 +1,9 @@
-package xadrez.rules;
+package xadrez.rules.moviments;
 
 import static xadrez.board.HousesFromBoard.generateLeftSideHouses;
 import static xadrez.board.HousesFromBoard.generateRightSideHouses;
-import static xadrez.utlis.Validations.containsPiece;
-import static xadrez.utlis.Validations.isSameColor;
+import static xadrez.utils.Util.containsPiece;
+import static xadrez.utils.Util.isSameColor;
 
 import java.util.HashSet;
 import java.util.List;

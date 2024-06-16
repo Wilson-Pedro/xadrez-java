@@ -1,4 +1,4 @@
-package xadrez.rules;
+package xadrez.rules.moviments;
 
 import java.util.HashSet;
 import java.util.List;
