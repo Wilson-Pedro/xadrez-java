@@ -35,21 +35,17 @@ public class PieceMovement implements PossibleMoviments{
 	public Set<Integer> possibleMovements(int source, boolean autoincrement, List<Piece> pieces) {
 		Set<Integer> moves = new HashSet<>();
 		Piece piece = pieces.get(source);
-
-		if (piece.isPawn()) {
-			moves = pawnRules.pawnMoviments(source, pieces);
-		} else if (piece.isTower()) {
-			moves = towerRules.towerMoviments(source, piece.getPieceColor(), pieces);
-		} else if (piece.isHorse()) {
-			moves = horseRules.horseMoviments(source, pieces);
-		} else if (piece.isBishop()) {
-			moves = bishopRules.bishopMoviments(source, piece.getPieceColor(), moves, pieces, true);
-		} else if (piece.isKing()) {
-			moves = kingRules.kingMoviments(source, piece.getPieceColor(), pieces);
-		} else if (piece.isQueen()) {
-			moves = queenRules.queenMoviments(source, piece.getPieceColor(), pieces);
-		}
-
+		
+		moves = switch(piece.getPieceName()) {
+			case PAWN -> moves = pawnRules.pawnMoviments(source, pieces);
+			case TOWER -> moves = towerRules.towerMoviments(source, piece.getPieceColor(), pieces);
+			case HORSE -> moves = horseRules.horseMoviments(source, pieces);
+			case BISHOP -> moves = bishopRules.bishopMoviments(source, piece.getPieceColor(), moves, pieces, true);
+			case KING -> moves = kingRules.kingMoviments(source, piece.getPieceColor(), pieces);
+			case QUEEN -> moves = queenRules.queenMoviments(source, piece.getPieceColor(), pieces);
+			default -> moves;
+		};
+	
 		if(autoincrement && !moves.isEmpty()) piece.incrementMoveQuantity();
 
 		return moves;

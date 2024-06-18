@@ -47,20 +47,15 @@ public class CheckRules implements PossibleMoviments{
 	public Set<Integer> possibleMovements(int source, boolean autoincrement, List<Piece> pieces) {
 		Set<Integer> moves = new HashSet<>();
 		Piece piece = pieces.get(source);
-
-		if (piece.isPawn()) {
-			moves = pawnRules.pawnMoviments(source, pieces);
-		} else if (piece.isTower()) {
-			moves = towerRules.towerMoviments(source, piece.getPieceColor(), pieces);
-		} else if (piece.isHorse()) {
-			moves = horseRules.horseMoviments(source, pieces);
-		} else if (piece.isBishop()) {
-			moves = bishopRules.bishopMoviments(source, piece.getPieceColor(), moves, pieces, true);
-		} else if (piece.isQueen()) {
-			moves = queenRules.queenMoviments(source, piece.getPieceColor(), pieces);
-		}
-
-		if(autoincrement && !moves.isEmpty()) piece.incrementMoveQuantity();
+		
+		moves = switch(piece.getPieceName()) {
+			case PAWN -> moves = pawnRules.pawnMoviments(source, pieces);
+			case TOWER -> moves = towerRules.towerMoviments(source, piece.getPieceColor(), pieces);
+			case HORSE -> moves = horseRules.horseMoviments(source, pieces);
+			case BISHOP -> moves = bishopRules.bishopMoviments(source, piece.getPieceColor(), moves, pieces, true);
+			case QUEEN -> moves = queenRules.queenMoviments(source, piece.getPieceColor(), pieces);
+			default -> moves;
+		};
 
 		return moves;
 	}
@@ -107,7 +102,7 @@ public class CheckRules implements PossibleMoviments{
 		return stilInCheck;
 	}
 
-	public static boolean isCheckInPosition(Set<Integer> moviments, int source, PieceName pieceName, PieceColor color, List<Piece> pieces) {
+	public boolean isCheckInPosition(Set<Integer> moviments, int source, PieceName pieceName, PieceColor color, List<Piece> pieces) {
 		boolean check = false;
 		var piece = new Piece();
 		int count = 0;
@@ -122,7 +117,7 @@ public class CheckRules implements PossibleMoviments{
 		return check;
 	}
 	
-	public static boolean isPawnTopCheck(int source, List<Piece> pieces, PieceColor color) {
+	public boolean isPawnTopCheck(int source, List<Piece> pieces, PieceColor color) {
 		boolean pawnCheck = false;
 		int moviment2 = source - 16;
 		if (isSameColor(color, PieceColor.BLACK)) moviment2 = source;
@@ -132,7 +127,7 @@ public class CheckRules implements PossibleMoviments{
 		return pawnCheck;
 	}
 	
-	public static boolean isPawnTopRightCheck(int source, List<Piece> pieces, PieceColor color) {
+	public boolean isPawnTopRightCheck(int source, List<Piece> pieces, PieceColor color) {
 		boolean pawnCheck = false;
 		int moviment2 = source - 16;
 		if (isSameColor(color, PieceColor.BLACK)) moviment2 = source + 2;
@@ -142,7 +137,7 @@ public class CheckRules implements PossibleMoviments{
 		return pawnCheck;
 	}
 	
-	public static boolean isPawnTopLeftCheck(int source, List<Piece> pieces, PieceColor color) {
+	public boolean isPawnTopLeftCheck(int source, List<Piece> pieces, PieceColor color) {
 		boolean pawnCheck = false;
 		int moviment2 = source - 16;
 		if (isSameColor(color, PieceColor.BLACK)) moviment2 = source - 2;
@@ -162,7 +157,7 @@ public class CheckRules implements PossibleMoviments{
 		return pawnCheck;
 	}
 	
-	public static boolean isPawnDawnRightCheck(int source, List<Piece> pieces, PieceColor color) {
+	public boolean isPawnDawnRightCheck(int source, List<Piece> pieces, PieceColor color) {
 		boolean pawnCheck = false;
 		int moviment1 = source + 2;
 		if (isSameColor(color, PieceColor.BLACK)) moviment1 = source + 18;
@@ -171,7 +166,7 @@ public class CheckRules implements PossibleMoviments{
 		return pawnCheck;
 	}
 	
-	public static boolean isPawnDawnLeftCheck(int source, List<Piece> pieces, PieceColor color) {
+	public boolean isPawnDawnLeftCheck(int source, List<Piece> pieces, PieceColor color) {
 		boolean pawnCheck = false;
 		int moviment1 = source - 2;
 		if (isSameColor(color, PieceColor.BLACK)) moviment1 = source + 14;
@@ -180,7 +175,7 @@ public class CheckRules implements PossibleMoviments{
 		return pawnCheck;
 	}
 	
-	public static boolean isPawnRightCheck(int source, List<Piece> pieces, PieceColor color) {
+	public boolean isPawnRightCheck(int source, List<Piece> pieces, PieceColor color) {
 		boolean pawnRightCheck = false;
 		int moviment = source - 6;
 		if (isSameColor(color, PieceColor.BLACK)) moviment = source + 6; 
