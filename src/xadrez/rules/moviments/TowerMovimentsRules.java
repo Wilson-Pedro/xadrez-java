@@ -12,18 +12,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import xadrez.board.Board;
 import xadrez.enums.PieceColor;
-import xadrez.piece.Piece;
 import xadrez.piece.moves.MoveTower;
 
 public class TowerMovimentsRules {
 
 	//TOWER MOVIMENT
-	public Set<Integer> towerMoviments(int source, PieceColor color, List<Piece> pieces) {
+	public static Set<Integer> towerMoviments(int source, PieceColor color, Board board) {
 		Set<Integer> possibleTowerMoves = new HashSet<>();
 		List<MoveTower> moves = horizontalAndVerticalMovements();
+		var pieces = board.getPieces();
 		MoveTower move = moves.get(source);
-
+		
 		int moviment = source;
 
 		// MOVER TORRE PARA CIMA
@@ -79,7 +80,7 @@ public class TowerMovimentsRules {
 		return possibleTowerMoves;
 	}
 	
-	private List<MoveTower> horizontalAndVerticalMovements() {
+	private static List<MoveTower> horizontalAndVerticalMovements() {
 		List<MoveTower> moves = new ArrayList<>();
 		int movimentsToUp = 0, movimentsToLeft = 0, movimentsToRight = 7, movimentsToDown = 7;
 

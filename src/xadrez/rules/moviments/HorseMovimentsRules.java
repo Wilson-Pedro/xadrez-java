@@ -7,15 +7,15 @@ import static xadrez.board.HousesFromBoard.generateRightSideHouses;
 import static xadrez.utils.Util.isSameColor;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import xadrez.piece.Piece;
+import xadrez.board.Board;
 
 public class HorseMovimentsRules {
 
-	public Set<Integer> horseMoviments(int source, List<Piece> pieces) {
+	public static Set<Integer> horseMoviments(int source, Board board) {
 		Set<Integer> possibleHorseMoves = new HashSet<>();
+		var pieces = board.getPieces();
 		int movimentValid01 = 0, movimentValid02 = 0;
 		boolean movimentValid03 = false, movimentValid04 = false;
 

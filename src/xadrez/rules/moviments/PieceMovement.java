@@ -1,48 +1,34 @@
 package xadrez.rules.moviments;
 
+import static xadrez.rules.moviments.BishopMovimentsRules.bishopMoviments;
+import static xadrez.rules.moviments.HorseMovimentsRules.horseMoviments;
+import static xadrez.rules.moviments.KingMovimentsRules.kingMoviments;
+import static xadrez.rules.moviments.PawnMovimentsRules.pawnMoviments;
+import static xadrez.rules.moviments.QueenMovimentsRules.queenMoviments;
+import static xadrez.rules.moviments.TowerMovimentsRules.towerMoviments;
+
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+import xadrez.board.Board;
 import xadrez.interfaces.PossibleMoviments;
 import xadrez.piece.Piece;
 
 public class PieceMovement implements PossibleMoviments{
-	
-	private PawnMovimentsRules pawnRules;
-	
-	private TowerMovimentsRules towerRules;
-	
-	private HorseMovimentsRules horseRules;
-	
-	private BishopMovimentsRules bishopRules;
-	
-	private KingMovimentsRules kingRules;
-	
-	private QueenMovimentsRules queenRules;
-	
-	public PieceMovement(PawnMovimentsRules pawnRules, TowerMovimentsRules towerRules,
-			HorseMovimentsRules horseRules, BishopMovimentsRules bishopRules, KingMovimentsRules kingRules, QueenMovimentsRules queenRules) {
-		this.pawnRules = pawnRules;
-		this.towerRules = towerRules;
-		this.horseRules = horseRules;
-		this.bishopRules = bishopRules;
-		this.kingRules = kingRules;
-		this.queenRules = queenRules;
-	}
 
 	@Override
-	public Set<Integer> possibleMovements(int source, boolean autoincrement, List<Piece> pieces) {
+	public Set<Integer> possibleMovements(int source, boolean autoincrement, Board board) {
 		Set<Integer> moves = new HashSet<>();
+		var pieces = board.getPieces();
 		Piece piece = pieces.get(source);
 		
 		moves = switch(piece.getPieceName()) {
-			case PAWN -> moves = pawnRules.pawnMoviments(source, pieces);
-			case TOWER -> moves = towerRules.towerMoviments(source, piece.getPieceColor(), pieces);
-			case HORSE -> moves = horseRules.horseMoviments(source, pieces);
-			case BISHOP -> moves = bishopRules.bishopMoviments(source, piece.getPieceColor(), moves, pieces, true);
-			case KING -> moves = kingRules.kingMoviments(source, piece.getPieceColor(), pieces);
-			case QUEEN -> moves = queenRules.queenMoviments(source, piece.getPieceColor(), pieces);
+			case PAWN -> moves = pawnMoviments(source, board);
+			case TOWER -> moves = towerMoviments(source, piece.getPieceColor(), board);
+			case HORSE -> moves = horseMoviments(source, board);
+			case BISHOP -> moves = bishopMoviments(source, piece.getPieceColor(), moves, board, true);
+			case KING -> moves = kingMoviments(source, piece.getPieceColor(), board);
+			case QUEEN -> moves = queenMoviments(source, piece.getPieceColor(), board);
 			default -> moves;
 		};
 	

@@ -6,19 +6,18 @@ import static xadrez.utils.Util.containsPiece;
 import static xadrez.utils.Util.isSameColor;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import xadrez.piece.Piece;
+import xadrez.board.Board;
 
 public class PawnMovimentsRules {
 
-	public Set<Integer> pawnMoviments(int source, List<Piece> pieces) {
+	public static Set<Integer> pawnMoviments(int source, Board board) {
 		
 		Set<Integer> possiblePawnMoves = new HashSet<>();
 		
 		int moviment = source - 8;
-		
+		var pieces = board.getPieces();
 		var piece = pieces.get(source);
 		
 		if (piece.isBlack()) moviment = source + 8;

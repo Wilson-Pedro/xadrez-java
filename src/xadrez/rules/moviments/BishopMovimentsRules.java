@@ -8,16 +8,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import xadrez.board.Board;
 import xadrez.enums.PieceColor;
-import xadrez.piece.Piece;
 import xadrez.piece.moves.MoveBishop;
 
 public class BishopMovimentsRules {
 
-	public Set<Integer> bishopMoviments(int source, PieceColor color, Set<Integer> possibleMoves, List<Piece> pieces, boolean validation) {
+	public static Set<Integer> bishopMoviments(int source, PieceColor color, Set<Integer> possibleMoves, Board board, boolean validation) {
 		if(possibleMoves == null) possibleMoves = new HashSet<>();
 		List<MoveBishop> bishopsMovements = generateBishopsMovements();
 		MoveBishop moveBishop = bishopsMovements.get(source);
+		var pieces = board.getPieces();
 		int moviment = source;
 		
 		for(int i = 0; i < moveBishop.getUpperLeftDiagonalMovements(); i++) {

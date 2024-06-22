@@ -1,5 +1,6 @@
 package xadrez.rules.roque;
 
+import static xadrez.rules.check.CheckRules.check;
 import static xadrez.utils.Util.containsPiece;
 import static xadrez.utils.Util.isSameColor;
 
@@ -8,15 +9,8 @@ import java.util.List;
 import xadrez.board.Board;
 import xadrez.enums.PieceColor;
 import xadrez.piece.Piece;
-import xadrez.rules.check.CheckRules;
 
 public class RoqueRules {
-	
-	private CheckRules checkRules;
-
-	public RoqueRules(CheckRules checkRules) {
-		this.checkRules = checkRules;
-	}
 
 	public void roque(Board board, PieceColor color) {
 		var pieces = board.getPieces();
@@ -51,22 +45,22 @@ public class RoqueRules {
 				isTower02 = pieces.get(towerPositions.get(1)).isTower();
 		
 		if(noMovimentFromKing && noMovimentFromTower01 && isTower01 && !containsPiece(roqueMoviments.get(0), pieces) && !containsPiece(roqueMoviments.get(1), pieces) && !containsPiece(roqueMoviments.get(2), pieces) && pieces.get(kingPosition).isKing() ) {
-			if(!notInCheckForRoque(roqueMoviments, pieces, kingPosition, color, true)) isPossibleRook = true;
+			if(!notInCheckForRoque(roqueMoviments, board, kingPosition, color, true)) isPossibleRook = true;
 			
 		} else if (noMovimentFromKing && noMovimentFromTower02 && isTower02 && !containsPiece(roqueMoviments.get(3), pieces) && !containsPiece(roqueMoviments.get(4), pieces) && pieces.get(kingPosition).isKing()) {
-			if(!notInCheckForRoque(roqueMoviments, pieces, kingPosition, color, false)) isPossibleRook = true;
+			if(!notInCheckForRoque(roqueMoviments, board, kingPosition, color, false)) isPossibleRook = true;
 		}
 		return isPossibleRook;
 	}
 	
-	public boolean notInCheckForRoque(List<Integer> roqueMoviments, List<Piece> pieces, int kingPosition, PieceColor color, boolean validation) {
+	public boolean notInCheckForRoque(List<Integer> roqueMoviments, Board board, int kingPosition, PieceColor color, boolean validation) {
 		
-		boolean kingCheck = checkRules.check(kingPosition, color, pieces);
-		boolean roqueMovimentsCheck01 = checkRules.check(roqueMoviments.get(0), color, pieces);
-		boolean roqueMovimentsCheck02 = checkRules.check(roqueMoviments.get(1), color, pieces);
-		boolean roqueMovimentsCheck03 = checkRules.check(roqueMoviments.get(2), color, pieces);
-		boolean roqueMovimentsCheck04 = checkRules.check(roqueMoviments.get(3), color, pieces);
-		boolean roqueMovimentsCheck05 = checkRules.check(roqueMoviments.get(4), color, pieces);
+		boolean kingCheck = check(kingPosition, color, board);
+		boolean roqueMovimentsCheck01 = check(roqueMoviments.get(0), color, board);
+		boolean roqueMovimentsCheck02 = check(roqueMoviments.get(1), color, board);
+		boolean roqueMovimentsCheck03 = check(roqueMoviments.get(2), color, board);
+		boolean roqueMovimentsCheck04 = check(roqueMoviments.get(3), color, board);
+		boolean roqueMovimentsCheck05 = check(roqueMoviments.get(4), color, board);
 		
 		if(validation) {
 			return kingCheck || roqueMovimentsCheck01 || roqueMovimentsCheck02 || roqueMovimentsCheck03;

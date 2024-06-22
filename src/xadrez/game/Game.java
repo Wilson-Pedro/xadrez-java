@@ -1,5 +1,7 @@
 package xadrez.game;
 
+import static xadrez.rules.check.CheckRules.canGetTheKingOutOfCheck;
+import static xadrez.rules.check.CheckRules.check;
 import static xadrez.utils.Util.findPiecePosition;
 
 import java.util.HashSet;
@@ -11,13 +13,7 @@ import xadrez.board.Houses;
 import xadrez.enums.PieceColor;
 import xadrez.enums.PieceName;
 import xadrez.rules.check.CheckRules;
-import xadrez.rules.moviments.BishopMovimentsRules;
-import xadrez.rules.moviments.HorseMovimentsRules;
-import xadrez.rules.moviments.KingMovimentsRules;
-import xadrez.rules.moviments.PawnMovimentsRules;
 import xadrez.rules.moviments.PieceMovement;
-import xadrez.rules.moviments.QueenMovimentsRules;
-import xadrez.rules.moviments.TowerMovimentsRules;
 import xadrez.rules.roque.RoqueRules;
 
 public class Game {
@@ -27,15 +23,9 @@ public class Game {
 
 	public static void main(String[] args) {
 		
-		PawnMovimentsRules pawnRules = new PawnMovimentsRules();
-		TowerMovimentsRules towerRules = new TowerMovimentsRules();
-		HorseMovimentsRules horseRules = new HorseMovimentsRules();
-		BishopMovimentsRules bishopRules = new BishopMovimentsRules();
-		QueenMovimentsRules queenRules = new QueenMovimentsRules(towerRules, bishopRules);
-		CheckRules checkRules = new CheckRules(pawnRules, towerRules, horseRules, bishopRules, queenRules);
-		RoqueRules roqueRules = new RoqueRules(checkRules);
-		KingMovimentsRules kingRules = new KingMovimentsRules(checkRules);
-		PieceMovement pieceMoviment = new PieceMovement(pawnRules, towerRules, horseRules, bishopRules, kingRules, queenRules);
+		CheckRules checkRules = new CheckRules();
+		RoqueRules roqueRules = new RoqueRules();
+		PieceMovement pieceMoviment = new PieceMovement();
 		
 		Scanner sc  = new Scanner(System.in);
 		
@@ -60,7 +50,7 @@ public class Game {
 			System.out.println("\n");
 			validation = true;
 
-			checkmate = checkRules.isCheckmate(whiteKingPosition, board, WHITE, pieceMoviment.possibleMovements(whiteKingPosition, false, board.getPieces()));
+			checkmate = checkRules.isCheckmate(whiteKingPosition, board, WHITE, pieceMoviment.possibleMovements(whiteKingPosition, false, board));
 			if(checkmate) break;
 			
 			if(roqueRules.isPossibleRoque(board, WHITE) && once01) {
@@ -84,10 +74,10 @@ public class Game {
 						System.out.print("Source: ");
 						houseSorce = sc.next();
 						source = house.houseForNumber(houseSorce.toUpperCase());
-						possibleMovements = pieceMoviment.possibleMovements(source, true, board.getPieces());
+						possibleMovements = pieceMoviment.possibleMovements(source, true, board);
 						
-						possibleKingMovements = pieceMoviment.possibleMovements(whiteKingPosition, false, board.getPieces());
-					} while(checkRules.check(whiteKingPosition, WHITE, board.getPieces()) && possibleKingMovements.isEmpty() && checkRules.canGetTheKingOutOfCheck(possibleMovements, source, whiteKingPosition, new Board(board), WHITE));
+						possibleKingMovements = pieceMoviment.possibleMovements(whiteKingPosition, false, board);
+					} while(check(whiteKingPosition, WHITE, board) && possibleKingMovements.isEmpty() && canGetTheKingOutOfCheck(possibleMovements, source, whiteKingPosition, new Board(board), WHITE));
 				
 				} while(possibleMovements.isEmpty() || board.getPieces().get(source).isBlack());
 				
@@ -111,7 +101,7 @@ public class Game {
 			System.out.println("\n");
 			validation = true;
 			
-			checkmate = checkRules.isCheckmate(blackKingPosition, board, BLACK, pieceMoviment.possibleMovements(whiteKingPosition, false, board.getPieces()));
+			checkmate = checkRules.isCheckmate(blackKingPosition, board, BLACK, pieceMoviment.possibleMovements(whiteKingPosition, false, board));
 			if(checkmate) break;
 			
 			if(roqueRules.isPossibleRoque(board, BLACK) && once02) {
@@ -135,9 +125,9 @@ public class Game {
 						System.out.print("Source: ");
 						houseSorce = sc.next();
 						source = house.houseForNumber(houseSorce.toUpperCase());
-						possibleMovements = pieceMoviment.possibleMovements(source, true, board.getPieces());
-						possibleKingMovements = pieceMoviment.possibleMovements(blackKingPosition, false, board.getPieces());
-					} while(checkRules.check(blackKingPosition, BLACK, board.getPieces()) && checkRules.check(blackKingPosition, BLACK, board.getPieces()) && checkRules.canGetTheKingOutOfCheck(possibleMovements, source, blackKingPosition, board, BLACK));
+						possibleMovements = pieceMoviment.possibleMovements(source, true, board);
+						possibleKingMovements = pieceMoviment.possibleMovements(blackKingPosition, false, board);
+					} while(check(blackKingPosition, BLACK, board) && check(blackKingPosition, BLACK, board) && canGetTheKingOutOfCheck(possibleMovements, source, blackKingPosition, board, BLACK));
 				
 				} while(possibleMovements.isEmpty() || board.getPieces().get(source).isWhite());
 				
@@ -157,7 +147,7 @@ public class Game {
 			}
 		}
 		
-		System.out.println("\n\nEND OF THE GAME");
+		System.out.println("\nEND OF THE GAME");
 		sc.close();
 	}
 }
