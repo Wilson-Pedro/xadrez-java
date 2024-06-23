@@ -10,7 +10,9 @@ import static xadrez.rules.moviments.TowerMovimentsRules.towerMoviments;
 import static xadrez.utils.Util.containsPiece;
 import static xadrez.utils.Util.containsPieceInPosition;
 import static xadrez.utils.Util.isSameColor;
+import static xadrez.utils.Util.isSamePiece;
 import static xadrez.utils.Util.pieceIs;
+import static xadrez.utils.Util.findPiecePosition;
 
 import java.util.HashSet;
 import java.util.List;
@@ -70,6 +72,19 @@ public class CheckRules implements PossibleMoviments{
 		return horseCheck || towerCheck || bishopCheck || queenCheck;
 	}
 	
+	public static boolean isCheck(int source, int moviment, Board board, PieceColor color) {
+		boolean isCheck = false;
+		var pieces = board.getPieces();
+		var kingPosition = findPiecePosition(pieces, PieceName.KING, color);
+		var picesAux = pieces;
+		var boardAux = board;
+		board.movePiece(picesAux, source, moviment);
+		if(check(kingPosition, color, boardAux)) isCheck = true;
+		board.movePiece(picesAux, moviment, source);
+		
+		return isCheck;
+	}
+	
 	public static boolean canGetTheKingOutOfCheck(Set<Integer> possibleMovements, int source, int kingPosition, Board board, PieceColor color) {
 		boolean stilInCheck = true;
 		var pieces = board.getPieces();
@@ -96,7 +111,7 @@ public class CheckRules implements PossibleMoviments{
 				if(containsPieceInPosition(source, pieces) && !isSameColor(color, piece.getPieceColor())) check = false;
 				count++;
 			}
-			if(containsPiece(x, pieces) && !isSameColor(color, piece.getPieceColor()) && piece.getPieceName().equals(pieceName)) check = true;
+			if(containsPiece(x, pieces) && !isSameColor(color, piece.getPieceColor()) && isSamePiece(piece.getPieceName(), pieceName)) check = true;
 		}
 		return check;
 	}
