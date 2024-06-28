@@ -48,6 +48,7 @@ public class CheckRules implements PossibleMoviments{
 		boolean isCheckmate = false, stilInCheck=true;
 		var pieces = board.getPieces();
 		var piece = new Piece();
+		
 		Set<Integer> possibleMovements = new HashSet<>();
 		for(int i = 0; i <= 63; i++) {
 			piece = pieces.get(i);
@@ -58,6 +59,7 @@ public class CheckRules implements PossibleMoviments{
 			}
 		}
 		if(check(kingPosition, color, board) && possibleKingMovements.isEmpty() && stilInCheck) isCheckmate = true;
+		
 		return isCheckmate;
 	}
 	
@@ -74,30 +76,45 @@ public class CheckRules implements PossibleMoviments{
 	
 	public static boolean isCheck(int source, int moviment, Board board, PieceColor color) {
 		boolean isCheck = false;
-		var pieces = board.getPieces();
-		var kingPosition = findPiecePosition(pieces, PieceName.KING, color);
-		var picesAux = pieces;
-		var boardAux = board;
-		board.movePiece(picesAux, source, moviment);
-		if(check(kingPosition, color, boardAux)) isCheck = true;
-		board.movePiece(picesAux, moviment, source);
+		int totalPieces = board.getTotalPieces();
+		var pieceDestination = board.getPieces().get(moviment);
+		var kingPosition = findPiecePosition(board.getPieces(), PieceName.KING, color);
+		
+		board.movePiece(source, moviment);	
+		isCheck = check(kingPosition, color, board);
+		board.movePiece(moviment, source);
+		
+		if(board.getTotalPieces() < totalPieces) board.setPieceInTheBoard(pieceDestination, moviment);
 		
 		return isCheck;
 	}
 	
 	public static boolean canGetTheKingOutOfCheck(Set<Integer> possibleMovements, int source, int kingPosition, Board board, PieceColor color) {
+		
 		boolean stilInCheck = true;
-		var pieces = board.getPieces();
-		var picesAux = pieces;
-		var boardAux = board;
 		int sourceAux = source;
+		int totalPieces = board.getTotalPieces();
+		var pieceDestination = new Piece();
+		var pieceSource = board.getPieces().get(source);
 		for(Integer moviment : possibleMovements) {
-			board.movePiece(picesAux, source, moviment);
-			if(!check(kingPosition, color, boardAux)) stilInCheck = false;
-			source = moviment;
-			if(stilInCheck == false) break;
+			pieceDestination = board.getPieces().get(moviment);
+			board.movePiece(source, moviment);
+			
+			if(!check(kingPosition, color, board)) stilInCheck = false;
+			if(board.getTotalPieces() < totalPieces) {
+				board.setPieceInTheBoard(pieceDestination, moviment);
+				board.setPieceInTheBoard(pieceSource, sourceAux);
+				source = sourceAux;
+			} else {
+				source = moviment;
+			}
+			
+			if(!stilInCheck) break;
 		}
-		if(!possibleMovements.isEmpty()) board.movePiece(picesAux, source, sourceAux);
+		//if(!possibleMovements.isEmpty() && totalPiecesValidation) board.movePiece(source, sourceAux);
+		
+		board.setPieceInTheBoard(pieceSource, sourceAux);
+		if(board.getTotalPieces() > totalPieces) board.setUnnamedInTheBoard(source);
 		return stilInCheck;
 	}
 

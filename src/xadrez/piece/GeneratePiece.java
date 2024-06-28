@@ -126,25 +126,7 @@ public class GeneratePiece {
 		pieces.add(Unnamed);
 		pieces.add(Unnamed);
 		pieces.add(Unnamed);
-		pieces.add(BlackQueen01);
 		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(whiteHorse02);
 		pieces.add(Unnamed);
 		pieces.add(Unnamed);
 		pieces.add(Unnamed);
@@ -162,28 +144,28 @@ public class GeneratePiece {
 		pieces.add(Unnamed);
 		pieces.add(Unnamed);
 		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		pieces.add(Unnamed);
+		
+		pieces.add(whitePawn01);
+		pieces.add(whitePawn02);
+		pieces.add(whitePawn03);
+		pieces.add(whitePawn04);
+		pieces.add(whitePawn05);
+		pieces.add(whitePawn06);
+		pieces.add(whitePawn07);
+		pieces.add(whitePawn08);
+		
+		pieces.add(whiteTower01);
+		pieces.add(whiteHorse01);
+		pieces.add(whiteBisp01);
+		pieces.add(whiteQueen01);
 		pieces.add(whiteKing01);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		
-//		pieces.add(whitePawn01);
-//		pieces.add(whitePawn02);
-//		pieces.add(whitePawn03);
-//		pieces.add(whitePawn04);
-//		pieces.add(whitePawn05);
-//		pieces.add(whitePawn06);
-//		pieces.add(whitePawn07);
-//		pieces.add(whitePawn08);
-		
-//		pieces.add(whiteTower01);
-//		pieces.add(whiteHorse01);
-//		pieces.add(whiteBisp01);
-//		pieces.add(whiteQueen01);
-//		pieces.add(whiteKing01);
-//		pieces.add(whiteBisp02);
-//		pieces.add(whiteHorse02);
-//		pieces.add(whiteTower02);
+		pieces.add(whiteBisp02);
+		pieces.add(whiteHorse02);
+		pieces.add(whiteTower02);
 		
 		return pieces;
 	}

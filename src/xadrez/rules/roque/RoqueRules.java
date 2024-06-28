@@ -21,13 +21,13 @@ public class RoqueRules {
 		var tower02 = pieces.get(towersPosition.get(1));
 		
 		if(!containsPiece(rockMoviments.get(0), pieces) && !containsPiece(rockMoviments.get(1), pieces) && !containsPiece(rockMoviments.get(2), pieces)) {
-			board.movePiece(pieces, kingPosition, rockMoviments.get(1));
-			board.movePiece(pieces, towersPosition.get(0), rockMoviments.get(2));
+			board.movePiece(kingPosition, rockMoviments.get(1));
+			board.movePiece(towersPosition.get(0), rockMoviments.get(2));
 			tower01.incrementMoveQuantity();
 			
 		} else if (!containsPiece(rockMoviments.get(3), pieces) && !containsPiece(rockMoviments.get(4), pieces)) {
-			board.movePiece(pieces, kingPosition, rockMoviments.get(4));
-			board.movePiece(pieces, towersPosition.get(1), rockMoviments.get(3));
+			board.movePiece(kingPosition, rockMoviments.get(4));
+			board.movePiece(towersPosition.get(1), rockMoviments.get(3));
 			tower02.incrementMoveQuantity();
 		}
 	}

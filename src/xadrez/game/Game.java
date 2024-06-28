@@ -36,12 +36,18 @@ public class Game {
 		Board board = new Board();
 		String houseSorce="", houseTarget="";
 		
-		int source=0, target=0, whiteKingPosition=60, blackKingPosition=4;
-		String press= "a";
-		boolean invalidMoviment = false, checkmate = false, validation, once01 = true, once02= true;
+//		int source=0, target=0, whiteKingPosition=60, blackKingPosition=4;
+//		String press= "a";
+//		boolean invalidMoviment = false, checkmate = false, validation, once01 = true, once02= true;
 		
 		house.generateHouses();
 		board.generatePieces();
+		
+		int source=0, target=0, 
+				whiteKingPosition=findPiecePosition(board.getPieces(), PieceName.KING, WHITE), 
+				blackKingPosition=findPiecePosition(board.getPieces(), PieceName.KING, BLACK);
+		String press= "a";
+		boolean invalidMoviment = false, checkmate = false, validation, once01 = true, once02= true;
 		
 		while(!checkmate) {
 			System.out.println();
@@ -90,7 +96,7 @@ public class Game {
 					invalidMoviment = !possibleMovements.contains(target);
 				} while(invalidMoviment);
 				
-				board.movePiece(board.getPieces(), source, target);
+				board.movePiece(source, target);
 				
 				whiteKingPosition = findPiecePosition(board.getPieces(), PieceName.KING, WHITE);
 			}
@@ -140,7 +146,7 @@ public class Game {
 					invalidMoviment = !possibleMovements.contains(target);
 				} while(invalidMoviment);
 				
-				board.movePiece(board.getPieces(), source, target);
+				board.movePiece(source, target);
 				
 				blackKingPosition = findPiecePosition(board.getPieces(), PieceName.KING, BLACK);
 				

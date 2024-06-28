@@ -23,6 +23,32 @@ public class Board {
 		return pieces;
 	}
 	
+	public void setPieces(List<Piece> pieces) {
+		this.pieces = pieces;
+	}
+	
+	public int getTotalPieces() {
+		int total = 0;
+		for(Piece piece : pieces) {
+			if(!piece.equals(Unnamed)) total++;
+		}
+		return total;
+	}
+	
+	public void movePiece (int source, int target) {
+		pieces.set(target, pieces.get(source));
+		pieces.set(source, Unnamed);
+	}
+	
+	public void setPieceInTheBoard(Piece piece, int target) {
+		pieces.set(target, Unnamed);
+		pieces.set(target, piece);
+	}
+	
+	public void setUnnamedInTheBoard(int target) {
+		pieces.set(target, Unnamed);
+	}
+
 	public void generatePieces() {
 		this.pieces = GeneratePiece.generatePieces();
 	}
@@ -87,11 +113,6 @@ public class Board {
 			i += 1;
 			//index += 1;
 		}
-	}
-	
-	public void movePiece (List<Piece> parts, int source, int target) {
-		parts.set(target, parts.get(source));
-		parts.set(source, Unnamed);
 	}
 
 	@Override
