@@ -19,13 +19,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import xadrez.board.Board;
-import xadrez.enums.PieceColor;
 
 public class KingMovimentsRules {
 
-	public static Set<Integer> kingMoviments(int source, PieceColor color, Board board) {
+	public static Set<Integer> kingMoviments(int source, Board board) {
 		Set<Integer> possibleKingMoves = new HashSet<>();
 		var pieces = board.getPieces();
+		var color = board.getPieces().get(source).getPieceColor();
 		
 		if(!generateHousesAbove().contains(source)) {
 			if (!check(source - 8, color, board) && !isPawnTopCheck(source, pieces, color) && containsPieceAndisDifferentColor(source, (source - 8), pieces)) possibleKingMoves.add(source - 8);

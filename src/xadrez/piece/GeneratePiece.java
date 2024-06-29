@@ -52,102 +52,102 @@ public class GeneratePiece {
 	// BLACK PARTS
 
 	// Black Pawns
-	public static Piece BlackPawn01 = new Piece(PieceName.PAWN, PieceColor.BLACK, "BP", 0);
+	public static Piece blackPawn01 = new Piece(PieceName.PAWN, PieceColor.BLACK, "BP", 0);
 	
-	public static Piece BlackPawn02 = new Piece(PieceName.PAWN, PieceColor.BLACK, "BP", 0);
+	public static Piece blackPawn02 = new Piece(PieceName.PAWN, PieceColor.BLACK, "BP", 0);
 	
-	public static Piece BlackPawn03 = new Piece(PieceName.PAWN, PieceColor.BLACK, "BP", 0);
+	public static Piece blackPawn03 = new Piece(PieceName.PAWN, PieceColor.BLACK, "BP", 0);
 	
-	public static Piece BlackPawn04 = new Piece(PieceName.PAWN, PieceColor.BLACK, "BP", 0);
+	public static Piece blackPawn04 = new Piece(PieceName.PAWN, PieceColor.BLACK, "BP", 0);
 	
-	public static Piece BlackPawn05 = new Piece(PieceName.PAWN, PieceColor.BLACK, "BP", 0);
+	public static Piece blackPawn05 = new Piece(PieceName.PAWN, PieceColor.BLACK, "BP", 0);
 	
-	public static Piece BlackPawn06 = new Piece(PieceName.PAWN, PieceColor.BLACK, "BP", 0);
+	public static Piece blackPawn06 = new Piece(PieceName.PAWN, PieceColor.BLACK, "BP", 0);
 	
-	public static Piece BlackPawn07 = new Piece(PieceName.PAWN, PieceColor.BLACK, "BP", 0);
+	public static Piece blackPawn07 = new Piece(PieceName.PAWN, PieceColor.BLACK, "BP", 0);
 	
-	public static Piece BlackPawn08 = new Piece(PieceName.PAWN, PieceColor.BLACK, "BP", 0);
+	public static Piece blackPawn08 = new Piece(PieceName.PAWN, PieceColor.BLACK, "BP", 0);
 	
-	// Black Towers
-	public static Piece BlackTower01 = new Piece(PieceName.TOWER, PieceColor.BLACK, "BT", 0);
+	// Black Tower
+	public static Piece blackTower01 = new Piece(PieceName.TOWER, PieceColor.BLACK, "BT", 0);
 	
-	public static Piece BlackTower02 = new Piece(PieceName.TOWER, PieceColor.BLACK, "BT", 0);
+	public static Piece blackTower02 = new Piece(PieceName.TOWER, PieceColor.BLACK, "BT", 0);
 	
 	// Black Horses
-	public static Piece BlackHorse01 = new Piece(PieceName.HORSE, PieceColor.BLACK, "BH", 0);
+	public static Piece blackHorse01 = new Piece(PieceName.HORSE, PieceColor.BLACK, "BH", 0);
 	
-	public static Piece BlackHorse02 = new Piece(PieceName.HORSE, PieceColor.BLACK, "BH", 0);
+	public static Piece blackHorse02 = new Piece(PieceName.HORSE, PieceColor.BLACK, "BH", 0);
 	
 	// Black Bishops
-	public static Piece BlackBisp01 = new Piece(PieceName.BISHOP, PieceColor.BLACK, "BB", 0);
+	public static Piece blackBisp01 = new Piece(PieceName.BISHOP, PieceColor.BLACK, "BB", 0);
 	
-	public static Piece BlackBisp02 = new Piece(PieceName.BISHOP, PieceColor.BLACK, "BB", 0);
+	public static Piece blackBisp02 = new Piece(PieceName.BISHOP, PieceColor.BLACK, "BB", 0);
 	
 	// Black Queen
-	public static Piece BlackQueen01 = new Piece(PieceName.QUEEN, PieceColor.BLACK, "BQ", 0);
+	public static Piece blackQueen01 = new Piece(PieceName.QUEEN, PieceColor.BLACK, "BQ", 0);
 	
 	// Black King
-	public static Piece BlackKing01 = new Piece(PieceName.KING, PieceColor.BLACK, "BK", 0);
+	public static Piece blackKing01 = new Piece(PieceName.KING, PieceColor.BLACK, "BK", 0);
 	
-	public static Piece Unnamed = new Piece(PieceName.UNNAMED, PieceColor.NO_COLOR, "- ", 0);
+	public static Piece noPiece = new Piece(PieceName.UNNAMED, PieceColor.NO_COLOR, "- ", 0);
 	
 	public static List<Piece> generatePieces() {
 		
 		List<Piece> pieces = new ArrayList<>();
 		
-		pieces.add(BlackTower01);
-		pieces.add(BlackHorse01);
-		pieces.add(BlackBisp01);
-		pieces.add(BlackQueen01);
-		pieces.add(BlackKing01);
-		pieces.add(BlackBisp02);
-		pieces.add(BlackHorse02);
-		pieces.add(BlackTower02);
+		pieces.add(blackTower01);
+		pieces.add(blackHorse01);
+		pieces.add(blackBisp01);
+		pieces.add(blackQueen01);
+		pieces.add(blackKing01);
+		pieces.add(blackBisp02);
+		pieces.add(blackHorse02);
+		pieces.add(blackTower02);
 		
-		pieces.add(BlackPawn01);
-		pieces.add(BlackPawn02);
-		pieces.add(BlackPawn03);
-		pieces.add(BlackPawn04);
-		pieces.add(BlackPawn05);
-		pieces.add(BlackPawn06);
-		pieces.add(BlackPawn07);
-		pieces.add(BlackPawn08);
+		pieces.add(blackPawn01);
+		pieces.add(blackPawn02);
+		pieces.add(blackPawn03);
+		pieces.add(blackPawn04);
+		pieces.add(blackPawn05);
+		pieces.add(blackPawn06);
+		pieces.add(blackPawn07);
+		pieces.add(blackPawn08);
 		
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
 		
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
 		
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
 		
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
-		pieces.add(Unnamed);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
+		pieces.add(noPiece);
 		
 		pieces.add(whitePawn01);
 		pieces.add(whitePawn02);

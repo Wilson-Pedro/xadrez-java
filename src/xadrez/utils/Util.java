@@ -1,6 +1,6 @@
 package xadrez.utils;
 
-import static xadrez.piece.GeneratePiece.Unnamed;
+import static xadrez.piece.GeneratePiece.noPiece;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class Util {
 	}
 	
 	public static boolean containsPieceInPosition(int position, List<Piece> pieces) {
-		return pieces.contains(pieces.get(position)) && !pieces.get(position).equals(Unnamed);
+		return pieces.contains(pieces.get(position)) && !pieces.get(position).equals(noPiece);
 	}
 	
 	public static boolean pieceIs(List<Piece> pieces, int source, PieceName pieceName) {

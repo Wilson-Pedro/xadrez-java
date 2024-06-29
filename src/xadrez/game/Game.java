@@ -36,10 +36,6 @@ public class Game {
 		Board board = new Board();
 		String houseSorce="", houseTarget="";
 		
-//		int source=0, target=0, whiteKingPosition=60, blackKingPosition=4;
-//		String press= "a";
-//		boolean invalidMoviment = false, checkmate = false, validation, once01 = true, once02= true;
-		
 		house.generateHouses();
 		board.generatePieces();
 		
@@ -50,10 +46,8 @@ public class Game {
 		boolean invalidMoviment = false, checkmate = false, validation, once01 = true, once02= true;
 		
 		while(!checkmate) {
-			System.out.println();
-			System.out.println("=============================================");
+
 			board.showWhitePieces();
-			System.out.println("\n");
 			validation = true;
 
 			checkmate = checkRules.isCheckmate(whiteKingPosition, board, WHITE, pieceMoviment.possibleMovements(whiteKingPosition, false, board));
@@ -101,10 +95,7 @@ public class Game {
 				whiteKingPosition = findPiecePosition(board.getPieces(), PieceName.KING, WHITE);
 			}
 			
-			System.out.println();
-			System.out.println("=============================================");
 			board.showBlackPieces();
-			System.out.println("\n");
 			validation = true;
 			
 			checkmate = checkRules.isCheckmate(blackKingPosition, board, BLACK, pieceMoviment.possibleMovements(whiteKingPosition, false, board));

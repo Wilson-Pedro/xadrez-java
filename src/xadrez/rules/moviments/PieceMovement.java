@@ -27,7 +27,7 @@ public class PieceMovement implements PossibleMoviments{
 			case TOWER -> moves = towerMovimentsWithCheckValidation(source, piece.getPieceColor(), board);
 			case HORSE -> moves = horseMovimentsWithCheckValidation(source, board);
 			case BISHOP -> moves = bishopMovimentsWithCheckValidation(source, piece.getPieceColor(), moves, board, true);
-			case KING -> moves = kingMoviments(source, piece.getPieceColor(), board);
+			case KING -> moves = kingMoviments(source, board);
 			case QUEEN -> moves = queenMovimentsWithCheckValidation(source, piece.getPieceColor(), board);
 			default -> moves;
 		};

@@ -111,10 +111,9 @@ public class CheckRules implements PossibleMoviments{
 			
 			if(!stilInCheck) break;
 		}
-		//if(!possibleMovements.isEmpty() && totalPiecesValidation) board.movePiece(source, sourceAux);
 		
 		board.setPieceInTheBoard(pieceSource, sourceAux);
-		if(board.getTotalPieces() > totalPieces) board.setUnnamedInTheBoard(source);
+		if(board.getTotalPieces() > totalPieces) board.setNoPieceInTheBoard(source);
 		return stilInCheck;
 	}
 
