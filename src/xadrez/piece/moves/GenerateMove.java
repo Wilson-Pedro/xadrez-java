@@ -38,14 +38,14 @@ public class GenerateMove {
 				new MoveBishop(23, 2, 0, 5, 0),
 				
 				// 24 a 31
-				new MoveBishop(31, 0, 3, 0, 4),
-				new MoveBishop(32, 1, 3, 1, 4),
-				new MoveBishop(33, 2, 3, 2, 4),
-				new MoveBishop(34, 3, 3, 3, 4),
-				new MoveBishop(35, 3, 3, 4, 3),
-				new MoveBishop(36, 3, 2, 4, 2),
-				new MoveBishop(37, 3, 1, 4, 1),
-				new MoveBishop(38, 3, 0, 4, 0),
+				new MoveBishop(24, 0, 3, 0, 4),
+				new MoveBishop(25, 1, 3, 1, 4),
+				new MoveBishop(26, 2, 3, 2, 4),
+				new MoveBishop(27, 3, 3, 3, 4),
+				new MoveBishop(28, 3, 3, 4, 3),
+				new MoveBishop(29, 3, 2, 4, 2),
+				new MoveBishop(30, 3, 1, 4, 1),
+				new MoveBishop(31, 3, 0, 4, 0),
 				
 				// 32 a 39
 				new MoveBishop(32, 0, 4, 0, 3),

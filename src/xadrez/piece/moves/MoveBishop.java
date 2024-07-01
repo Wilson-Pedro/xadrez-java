@@ -1,6 +1,6 @@
 package xadrez.piece.moves;
 
-public class MoveBishop extends Move{
+public class MoveBishop extends Move {
 	
 	private Integer upperLeftDiagonalMovements;
 
