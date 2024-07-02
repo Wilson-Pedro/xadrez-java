@@ -1,4 +1,4 @@
 # Default ignored files
 /shelf/
 /workspace.xml
-src/xadrez/game/TesteBishopMoves.java
+../src/xadrez/game/TesteBishopMoves.java

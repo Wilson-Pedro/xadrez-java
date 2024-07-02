@@ -1,6 +1,5 @@
 package xadrez.rules.moviments;
 
-import static xadrez.piece.moves.GenerateMove.generateBishopsMovements;
 import static xadrez.rules.check.CheckRules.isCheck;
 import static xadrez.utils.Util.containsPiece;
 import static xadrez.utils.Util.isSameColor;
@@ -18,7 +17,7 @@ public class BishopMovimentsRules {
 
 	public static Set<Integer> bishopMoviments(int source, PieceColor color, Set<Integer> possibleMoves, Board board, boolean validation) {
 		if(possibleMoves == null) possibleMoves = new HashSet<>();
-		List<MoveBishop> bishopsMovements = generateBishopsMovements();
+		List<MoveBishop> bishopsMovements = bishopsMoviments();
 		MoveBishop moveBishop = bishopsMovements.get(source);
 		var pieces = board.getPieces();
 		int moviment = source;
@@ -66,7 +65,7 @@ public class BishopMovimentsRules {
 	
 	public static Set<Integer> bishopMovimentsWithCheckValidation(int source, PieceColor color, Set<Integer> possibleMoves, Board board, boolean validation) {
 		if(possibleMoves == null) possibleMoves = new HashSet<>();
-		List<MoveBishop> bishopsMovements = generateBishopsMovements();
+		List<MoveBishop> bishopsMovements = bishopsMoviments();
 		MoveBishop moveBishop = bishopsMovements.get(source);
 		var pieces = board.getPieces();
 		int moviment = source;
@@ -126,6 +125,25 @@ public class BishopMovimentsRules {
 		}
 		
 		return possibleMoves;
+	}
+	
+	public static List<MoveBishop> bishopsMoviments() {
+		List<MoveBishop> bishopMoves = new ArrayList<>();
+		
+		List<Integer> upperDiagonalMoviments =  upperDiagonalMoviments();
+		List<Integer> lowerDiagonalMoviments =  lowerDiagonalMoviments();
+		List<Integer> upperDiagonalMovimentsInversed = reverseList(upperDiagonalMoviments);
+		List<Integer> lowerDiagonalmovimentsInversed = reverseList(lowerDiagonalMoviments);
+		
+		for(int i = 0; i <= 63; i++) {
+			bishopMoves.add(new MoveBishop(i, 
+					upperDiagonalMoviments.get(i), 
+					upperDiagonalMovimentsInversed.get(i),  
+					lowerDiagonalmovimentsInversed.get(i),
+					lowerDiagonalMoviments.get(i)));
+		}
+		
+		return bishopMoves;
 	}
 	
 	public static List<Integer> upperDiagonalMoviments() {
