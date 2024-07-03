@@ -75,7 +75,6 @@ public class HorseMovimentsRules {
 		var pieces = board.getPieces();
 		int movimentValid01 = 0, movimentValid02 = 0;
 		boolean movimentValid03 = false, movimentValid04 = false;
-		var color = board.getPieces().get(source).getPieceColor();
 
 		// MOVER CAVALO PARA CIMA
 		if (!generateHousesAbove().contains(source)) {
@@ -83,9 +82,9 @@ public class HorseMovimentsRules {
 			movimentValid02 = (source - 16) - 1;
 			movimentValid03 = generateRightSideHouses().contains(movimentValid02);
 			movimentValid04 = generateLeftSideHouses().contains(movimentValid01);
-			if (movimentValid01 < 64 && movimentValid01 >= 0 && !movimentValid04 && !isSameColor(source, movimentValid01, pieces) && !isCheck(source, movimentValid01, board, color))
+			if (movimentValid01 < 64 && movimentValid01 >= 0 && !movimentValid04 && !isSameColor(source, movimentValid01, pieces) && !isCheck(source, movimentValid01, board))
 				possibleHorseMoves.add(movimentValid01);
-			if (movimentValid02 < 64 && movimentValid02 >= 0 && !movimentValid03 && !isSameColor(source, movimentValid02, pieces) && !isCheck(source, movimentValid02, board, color))
+			if (movimentValid02 < 64 && movimentValid02 >= 0 && !movimentValid03 && !isSameColor(source, movimentValid02, pieces) && !isCheck(source, movimentValid02, board))
 				possibleHorseMoves.add(movimentValid02);
 		}
 
@@ -95,9 +94,9 @@ public class HorseMovimentsRules {
 			movimentValid02 = (source + 2) + 8;
 			movimentValid03 = source + 1 == 63 || source + 1 == 7;
 			movimentValid04 = generateLeftSideHouses().contains(movimentValid01);
-			if (movimentValid01 < 64 && movimentValid01 >= 0 && !movimentValid03 && !movimentValid04  && !isSameColor(source, movimentValid01, pieces) && !isCheck(source, movimentValid01, board, color))
+			if (movimentValid01 < 64 && movimentValid01 >= 0 && !movimentValid03 && !movimentValid04  && !isSameColor(source, movimentValid01, pieces) && !isCheck(source, movimentValid01, board))
 				possibleHorseMoves.add(movimentValid01);
-			if (movimentValid02 < 64 && movimentValid02 >= 0 && !movimentValid03 && !movimentValid04 && !isSameColor(source, movimentValid02, pieces) && !isCheck(source, movimentValid02, board, color))
+			if (movimentValid02 < 64 && movimentValid02 >= 0 && !movimentValid03 && !movimentValid04 && !isSameColor(source, movimentValid02, pieces) && !isCheck(source, movimentValid02, board))
 				possibleHorseMoves.add(movimentValid02);
 		}
 
@@ -107,9 +106,9 @@ public class HorseMovimentsRules {
 			movimentValid02 = (source - 2) + 8;
 			movimentValid03 = source - 1 == 56 || source - 1 == 0;
 			movimentValid04 = generateRightSideHouses().contains(movimentValid01);
-			if (movimentValid01 < 64 && movimentValid01 >= 0 && !movimentValid03 && !movimentValid04 && !isSameColor(source, movimentValid01, pieces) && !isCheck(source, movimentValid01, board, color))
+			if (movimentValid01 < 64 && movimentValid01 >= 0 && !movimentValid03 && !movimentValid04 && !isSameColor(source, movimentValid01, pieces) && !isCheck(source, movimentValid01, board))
 				possibleHorseMoves.add(movimentValid01);
-			if (movimentValid02 < 64 && movimentValid02 >= 0 && !movimentValid03 && !movimentValid04 && !isSameColor(source, movimentValid02, pieces) && !isCheck(source, movimentValid02, board, color))
+			if (movimentValid02 < 64 && movimentValid02 >= 0 && !movimentValid03 && !movimentValid04 && !isSameColor(source, movimentValid02, pieces) && !isCheck(source, movimentValid02, board))
 				possibleHorseMoves.add(movimentValid02);
 		}
 
@@ -118,9 +117,9 @@ public class HorseMovimentsRules {
 			movimentValid01 = (source + 16) + 1;
 			movimentValid02 = (source + 16) - 1;
 			movimentValid03 = generateRightSideHouses().contains(movimentValid02);
-			if (movimentValid01 < 64 && movimentValid01 >= 0 && !isSameColor(source, movimentValid01, pieces) && !isCheck(source, movimentValid01, board, color))
+			if (movimentValid01 < 64 && movimentValid01 >= 0 && !isSameColor(source, movimentValid01, pieces) && !isCheck(source, movimentValid01, board))
 				possibleHorseMoves.add(movimentValid01);
-			if (movimentValid02 < 64 && movimentValid02 >= 0 && !movimentValid03 && !isSameColor(source, movimentValid02, pieces) && !isCheck(source, movimentValid02, board, color))
+			if (movimentValid02 < 64 && movimentValid02 >= 0 && !movimentValid03 && !isSameColor(source, movimentValid02, pieces) && !isCheck(source, movimentValid02, board))
 				possibleHorseMoves.add(movimentValid02);
 		}
 

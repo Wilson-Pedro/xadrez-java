@@ -4,9 +4,9 @@ import static xadrez.board.HousesFromBoard.generateDownHouses;
 import static xadrez.board.HousesFromBoard.generateHousesAbove;
 import static xadrez.board.HousesFromBoard.generateLeftSideHouses;
 import static xadrez.board.HousesFromBoard.generateRightSideHouses;
+import static xadrez.rules.check.CheckRules.isCheck;
 import static xadrez.utils.Util.containsPiece;
 import static xadrez.utils.Util.isSameColor;
-import static xadrez.rules.check.CheckRules.isCheck;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,16 +14,16 @@ import java.util.List;
 import java.util.Set;
 
 import xadrez.board.Board;
-import xadrez.enums.PieceColor;
 import xadrez.piece.moves.MoveTower;
 
 public class TowerMovimentsRules {
 
 	//TOWER MOVIMENT
-	public static Set<Integer> towerMoviments(int source, PieceColor color, Board board) {
+	public static Set<Integer> towerMoviments(int source, Board board) {
 		Set<Integer> possibleTowerMoves = new HashSet<>();
 		List<MoveTower> moves = horizontalAndVerticalMovements();
 		var pieces = board.getPieces();
+		var color = board.getPieces().get(source).getPieceColor();
 		MoveTower move = moves.get(source);
 		
 		int moviment = source;
@@ -81,10 +81,11 @@ public class TowerMovimentsRules {
 		return possibleTowerMoves;
 	}
 	
-	public static Set<Integer> towerMovimentsWithCheckValidation(int source, PieceColor color, Board board) {
+	public static Set<Integer> towerMovimentsWithCheckValidation(int source, Board board) {
 		Set<Integer> possibleTowerMoves = new HashSet<>();
 		List<MoveTower> moves = horizontalAndVerticalMovements();
 		var pieces = board.getPieces();
+		var color = board.getPieces().get(source).getPieceColor();
 		MoveTower move = moves.get(source);
 		
 		int moviment = source;
@@ -93,10 +94,10 @@ public class TowerMovimentsRules {
 		if (!generateHousesAbove().contains(source)) {
 			for (int i = 0; i < move.getMovimentsToUp(); i++) {
 				if (containsPiece(moviment - 8, pieces)) {
-					if (!isSameColor(color, pieces.get(moviment - 8).getPieceColor()) && !isCheck(source, moviment - 8, board, color)) possibleTowerMoves.add(moviment -= 8);
+					if (!isSameColor(color, pieces.get(moviment - 8).getPieceColor()) && !isCheck(source, moviment - 8, board)) possibleTowerMoves.add(moviment -= 8);
 					i = move.getMovimentsToUp();
 				}
-				else if (!isCheck(source, moviment - 8, board, color)) {
+				else if (!isCheck(source, moviment - 8, board)) {
 					possibleTowerMoves.add(moviment -= 8);
 				} else {
 					moviment -= 8;
@@ -110,10 +111,10 @@ public class TowerMovimentsRules {
 		if (!generateRightSideHouses().contains(source)) {
 			for (int i = 0; i < move.getMovimentsToRight(); i++) {
 				if (containsPiece(moviment + 1, pieces)) {
-					if(!isSameColor(color, pieces.get(moviment + 1).getPieceColor()) && !isCheck(source, moviment + 1, board, color)) possibleTowerMoves.add(moviment += 1);
+					if(!isSameColor(color, pieces.get(moviment + 1).getPieceColor()) && !isCheck(source, moviment + 1, board)) possibleTowerMoves.add(moviment += 1);
 					i = move.getMovimentsToRight();
 				}
-				else if(!isCheck(source, moviment + 1, board, color)) {
+				else if(!isCheck(source, moviment + 1, board)) {
 					possibleTowerMoves.add(moviment += 1);
 				} else {
 					moviment += 1;
@@ -127,10 +128,10 @@ public class TowerMovimentsRules {
 		if (!generateLeftSideHouses().contains(source)) {
 			for (int i = 0; i < move.getMovimentsToLeft(); i++) {
 				if (containsPiece(moviment - 1, pieces)) {
-					if(!isSameColor(color, pieces.get(moviment - 1).getPieceColor()) && !isCheck(source, moviment - 1, board, color)) possibleTowerMoves.add(moviment -= 1);
+					if(!isSameColor(color, pieces.get(moviment - 1).getPieceColor()) && !isCheck(source, moviment - 1, board)) possibleTowerMoves.add(moviment -= 1);
 					i = move.getMovimentsToLeft();
 				}
-				else if(!isCheck(source, moviment - 1, board, color)) {
+				else if(!isCheck(source, moviment - 1, board)) {
 					possibleTowerMoves.add(moviment -= 1);
 				} else {
 					moviment -= 1;
@@ -144,10 +145,10 @@ public class TowerMovimentsRules {
 		if (!generateDownHouses().contains(source)) {
 			for (int i = 0; i < move.getMovimentsToDown(); i++) {
 				if (containsPiece(moviment + 8, pieces)) {
-					if (!isSameColor(color, pieces.get(moviment + 8).getPieceColor()) && !isCheck(source, moviment + 8, board, color)) possibleTowerMoves.add(moviment += 8);
+					if (!isSameColor(color, pieces.get(moviment + 8).getPieceColor()) && !isCheck(source, moviment + 8, board)) possibleTowerMoves.add(moviment += 8);
 					i = move.getMovimentsToDown();
 				}
-				else if(!isCheck(source, moviment + 8, board, color)) {
+				else if(!isCheck(source, moviment + 8, board)) {
 					possibleTowerMoves.add(moviment += 8);
 				} else {
 					moviment += 8;

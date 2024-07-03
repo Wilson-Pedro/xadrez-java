@@ -27,34 +27,35 @@ import xadrez.piece.Piece;
 public class CheckRules implements PossibleMoviments{
 
 	@Override
-	public Set<Integer> possibleMovements(int source, boolean autoincrement, Board board) {
+	public Set<Integer> possibleMovements(int source, Board board) {
 		Set<Integer> moves = new HashSet<>();
 		var pieces = board.getPieces();
 		Piece piece = pieces.get(source);
 		
 		moves = switch(piece.getPieceName()) {
 			case PAWN -> moves = pawnMoviments(source, board);
-			case TOWER -> moves = towerMoviments(source, piece.getPieceColor(), board);
+			case TOWER -> moves = towerMoviments(source, board);
 			case HORSE -> moves = horseMoviments(source, board);
-			case BISHOP -> moves = bishopMoviments(source, piece.getPieceColor(), moves, board, true);
-			case QUEEN -> moves = queenMoviments(source, piece.getPieceColor(), board);
+			case BISHOP -> moves = bishopMoviments(source, moves, board, true);
+			case QUEEN -> moves = queenMoviments(source, board);
 			default -> moves;
 		};
 
 		return moves;
 	}
 	
-	public boolean isCheckmate(int kingPosition, Board board, PieceColor color, Set<Integer> possibleKingMovements) {
+	public boolean isCheckmate(int kingPosition, Board board, Set<Integer> possibleKingMovements) {
 		boolean isCheckmate = false, stilInCheck=true;
 		var pieces = board.getPieces();
 		var piece = new Piece();
+		var color = board.getPieces().get(kingPosition).getPieceColor();
 		
 		Set<Integer> possibleMovements = new HashSet<>();
 		for(int i = 0; i <= 63; i++) {
 			piece = pieces.get(i);
 			if(!piece.isKing() && !piece.isUnnamed() && isSameColor(piece.getPieceColor(), color)) {
-				possibleMovements = possibleMovements(i, false, board);
-				stilInCheck = canGetTheKingOutOfCheck(possibleMovements, i, kingPosition, board, color);
+				possibleMovements = possibleMovements(i, board);
+				stilInCheck = canGetTheKingOutOfCheck(possibleMovements, i, board, color);
 				if(!stilInCheck) break;
 			}
 		}
@@ -67,18 +68,19 @@ public class CheckRules implements PossibleMoviments{
 		var pieces = board.getPieces();
 		
 		boolean horseCheck = isCheckInPosition(horseMoviments(source, board), source, PieceName.HORSE, color, pieces);
-		boolean towerCheck = isCheckInPosition(towerMoviments(source, color, board), source, PieceName.TOWER, color, pieces);
-		boolean bishopCheck = isCheckInPosition(bishopMoviments(source, color, null, board, true), source, PieceName.BISHOP, color, pieces);
-		boolean queenCheck = isCheckInPosition(queenMoviments(source, color, board), source, PieceName.QUEEN, color, pieces);
+		boolean towerCheck = isCheckInPosition(towerMoviments(source, board), source, PieceName.TOWER, color, pieces);
+		boolean bishopCheck = isCheckInPosition(bishopMoviments(source, null, board, true), source, PieceName.BISHOP, color, pieces);
+		boolean queenCheck = isCheckInPosition(queenMoviments(source, board), source, PieceName.QUEEN, color, pieces);
 		
 		return horseCheck || towerCheck || bishopCheck || queenCheck;
 	}
 	
-	public static boolean isCheck(int source, int moviment, Board board, PieceColor color) {
+	public static boolean isCheck(int source, int moviment, Board board) {
 		boolean isCheck = false;
 		int totalPieces = board.getTotalPieces();
+		var color = board.getPieces().get(source).getPieceColor();
+		int kingPosition = findPiecePosition(board.getPieces(), PieceName.KING, color);
 		var pieceDestination = board.getPieces().get(moviment);
-		var kingPosition = findPiecePosition(board.getPieces(), PieceName.KING, color);
 		
 		board.movePiece(source, moviment);	
 		isCheck = check(kingPosition, color, board);
@@ -89,18 +91,19 @@ public class CheckRules implements PossibleMoviments{
 		return isCheck;
 	}
 	
-	public static boolean canGetTheKingOutOfCheck(Set<Integer> possibleMovements, int source, int kingPosition, Board board, PieceColor color) {
+	public static boolean canGetTheKingOutOfCheck(Set<Integer> possibleMovements, int source, Board board, PieceColor color) {
 		
 		boolean stilInCheck = true;
 		int sourceAux = source;
 		int totalPieces = board.getTotalPieces();
+		int kingPosition = findPiecePosition(board.getPieces(), PieceName.KING, color);
 		var pieceDestination = new Piece();
 		var pieceSource = board.getPieces().get(source);
 		for(Integer moviment : possibleMovements) {
 			pieceDestination = board.getPieces().get(moviment);
 			board.movePiece(source, moviment);
 			
-			if(!check(kingPosition, color, board)) stilInCheck = false;
+			stilInCheck = check(kingPosition, color, board);
 			if(board.getTotalPieces() < totalPieces) {
 				board.setPieceInTheBoard(pieceDestination, moviment);
 				board.setPieceInTheBoard(pieceSource, sourceAux);

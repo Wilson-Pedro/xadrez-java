@@ -17,22 +17,20 @@ import xadrez.piece.Piece;
 public class PieceMovement implements PossibleMoviments{
 
 	@Override
-	public Set<Integer> possibleMovements(int source, boolean autoincrement, Board board) {
+	public Set<Integer> possibleMovements(int source, Board board) {
 		Set<Integer> moves = new HashSet<>();
 		var pieces = board.getPieces();
 		Piece piece = pieces.get(source);
 		
 		moves = switch(piece.getPieceName()) {
 			case PAWN -> moves = pawnMovimentsWithCheckValidation(source, board);
-			case TOWER -> moves = towerMovimentsWithCheckValidation(source, piece.getPieceColor(), board);
+			case TOWER -> moves = towerMovimentsWithCheckValidation(source, board);
 			case HORSE -> moves = horseMovimentsWithCheckValidation(source, board);
-			case BISHOP -> moves = bishopMovimentsWithCheckValidation(source, piece.getPieceColor(), moves, board, true);
+			case BISHOP -> moves = bishopMovimentsWithCheckValidation(source, moves, board, true);
 			case KING -> moves = kingMoviments(source, board);
-			case QUEEN -> moves = queenMovimentsWithCheckValidation(source, piece.getPieceColor(), board);
+			case QUEEN -> moves = queenMovimentsWithCheckValidation(source, board);
 			default -> moves;
 		};
-	
-		if(autoincrement && !moves.isEmpty()) piece.incrementMoveQuantity();
 
 		return moves;
 	}

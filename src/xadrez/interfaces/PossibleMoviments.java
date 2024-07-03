@@ -6,5 +6,5 @@ import xadrez.board.Board;
 
 public interface PossibleMoviments {
 
-	Set<Integer> possibleMovements(int source, boolean autoincrement, Board board);
+	Set<Integer> possibleMovements(int source, Board board);
 }
