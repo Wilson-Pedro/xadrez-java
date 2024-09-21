@@ -37,4 +37,4 @@ Oferecerá uma interface gráfica de usuário para tornar a experiência de jogo
 
 # Status do Projeto:
 
-Em Desenvolvimento...
+Finalizado.
